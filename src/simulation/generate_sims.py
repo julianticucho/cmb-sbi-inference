@@ -44,7 +44,7 @@ if __name__ == "__main__":
         'tau': (0.04, 0.08)  
     }
     
-    num_sims = 10
+    num_sims = 50
     params = torch.zeros(num_sims, len(param_ranges))
     
     for i, (key, (min_val, max_val)) in enumerate(param_ranges.items()):

@@ -2,14 +2,10 @@ import torch
 from torch import optim, nn
 from .compressor import Compressor
 
-Cl_sims = torch.load("data/raw/cmb_angular_sims.pt").float()  # <-- ¡Convertir aquí!
-params = torch.load("data/raw/angular_sim_params.pt").float()
+Cl_normalized = torch.load("data/preprocessed/Cl_normalized.pt")
+params = torch.load("data/preprocessed/params.pt")
 
-Cl_mean = Cl_sims.mean(dim=0)
-Cl_std = Cl_sims.std(dim=0)
-Cl_normalized = (Cl_sims - Cl_mean) / Cl_std
-
-model = Compressor()
+model = Compressor(input_dim=4, hidden_dim=128, output_dim=6)
 optimizer = optim.Adam(model.parameters(), lr=1e-3)
 loss_fn = nn.MSELoss()
 
@@ -21,5 +17,5 @@ for epoch in range(100):
     optimizer.step()
     print(f"Epoch {epoch}, Loss: {loss.item():.4f}")
 
-torch.save(model.state_dict(), "results/compressor_model.pth")
-print("Modelo guardado en results/compressor_model.pth")
+torch.save(model.state_dict(), "data/processed/compressor_model.pth")
+print("Modelo guardado en data/processed/compressor_model.pth")
