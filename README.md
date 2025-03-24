@@ -1,0 +1,1 @@
+Proyecto de inferencia cosmológica utilizando técnicas de **Inferencia Basada en Simulaciones (SBI)** para predecir parámetros cosmológicos a partir de simulaciones del CMB
