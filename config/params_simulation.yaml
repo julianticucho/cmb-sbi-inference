@@ -19,7 +19,7 @@ cosmology:
     max: 0.08
 
 simulation:
-  num_sims: 10                  
+  num_sims: 50                  
   l_max: 3000                  
   CMB_unit: "muK"              
   accuracy_boost: 1.0       
