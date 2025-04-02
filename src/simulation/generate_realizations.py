@@ -1,6 +1,5 @@
 import numpy as np
 import torch
-from scipy.stats import chi2
 import os
 
 def generate_realizations(base_spectra, base_params, num_realizations=50):

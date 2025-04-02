@@ -1,21 +1,32 @@
 import torch
 import torch.nn as nn
 
-class CompressionAE(nn.Module):
-    def __init__(self, input_size=2401, latent_size=64):
+class Compressor(nn.Module):  
+    def __init__(self, input_size=2401, latent_size=6, param_dim=6):
         super().__init__()
-        # Encoder
-        self.encoder = nn.Sequential(
-            nn.Linear(input_size, 512),
-            nn.ReLU(),
-            nn.Linear(512, latent_size))
-        # Decoder
-        self.decoder = nn.Sequential(
-            nn.Linear(latent_size, 512),
-            nn.ReLU(),
-            nn.Linear(512, input_size))
+        
+        self.compression_net = nn.Sequential(
+            nn.Linear(input_size, 1024),
+            nn.LeakyReLU(0.2),
+            nn.BatchNorm1d(1024),
+            
+            nn.Linear(1024, 512),
+            nn.LeakyReLU(0.2),
+            nn.BatchNorm1d(512),
+            
+            nn.Linear(512, 256),
+            nn.LeakyReLU(0.2),
+            nn.BatchNorm1d(256),
+            
+            nn.Linear(256, latent_size)
+        )
+
+        self.A = nn.Parameter(torch.eye(param_dim, latent_size))
+        self.b = nn.Parameter(torch.zeros(param_dim))
     
     def forward(self, x):
-        z = self.encoder(x)          # Compresión
-        x_recon = self.decoder(z)    # Reconstrucción
-        return x_recon, z
+        return self.compression_net(x)  
+    
+    def compute_loss(self, compressed, theta):
+        target = torch.matmul(theta, self.A) + self.b
+        return torch.mean(torch.sum((compressed - target)**2, dim=1))
