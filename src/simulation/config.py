@@ -22,7 +22,7 @@ PATHS = {
 
 PARAMS = {
     "cosmologies": {
-        "num_sims": 30,
+        "num_sims": 100,
         "lmax": 2500,
         "param_ranges": {
             'Omega_m': (0.1, 0.7),
@@ -34,7 +34,7 @@ PARAMS = {
         }
     },
     "realizations": {
-        "num_realizations": 1
+        "num_realizations": 50
     },
     "noise": {
         'theta_fwhm': 5.0,
