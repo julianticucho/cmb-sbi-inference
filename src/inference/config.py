@@ -2,12 +2,10 @@ import os
 from torch import Tensor
 from sbi.utils import BoxUniform
 
-# Directorios
 BASE_DIR = "data"
 FIRST_DATA_DIR = os.path.join(BASE_DIR, "raw")
 INFERENCE_DIR = os.path.join("results", "inference")
 
-# Paths a los datos
 DATA_PATHS = {
     "noise": {
         "spectra": os.path.join(FIRST_DATA_DIR, "noise_spectra.pt"),
@@ -15,7 +13,6 @@ DATA_PATHS = {
     }
 }
 
-# Configuración SBI
 SBI_CONFIG = {
     "input_data": "noise",
     "num_simulations": 5000,
@@ -29,7 +26,6 @@ SBI_CONFIG = {
     "model_save_path": os.path.join(INFERENCE_DIR, "trained_model.pkl")
 }
 
-# Rangos de parámetros
 PARAM_RANGES = {
     'Omega_m': (0.1, 0.7),
     'Omega_b': (0.04, 0.06),
@@ -44,5 +40,4 @@ def get_prior() -> BoxUniform:
     highs = Tensor([v[1] for v in PARAM_RANGES.values()])
     return BoxUniform(low=lows, high=highs)
 
-# Crear directorios
 os.makedirs(INFERENCE_DIR, exist_ok=True)
