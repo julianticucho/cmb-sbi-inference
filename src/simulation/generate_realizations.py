@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from config import PATHS, PARAMS
+from src.simulation.config import PATHS, PARAMS
 
 def generate_realizations(base_spectra, base_params):
     """Genera realizaciones estadísticas para cada simulación base"""

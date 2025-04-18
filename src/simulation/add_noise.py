@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from config import PATHS, PARAMS
+from src.simulation.config import PATHS, PARAMS
 
 def add_instrumental_noise(spectra):
     """Añade ruido instrumental a los espectros"""

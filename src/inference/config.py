@@ -15,7 +15,7 @@ DATA_PATHS = {
 
 SBI_CONFIG = {
     "input_data": "noise",
-    "num_simulations": 5000,
+    "num_simulations": 10000,
     "training_batch_size": 100,
     "training_epochs": 100,
     "validation_fraction": 0.1,
@@ -23,7 +23,7 @@ SBI_CONFIG = {
     "num_transforms": 5,
     "device": "cpu",
     "density_estimator": "maf",
-    "model_save_path": os.path.join(INFERENCE_DIR, "trained_model.pkl")
+    "model_save_path": os.path.join(INFERENCE_DIR, "trained_model_10000.pkl")
 }
 
 PARAM_RANGES = {
