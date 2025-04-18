@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 from src.simulation.config import PATHS, PARAMS
+from src.simulation.utils import load_data
 
 def add_instrumental_noise(spectra):
     """Añade ruido instrumental a los espectros"""
@@ -36,8 +37,7 @@ def sample_observed_spectra(spectra):
     return noisy_spectra
 
 if __name__ == "__main__":
-    spectra = torch.load(PATHS["realizations"]["spectra"]).numpy()
-    params = torch.load(PATHS["realizations"]["params"]).numpy()
+    spectra, params = load_data("realizations")
     
     print("\nAñadiendo ruido instrumental...")
     noisy_spectra = add_instrumental_noise(spectra)
@@ -47,7 +47,6 @@ if __name__ == "__main__":
     
     torch.save(torch.from_numpy(observed_spectra), PATHS["noise"]["spectra"])
     torch.save(torch.from_numpy(params), PATHS["noise"]["params"])
-    
     print("\nResultados finales guardados en:")
     print(f"- Espectros con ruido: {PATHS['noise']['spectra']} ({observed_spectra.shape})")
     print(f"- Parámetros cosmológicos: {PATHS['noise']['params']} ({params.shape})")

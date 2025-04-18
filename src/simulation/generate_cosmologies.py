@@ -1,7 +1,6 @@
 import camb
-import numpy as np
 import torch
-from camb import constants
+import numpy as np
 from src.simulation.config import PATHS, PARAMS
 
 def generate_cosmological_parameters(num_sims, param_ranges):
@@ -9,6 +8,7 @@ def generate_cosmological_parameters(num_sims, param_ranges):
     params = torch.zeros(num_sims, len(param_ranges))
     for i, (key, (min_val, max_val)) in enumerate(param_ranges.items()):
         params[:, i] = torch.FloatTensor(num_sims).uniform_(min_val, max_val)
+    
     return params
 
 def compute_spectrum(params):
@@ -29,10 +29,11 @@ def compute_spectrum(params):
     pars.NonLinear = camb.model.NonLinear_both  
     pars.WantLensing = True          
     results = camb.get_results(pars)
+    
     return results.get_cmb_power_spectra(pars, CMB_unit='muK')['total'][:, 0]
 
 def generate_cosmologies():
-    """Genera simulaciones base con diferentes parámetros cosmológicos"""
+    """Genera simulaciones con diferentes parámetros cosmológicos"""
     config = PARAMS["cosmologies"]
     params = generate_cosmological_parameters(config["num_sims"], config["param_ranges"])
     spectra = []

@@ -1,7 +1,7 @@
 import os
 
 BASE_DIR = "data"
-FIRST_DATA_DIR = os.path.join(BASE_DIR, "test")
+FIRST_DATA_DIR = os.path.join(BASE_DIR, "raw")
 
 PATHS = {
     "cosmologies": {
@@ -44,8 +44,6 @@ PARAMS = {
     }
 }
 
-def create_directories():
-    os.makedirs(BASE_DIR, exist_ok=True)
-    os.makedirs(FIRST_DATA_DIR, exist_ok=True)
+os.makedirs(BASE_DIR, exist_ok=True)
+os.makedirs(FIRST_DATA_DIR, exist_ok=True)
 
-create_directories()

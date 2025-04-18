@@ -1,9 +1,10 @@
 import numpy as np
 import torch
 from src.simulation.config import PATHS, PARAMS
+from src.simulation.utils import load_data
 
 def generate_realizations(base_spectra, base_params):
-    """Genera realizaciones estadísticas para cada simulación base"""
+    """Genera realizaciones estadísticas para cada simulación base""" 
     num_realizations = PARAMS["realizations"]["num_realizations"]
     all_spectra = []
     all_params = []
@@ -12,7 +13,7 @@ def generate_realizations(base_spectra, base_params):
     for i, (spectrum, params) in enumerate(zip(base_spectra, base_params)):
         realizations = []
         for _ in range(num_realizations):
-            realization = spectrum.copy()
+            realization = spectrum.copy() # Solo copia de espectros por ahora
             realizations.append(realization)
             all_params.append(params)
         
@@ -22,9 +23,7 @@ def generate_realizations(base_spectra, base_params):
     return np.array(all_spectra), np.array(all_params)
 
 if __name__ == "__main__":
-    base_spectra = torch.load(PATHS["cosmologies"]["spectra"]).numpy()
-    base_params = torch.load(PATHS["cosmologies"]["params"]).numpy()
-    
+    base_spectra, base_params = load_data("cosmologies")
     spectra, params = generate_realizations(base_spectra, base_params)
     
     torch.save(torch.from_numpy(spectra), PATHS["realizations"]["spectra"])
