@@ -27,7 +27,7 @@ def compute_spectrum(params):
     )
     pars.set_accuracy(AccuracyBoost=1.0)  
     pars.NonLinear = camb.model.NonLinear_both  
-    pars.WantLensing = True          
+    pars.WantLensing = True      
     results = camb.get_results(pars)
     
     return results.get_cmb_power_spectra(pars, CMB_unit='muK')['total'][:, 0]

@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1745108549.6179 "c:/Users/Julian/Documents/cmb-sbi-inference/lecture_notes/lecture_notes.tex" "build/lecture_notes.pdf" "lecture_notes" 1745108551.17881 0
+["pdflatex"] 1745191955.66755 "c:/Users/Julian/Documents/cmb-sbi-inference/lecture_notes/lecture_notes.tex" "build/lecture_notes.pdf" "lecture_notes" 1745191957.26621 0
   "C:/Users/Julian/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1742846135 371476 c743b61b93e46193658f8d3ccc4cdb53 ""
   "C:/Users/Julian/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1725485376 24265804 629080007c0a387b2a77602fdb441974 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233951848 1004 54797486969f23fa377b128694d548df ""
@@ -166,11 +166,11 @@
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/tex/latex/titlesec/titlesec.sty" 1699094857 48766 0b93839be28e9744a24c45075c75b2e2 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "build/lecture_notes.aux" 1745108550 1465 11d93de9096a45982a4007556505ac97 "pdflatex"
-  "build/lecture_notes.out" 1745108550 1297 f784789513c3090488562a3b8eed8678 "pdflatex"
-  "build/lecture_notes.toc" 1745108550 734 a68d01f94f9cf2f7c6d363a66ce145be "pdflatex"
-  "c:/Users/Julian/Documents/cmb-sbi-inference/lecture_notes/lecture_notes.tex" 1745108548 13960 614db57bca8d7801bb75b1c6ba7dc089 ""
-  "lecture_notes.tex" 1745108548 13960 614db57bca8d7801bb75b1c6ba7dc089 ""
+  "build/lecture_notes.aux" 1745191956 1512 2bbc62ba19f80846ddb227bae816c747 "pdflatex"
+  "build/lecture_notes.out" 1745191956 1107 eb6d6d289bd7c8331a4070cad56b91fc "pdflatex"
+  "build/lecture_notes.toc" 1745191956 594 af6c06ac0fbd4afc2f0682aeec077ac4 "pdflatex"
+  "c:/Users/Julian/Documents/cmb-sbi-inference/lecture_notes/lecture_notes.tex" 1745191954 12655 a9cad8ca73dd3f74dba4fd9fbb522b68 ""
+  "lecture_notes.tex" 1745191954 12655 a9cad8ca73dd3f74dba4fd9fbb522b68 ""
   (generated)
   "build/lecture_notes.aux"
   "build/lecture_notes.log"
