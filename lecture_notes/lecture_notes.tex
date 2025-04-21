@@ -60,13 +60,13 @@ La inferencia sin verosimilitud (también llamada \textit{Simulation-based infer
         arrow/.style={-{Latex}, thick}
     ]
         \node[box] (prior) {Prior \\ \( p(\theta) \)};
-        \node[box, right=of prior] (simulator) {Simulador \\ \( x \sim p(x|\theta) \)};
-        \node[box, right=of simulator] (summary) {Estadísticas resumidas \\ \( s = S(x) \)};
-        \node[box, right=of summary] (distance) {Distancia \\ \( \rho(s, s_0) \)};
-        \node[box, right=of distance] (accept) {Aceptar si \\ \( \rho < \epsilon \)};
-        \node[box, below=1.8cm of distance] (obs) {Dato real \\ \( x_0 \)};
-        \node[box, right=of obs] (s_obs) {Resumen real \\ \( s_0 = S(x_0) \)};
-        \node[box, right=of accept] (posterior) {Posterior aproximado \\ \( \{\theta_i\}_{\text{aceptados}} \)};
+        \node[box, right=of prior] (simulator) {Simulator \\ \( x \sim p(x|\theta) \)};
+        \node[box, right=of simulator] (summary) {Summary statistics \\ \( s = S(x) \)};
+        \node[box, right=of summary] (distance) {Distance \\ \( \rho(s, s_0) \)};
+        \node[box, right=of distance] (accept) {Accept if \\ \( \rho < \epsilon \)};
+        \node[box, below=1.8cm of distance] (obs) {Real data \\ \( x_0 \)};
+        \node[box, right=of obs] (s_obs) {Real summary \\ \( s_0 = S(x_0) \)};
+        \node[box, right=of accept] (posterior) {Posterior \\ \( \{\theta_i\}_{\text{aceptados}} \)};
 
         \draw[arrow] (prior) -- (simulator);
         \draw[arrow] (simulator) -- (summary);
@@ -76,8 +76,8 @@ La inferencia sin verosimilitud (también llamada \textit{Simulation-based infer
         \draw[arrow] (obs) -- (s_obs);
         \draw[arrow, dashed] ([yshift=1pt] s_obs.north) to[bend left=45] (distance.south);
 
-        \node[above=0.15cm of distance] {\textbf{Simulación y rechazo}};
-        \node[below=0.45cm of posterior] {\textbf{Inferencia}};
+        \node[above=0.15cm of distance] {\textbf{Simulation and rejection}};
+        \node[below=0.45cm of posterior] {\textbf{Inference}};
     \end{tikzpicture}
     \caption{Pipeline general de ABC.}
     \label{fig:abc}
@@ -95,12 +95,12 @@ Más recientemente, técnicas modernas basadas en aprendizaje automático han re
         arrow/.style={-{Latex}, thick}
     ]
         \node[box] (prior) {Prior \\ \( p(\theta) \)};
-        \node[box, right=of prior] (simulator) {Simulador \\ \( x \sim p(x|\theta) \)};
-        \node[box, right=of simulator] (summary) {Estadísticas resumidas \\ \( s = S(x) \)};
-        \node[box, right=of summary] (train) {Entrenar \\ \( q_\phi(\theta|s) \)};
-        \node[box, below=1.8cm of summary] (obs) {Dato real \\ \( x_0 \)};
-        \node[box, right=of obs] (s_obs) {Resumen real \\ \( s_0 = S(x_0) \)};
-        \node[box, right=of s_obs] (posterior) {Posterior aproximado \\ \( q_\phi(\theta|s_0) \)};
+        \node[box, right=of prior] (simulator) {Simulator \\ \( x \sim p(x|\theta) \)};
+        \node[box, right=of simulator] (summary) {Summary statistics \\ \( s = S(x) \)};
+        \node[box, right=of summary] (train) {Train \\ \( q_\phi(\theta|s) \)};
+        \node[box, below=1.8cm of summary] (obs) {Real data \\ \( x_0 \)};
+        \node[box, right=of obs] (s_obs) {Real summary \\ \( s_0 = S(x_0) \)};
+        \node[box, right=of s_obs] (posterior) {Posterior \\ \( q_\phi(\theta|s_0) \)};
 
         \draw[arrow] (prior) -- (simulator);
         \draw[arrow] (simulator) -- (summary);
@@ -109,8 +109,8 @@ Más recientemente, técnicas modernas basadas en aprendizaje automático han re
         \draw[arrow] (s_obs) -- (posterior);
         \draw[arrow, dashed] (train.south) to[bend right=25] (posterior.north);
 
-        \node[above=0.15cm of train] {\textbf{Entrenamiento}};
-        \node[below=0.45cm of posterior] {\textbf{Inferencia}};
+        \node[above=0.15cm of train] {\textbf{Train}};
+        \node[below=0.45cm of posterior] {\textbf{Inference}};
     \end{tikzpicture}
     \caption{Pipeline general para métodos con aprendizaje automático.}
     \label{fig:sbi}

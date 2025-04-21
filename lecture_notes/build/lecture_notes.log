@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.4)  20 APR 2025 20:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.4)  20 APR 2025 23:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -592,11 +592,6 @@ Overfull \hbox (6.49516pt too wide) in paragraph at lines 33--34
 
 
 [2]
-Overfull \hbox (1.56381pt too wide) in paragraph at lines 81--82
- [][] 
- []
-
-
 
 [3]
 
@@ -609,15 +604,15 @@ Package rerunfilecheck Info: File `lecture_notes.out' has not changed.
 (rerunfilecheck)             Checksum: EB6D6D289BD7C8331A4070CAD56B91FC;1107.
  ) 
 Here is how much of TeX's memory you used:
- 23323 strings out of 473899
- 434661 string characters out of 5726029
+ 23321 strings out of 473899
+ 434609 string characters out of 5726029
  1948960 words of memory out of 5000000
- 45815 multiletter control sequences out of 15000+600000
+ 45813 multiletter control sequences out of 15000+600000
  566049 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,10n,87p,1061b,837s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on c:\Users\Julian\Documents\cmb-sbi-inference\lecture_notes\build\lecture_notes.pdf (4 pages, 184797 bytes).
+Output written on c:\Users\Julian\Documents\cmb-sbi-inference\lecture_notes\build\lecture_notes.pdf (4 pages, 184848 bytes).
 PDF statistics:
  136 PDF objects out of 1000 (max. 8388607)
  18 named destinations out of 1000 (max. 500000)
