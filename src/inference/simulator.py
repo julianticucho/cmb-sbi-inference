@@ -12,12 +12,11 @@ def create_simulator():
         
         for i, params in enumerate(theta):
             print(f"Simulación {i+1}/{len(theta)} - Parámetros: {params.numpy()}")
-            spectrum = compute_spectrum(params.numpy())
-            spectrum = spectrum[:SIM_PARAMS["cosmologies"]["lmax"]]
-            noisy_spectrum = add_instrumental_noise(spectrum[np.newaxis, :])[0]
-            observed_spectrum = sample_observed_spectra(noisy_spectrum[np.newaxis, :])[0]
+            spectrum = compute_spectrum(params)
+            noisy_spectrum = add_instrumental_noise(spectrum)
+            observed_spectrum = sample_observed_spectra(noisy_spectrum)
             batch_spectra.append(observed_spectrum)
         
-        return preprocess_spectra(np.array(batch_spectra))
+        return preprocess_spectra(batch_spectra)
     
     return simulator

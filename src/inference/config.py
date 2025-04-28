@@ -14,14 +14,14 @@ EMBEDDING_CONFIG = {
 }
 
 SBI_CONFIG = {
-    "num_simulations": 5000,
+    "num_simulations": 15000,
     "training_batch_size": 50,
     "training_epochs": 100,
     "validation_fraction": 0.1,
     "hidden_features": 50,
     "num_transforms": 5,
     "device": "cpu",
-    "model_save_path": os.path.join(RESULTS_DIR, "trained_model_3.pkl")
+    "model_save_path": os.path.join(RESULTS_DIR, "trained_model_7.pkl")
 }
 
 PARAM_RANGES = {
