@@ -10,8 +10,7 @@ plt.rcParams['figure.dpi'] = 300
 central_params = {k: (v[0] + v[1])/2 for k, v in PARAM_RANGES.items()}
 n_values = 4 
 params_order = ['ombh2', 'omch2', 'theta_MC_100', 'tau', 'ln_10_10_As', 'ns']
-param_latex = {
-    'ombh2': r'$\Omega_b h^2$',
+param_latex = {'ombh2': r'$\Omega_b h^2$',
     'omch2': r'$\Omega_c h^2$',
     'theta_MC_100': r'$100\theta_{\rm MC}$',
     'tau': r'$\tau$',
