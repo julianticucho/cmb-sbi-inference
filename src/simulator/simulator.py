@@ -35,7 +35,7 @@ def add_instrumental_noise(spectra):
     ell = np.arange(lmax)
     theta_fwhm_rad = noise_config['theta_fwhm'] * np.pi / (180 * 60)
     
-    Nl_TT = (theta_fwhm_rad * noise_config['sigma_T'])**2 * np.exp(ell*(ell+1) * (theta_fwhm_rad**2)/(8*np.log(2)))
+    Nl_TT = (theta_fwhm_rad * noise_config['sigma_T'])**2 * np.exp(ell*(ell+1)*(theta_fwhm_rad**2)/(8*np.log(2)))
     
     return spectra + Nl_TT
 

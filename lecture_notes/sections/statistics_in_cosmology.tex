@@ -1,0 +1,139 @@
+\section{Statistics in cosmology}
+Los cosmólogos enfrentan nuevos desafíos en el análisis de datos debido al crecimiento exponencial en la cantidad y calidad de información disponible. Experimentos recientes generan conjuntos de datos masivos que requieren métodos avanzados, ya que algoritmos tradicionales se vuelven ineficientes. Además, al reducirse los errores estadísticos, emergen errores sistemáticos previamente enmascarados, relacionados tanto con artefactos instrumentales como con limitaciones teóricas.
+
+En esta introducción se presentan técnicas para el análisis cosmológico moderno, comenzando con conceptos estadísticos básicos (verosimilitud, previos y posteriores) y su aplicación a espectros de potencia. Introduce herramientas como la \textit{Matriz de Fisher} (para estimación rápida de errores) y métodos \textit{Markov Chain Monte Carlo} (MCMC), que permiten manejar verosimilitudes complejas. Estas metodologías, aunque desarrolladas para cosmología, tienen aplicaciones transversales en diversas áreas científicas que trabajan con grandes volúmenes de datos.
+
+\subsection{The Likelihood function}
+La función de verosimilitud $L(\{d_i\}|\theta)$ representa el núcleo conceptual de los análisis estadísticos modernos en cosmología. Se define formalmente como la probabilidad condicional de observar un conjunto de datos experimentales $\{d_i\}_{i=1}^m$ dado un modelo teórico parametrizado por $\theta = (w, \sigma_w)$. Para mediciones independientes, esta función se expresa como el producto de probabilidades individuales:
+
+\begin{equation}
+L(\{d_i\}|\theta) = \prod_{i=1}^m P(d_i|\theta), 
+\end{equation}
+
+donde cada término $P(d_i|\theta)$ corresponde a la distribución de probabilidad del modelo para cada dato observado. La potencia analítica de este constructo matemático reside en su capacidad para invertir la relación lógica entre datos y teoría mediante la aplicación del teorema de Bayes:
+
+\begin{equation}
+P(\theta|\{d_i\}) \propto L(\{d_i\}|\theta) P(\theta),
+\end{equation}
+
+permitiendo inferir los parámetros del modelo a partir de las observaciones. En el contexto del ejemplo pedagógico: -la medición del peso $w$ de un individuo utilizando $m=100$ básculas independientes con error gaussiano-, cada observación $d_i$ sigue una distribución normal $d_i \sim \mathcal{N}(w,\sigma_w^2)$. La verosimilitud para una sola medición adopta la forma gaussiana clásica:
+
+\begin{equation}
+L(d_i|w,\sigma_w) = (2\pi\sigma_w^2)^{-1/2} \exp\left(-\frac{(d_i - w)^2}{2\sigma_w^2}\right).
+\end{equation}
+
+Al extenderse a múltiples observaciones independientes, la verosimilitud conjunta se factoriza en un producto de términos gaussianos, lo que en escala logarítmica se traduce en una suma cuadrática: 
+
+\begin{equation}
+\ln L(\{d_i\}|w,\sigma_w) = -\frac{m}{2}\ln(2\pi\sigma_w^2) - \frac{1}{2\sigma_w^2}\sum_{i=1}^m (d_i - w)^2.
+\end{equation}
+
+Los estimadores de máxima verosimilitud (MLE) para los parámetros se obtienen mediante la optimización de esta función. Para el peso $w$, la condición $\partial \ln L/\partial w = 0$ conduce al estimador: 
+
+\begin{equation}
+\hat{w} = \frac{1}{m}\sum_{i=1}^m d_i,
+\end{equation}
+
+que corresponde a la media muestral. Análogamente, al resolver $\partial \ln L/\partial \sigma_w^2 = 0$ se obtiene el estimador para la varianza 
+
+\begin{equation}
+\hat{\sigma}_w^2 = \frac{1}{m}\sum_{i=1}^m (d_i - \hat{w})^2.
+\end{equation} 
+
+Estos resultados ejemplifican cómo los principios de máxima verosimilitud recuperan estimadores intuitivos en casos simples. La transición desde la verosimilitud hacia la distribución posterior de parámetros se realiza mediante el teorema de Bayes:
+
+\begin{equation}
+P(w,\sigma_w|\{d_i\}) \propto L(\{d_i\}|w,\sigma_w) P_{\text{prior}}(w,\sigma_w),
+\end{equation}
+
+donde $P_{\text{prior}}$ incorpora cualquier conocimiento a priori sobre los parámetros. Esta distribución posterior contiene toda la información probabilística sobre los parámetros condicionada a los datos observados. La constante de normalización, denominada evidencia, asegura que la posterior integre a unidad sobre el espacio de parámetros. El análisis de incertidumbres en los estimadores se fundamenta en el examen de la curvatura del logaritmo de la verosimilitud alrededor de su máximo. Para el parámetro $w$, la varianza del estimador resulta:
+
+\begin{equation}
+\text{Var}(\hat{w}) =\frac{\sigma_w^2}{m},
+\end{equation}
+
+reflejando la reducción clásica de ruido conforme $\sqrt{m}$. En contraste, la estimación de $\sigma_w^2$ presenta comportamientos no-gaussianos, con varianza:
+
+\begin{equation}
+\text{Var}(\hat{\sigma}_w^2) = \frac{2}{m}\sigma_w^4.
+\end{equation}
+
+Este error en $\sigma_w$ puede parecer un detalle técnico, pero en cosmología, gran parte de lo que medimos (como fluctuaciones en la densidad de galaxias o la temperatura del CMB) es análogo a $\sigma_w^2$. Estas fluctuaciones siguen distribuciones (a menudo gaussianas) cuyos parámetros dependen del modelo cosmológico. Por ello, esta ecuación es fundamental: al estimar la varianza de una distribución, hay una incertidumbre intrínseca proporcional a $\sigma_w^2 / \sqrt{m}$, llamada varianza muestral o varianza cósmica. 
+
+Por otro lado, es conveniente definir intervalos de credibilidad para los parámetros. En el ejemplo de la verosimilitud gaussiana, los intervalos de confianza al $68\%$ (1-$\sigma$) corresponden a la región donde $\ln L$ decrece en $1/2$ unidades desde su valor máximo, delimitando así el rango de parámetros consistentes con los datos. De manera general, se definen los valores $\omega_-$ y $\omega_+$ tales que:
+
+\begin{equation}
+\int_{\omega_-}^{\omega_+}d\omega P(\omega|\{d_i\}) = 0.68,
+\end{equation}
+
+En aplicaciones reales, usualmente hay múltiples parámetros desconocidos. Si algunos son irrelevantes, debemos marginalizar sobre ellos, formalmente esto se implementa mediante la integración multidimensional: 
+
+\begin{equation}
+P(\theta|\{d_i\}) = \int_{\Phi} P(\theta,\phi|\{d_i\}) d\phi,
+\end{equation}
+
+sobre el espacio completo $\Phi$ de parámetros \textit{nuisance}.
+
+\subsection{From raw data to parameter constraints}
+
+\begin{figure}[htbp]
+    \centering
+    \resizebox{0.95\textwidth}{!}{
+    \begin{tikzpicture}[
+        node distance=1.6cm and 2cm,
+        box/.style={
+            draw, 
+            rounded corners, 
+            minimum width=3.4cm, 
+            minimum height=1.6cm, 
+            align=center, 
+            fill=blue!10
+        },
+        arrow/.style={-{Latex}, thick}
+    ]
+        % Nodes
+        \node[box] (raw) {Raw Data};
+        \node[box, below=of raw] (maps) {Maps };
+        \node[box, right=of raw, yshift=-1cm] (cov) {Covariance Matrix };
+        \node[box, below=of cov] (theory) {Theoretical Two-\\Point Functions};
+        \node[box, below=of theory] (obs) {Observed Two-\\Point Functions};
+        \node[box, right=of theory] (like) {Likelihood};
+        \node[box, below=of like] (sampler) {Sampler};
+        \node[box, right=of sampler] (posterior) {Posterior};
+
+        % Optional forecast box (light gray text)
+        \node[box, above=of like, text=gray] (fisher) {Fisher forecast};
+
+        % Arrows
+        \draw[arrow] (raw) -- (maps);
+        \draw[arrow] (maps.east) -- ++(0.6,0) |- (obs.west);
+        \draw[arrow] (cov) -- (like);
+        \draw[arrow] (obs) -- (like);
+        \draw[arrow] (theory) -- (like);
+        \draw[arrow] (like) -- (sampler);
+        \draw[arrow] (sampler) -- (posterior);
+        \draw[arrow, thick] (cov) -- (fisher);
+        \draw[arrow, thick] (fisher) -- (posterior);
+        \draw[arrow] (cov) -- (theory);
+    \end{tikzpicture}
+    }
+    \caption{Pipeline desde los datos crudos hasta las restricciones cosmológicas.}
+    \label{fig:pipeline_cosmo}
+\end{figure}
+
+El análisis cosmológico moderno sigue una metodología bien establecida que comienza con los mapas observacionales. Estos representan la materia prima del estudio, correspondiendo a representaciones espaciales de los fenómenos cósmicos investigados. En el caso de la radiación cósmica de fondo (CMB), se trabaja con mapas de anisotropías de temperatura; para sondeos galácticos, con distribuciones tridimensionales de densidad; y en estudios de lente gravitacional débil, con campos de elipticidad galáctica.
+
+A partir de estos mapas, se extraen los estadísticos de dos puntos, que capturan las correlaciones fundamentales mediante funciones de dos puntos. Estas pueden expresarse tanto en el espacio espectral como en el espacio de configuraciones, proporcionando así una descripción estadística compacta de las propiedades de los campos observados. La transición de los mapas brutos a estos estadísticos permite reducir considerablemente la dimensionalidad de los datos, reduciendo la complejidad computacional, pero perdiendo información no gaussiana.
+
+Con los estadísticos medidos en mano, el siguiente paso es la construcción de la verosimilitud, que compara estas mediciones con sus contrapartes teóricas. Esta comparación se realiza ponderando las diferencias mediante la matriz de covarianza inversa. Para el caso gaussiano, la función de verosimilitud para las anisotropías del CMB toma la forma:
+
+\begin{equation}
+\ln \mathcal{L}(\lambda_\alpha) = -\frac{1}{2} \sum_{ll'} \left( \hat{C}(l) - C_{\text{theory}}(l, \lambda_\alpha) \right) \text{Cov}^{-1}_{ll'} \left( \hat{C}(l') - C_{\text{theory}}(l', \lambda_\alpha) \right)
+\end{equation}
+
+Para explorar el espacio de parámetros cosmológicos $\lambda_\alpha$ se emplean técnicas de muestreo de parámetros, particularmente algoritmos MCMC (Monte Carlo Markov Chain). Estos algoritmos evalúan sistemáticamente millones de combinaciones paramétricas, permitiendo caracterizar completamente la distribución posterior. Este proceso debe manejar adecuadamente dos desafíos clave: las degeneraciones entre parámetros cosmológicos y la marginalización sobre parámetros molestos no cosmológicos, como el parámetro de bias $b_1$ en estudios de distribución galáctica.
+
+Como complemento al muestreo exhaustivo, las estimaciones analíticas mediante pronósticos de Fisher ofrecen una alternativa eficiente para proyectar barras de error. Estas aproximaciones analíticas son especialmente valiosas en etapas preliminares de diseño experimental, cuando se requiere evaluar rápidamente el potencial científico de diferentes configuraciones instrumentales sin recurrir a costosos análisis completos. El proceso completo se ilustra en la Figura~\ref{fig:pipeline_cosmo}.
+
+
+

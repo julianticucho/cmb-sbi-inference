@@ -1,9 +1,13 @@
-\contentsline {section}{\numberline {1}Introducción}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Motivación}{2}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Inferencia Bayesiana}{2}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}\textit {Likelihood-free inference}}{2}{subsection.1.3}%
-\contentsline {section}{\numberline {2}Simulador}{4}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Generador de APS}{4}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Ruido instrumental y cobertura parcial del cielo}{4}{subsection.2.2}%
-\contentsline {section}{\numberline {3}Inference}{5}{section.3}%
-\contentsline {subsection}{\numberline {3.1}CNN}{5}{subsection.3.1}%
+\contentsline {section}{\numberline {1}Statistics in cosmology}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}The Likelihood function}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}From raw data to parameter constraints}{4}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Introducción}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Motivación}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Inferencia Bayesiana}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}\textit {Likelihood-free inference}}{6}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Simulador}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Generador de APS}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Ruido instrumental y cobertura parcial del cielo}{8}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Inference}{8}{section.4}%
+\contentsline {section}{\numberline {5}Métodos bayesianos}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Función de verosimilitud}{9}{subsection.5.1}%

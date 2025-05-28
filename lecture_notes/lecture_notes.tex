@@ -8,6 +8,7 @@
 \usepackage{xcolor}   
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
+\usepackage[T1]{fontenc}
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric}
 
 \title{Lecture notes}
@@ -27,6 +28,9 @@
 \tableofcontents
 
 \newpage
+
+\input{sections/statistics_in_cosmology.tex}
+\clearpage
 
 \section{Introducción}
 \subsection{Motivación}
@@ -144,58 +148,32 @@ donde \(\nu_\ell = \text{round}(f_{\text{sky}} \cdot (2\ell + 1))\) representa e
 Este enfoque es válido debido al teorema central del límite, ya que en esta región el número de modos es suficientemente grande como para justificar una aproximación gaussiana.
 
 \section{Inference}
-\subsection{CNN}
-\begin{tikzpicture}[
-    scale=0.1,
-    node distance=1.5cm,
-    layer/.style={rectangle, draw=blue!50, fill=blue!10, thick, minimum width=3cm, minimum height=1cm, align=center},
-    arrow/.style={->, thick, >=stealth},
-    label/.style={text width=4cm, align=center}
-]
 
-% Input
-\node[layer] (input) {Input \\ (1, 2401)};
+\newpage
+\section{Métodos bayesianos}
+En las últimas décadas, la cosmología ha experimentado una explosión en la cantidad y calidad de datos observacionales, desde mediciones de anisotropías en el Fondo Cósmico de Microondas (CMB) hasta sondeos de galaxias y lentes gravitacionales a gran escala. Este crecimiento ha impulsado la necesidad de técnicas de análisis más sofisticadas, capaces de manejar conjuntos de datos masivos y modelos teóricos cada vez más complejos.  
 
-% Convolutional Layers
-\node[layer, right=of input] (conv1) {Conv1D \\ $16$ filtros \\ kernel=5};
-\node[layer, right=of conv1] (pool1) {MaxPooling \\ kernel=4};
+En este contexto, los métodos bayesianos se han convertido en una herramienta fundamental para la inferencia cosmológica. Estos permiten combinar observaciones con predicciones teóricas mediante el uso de distribuciones de probabilidad, actualizando nuestro conocimiento a través del teorema de Bayes:  
 
-\node[layer, right=of pool1] (conv2) {Conv1D \\ $32$ filtros \\ kernel=5};
-\node[layer, right=of conv2] (pool2) {MaxPooling \\ kernel=4};
+\begin{equation}  
+    P(\theta \mid \mathcal{D}) = \frac{P(\mathcal{D} \mid \theta) \, P(\theta)}{P(\mathcal{D})},  
+\end{equation}  
 
-\node[layer, right=of pool2] (conv3) {Conv1D \\ $64$ filtros \\ kernel=5};
-\node[layer, right=of conv3] (pool3) {MaxPooling \\ kernel=4};
+donde \( P(\theta \mid \mathcal{D}) \) es la distribución posterior, \( P(\mathcal{D} \mid \theta) \) es la verosimilitud, \( P(\theta) \) es la distribución previa, y \( P(\mathcal{D}) \) actúa como evidencia.  
 
-% Flatten
-\node[layer, right=of pool3] (flatten) {Flatten};
+Sin embargo, en cosmología, el cálculo de la verosimilitud suele ser computacionalmente costoso o incluso intratable cuando se trabaja con simulaciones numéricas. Esto ha llevado al desarrollo de técnicas de \textit{Simulation-Based Inference} (SBI), que evitan la evaluación explícita de la verosimilitud mediante aproximaciones basadas en simulaciones. En las siguientes secciones, exploraremos cómo estos métodos están revolucionando el análisis de datos cosmológicos.
 
-% Linear Layers
-\node[layer, above right=1.5cm and 1cm of flatten] (linear1) {Dense \\ (oculto)};
-\node[layer, right=of linear1] (linear2) {Dense \\ (oculto)};
+\subsection{Función de verosimilitud}
+La función de verosimilitud \( L \) es fundamental en análisis estadísticos modernos, definida como la probabilidad de observar los datos dado un modelo teórico. Esta herramienta permite estimar parámetros del modelo y sus incertidumbres. Por ejemplo, al medir repetidamente el peso de una persona con múltiples básculas, la verosimilitud modela cómo las mediciones \( d_i \) se distribuyen alrededor del peso real \( w \), asumiendo un ruido gaussiano con desviación estándar \( \sigma_w \).
 
-% Output
-\node[layer, right=of linear2] (output) {Embedding \\ $8$ dim};
+\begin{equation}
+L(w | d_i, \sigma_w) = \frac{1}{\sqrt{2 \pi \sigma_w^2}} \exp \left( -\frac{(d_i - w)^2}{2 \sigma_w^2} \right)
+\end{equation}
 
-% Arrows
-\draw[arrow] (input) -- (conv1);
-\draw[arrow] (conv1) -- (pool1);
-\draw[arrow] (pool1) -- (conv2);
-\draw[arrow] (conv2) -- (pool2);
-\draw[arrow] (pool2) -- (conv3);
-\draw[arrow] (conv3) -- (pool3);
-\draw[arrow] (pool3) -- (flatten);
-\draw[arrow] (flatten) |- (linear1);
-\draw[arrow] (linear1) -- (linear2);
-\draw[arrow] (linear2) -- (output);
+Para \( m \) mediciones independientes, la verosimilitud conjunta es el producto de las verosimilitudes individuales, resultando en una expresión exponencial que depende de la suma de cuadrados de las diferencias entre datos y modelo.
 
-% Labels
-\node[below=0.2cm of input] (label_input) {\footnotesize Capa de entrada};
-\node[below=0.2cm of pool1] (label_conv) {\footnotesize $3$ capas convolucionales};
-\node[below=0.2cm of pool3] (label_flatten) {\footnotesize Aplanado};
-\node[above=0.2cm of linear1] (label_linear) {\footnotesize $2$ capas densas};
-\node[above=0.2cm of output] (label_output) {\footnotesize Embedding final};
-
-\end{tikzpicture}
-
+\begin{equation}
+L(w | d_i, \sigma_w) = \prod_i \frac{1}{\sqrt{2 \pi \sigma_w^2}} \exp \left( -\frac{(d_i - w)^2}{2 \sigma_w^2} \right)
+\end{equation}
 
 \end{document}
