@@ -26,8 +26,8 @@ def posterior_NPSE(filename, theta, x):
 
     return posterior
 
-def sample_posterior(posterior, true_parameter, num_samples=24000):
-    simulator = create_simulator()
+def sample_posterior(posterior, true_parameter, type_str="TT+EE+BB+TE", num_samples=24000):
+    simulator = create_simulator(type_str)
     Cl_obs = simulator(true_parameter)
     samples = posterior.set_default_x(Cl_obs).sample((num_samples,))
 

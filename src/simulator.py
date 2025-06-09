@@ -20,21 +20,17 @@ def compute_spectrum(params):
     )
     pars.InitPower.set_params(
         ns=ns,                      
-        As=np.exp(ln_10_10_As)/1e10      
+        As=np.exp(np.asarray(ln_10_10_As))/1e10      
     )
     pars.set_for_lmax(2500)
     pars.set_accuracy(AccuracyBoost=1.0)  
     pars.NonLinear = camb.model.NonLinear_both  
     pars.WantLensing = True      
     results = camb.get_results(pars)
-    Cl = results.get_cmb_power_spectra(pars, CMB_unit='muK')['total']
-    concate = []
-    for i in range(4):
-        column = Cl[:, i]
-        concate.append(column)
+    cmb_power_spectra = results.get_cmb_power_spectra(pars, CMB_unit='muK')['total']
     
-    return np.concatenate(concate)
-
+    return np.concatenate([cmb_power_spectra[:, i] for i in range(4)])
+    
 def add_instrumental_noise(spectra):
     """Añade ruido instrumental a los espectros"""
     noise_config = PARAMS["noise"]
@@ -67,13 +63,23 @@ def sample_observed_spectra(spectra):
     
     return noisy_spectra
 
-def create_simulator():
+def create_simulator(type_str="TT+EE+BB+TE"):
     """Crea el simulador siguiendo la pipeline"""
     def simulator(theta):
-        base_spectra = compute_spectrum(theta)
-        # noisy_spectra = add_instrumental_noise(base_spectra)
-        # observed_spectra = sample_observed_spectra(noisy_spectra)
-        return torch.from_numpy(base_spectra)
+        if type_str == "TT+EE+BB+TE":
+            cmb_power_spectra = compute_spectrum(theta)
+        elif type_str == "TT":
+            cmb_power_spectra = compute_spectrum(theta)[:2551]
+        elif type_str == "EE":
+            cmb_power_spectra = compute_spectrum(theta)[2551:5102]
+        elif type_str == "BB":
+            cmb_power_spectra = compute_spectrum(theta)[5102:7653]
+        elif type_str == "TE":
+            cmb_power_spectra = compute_spectrum(theta)[7653:]
+        elif type_str == "TT+EE":
+            cmb_power_spectra = compute_spectrum(theta)[:5102]
+
+        return torch.from_numpy(cmb_power_spectra)
 
     return simulator
 
@@ -88,8 +94,24 @@ def generate_cosmologies(num_simulations):
 
     return theta, x
 
+def Cl_XX(concatenate_batches, spectrum_type):
+    """Devuelve un vector 1D de los espectros de dos puntos concatenados"""
+    if spectrum_type == "TT":
+        return concatenate_batches[:, :2551]
+    elif spectrum_type == "EE":
+        return concatenate_batches[:, 2551:5102]
+    elif spectrum_type == "BB":
+        return concatenate_batches[:, 5102:7653]
+    elif spectrum_type == "TE":
+        return concatenate_batches[:, 7653:]
+    elif spectrum_type == "TT+EE":
+        return concatenate_batches[:, :5102]
+    elif spectrum_type == "TT+EE+BB+TE":
+        return concatenate_batches
+
 if __name__ == "__main__":
-    theta, x = generate_cosmologies(num_simulations=25000)
+    theta, x = generate_cosmologies(num_simulations=10)
     tensor_dict = {"theta": theta, "x": x}
     torch.save(tensor_dict, os.path.join(PATHS["simulations"], "all_Cls_25000.pt"))
     print(f"Simulaciones completadas")
+

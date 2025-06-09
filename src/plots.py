@@ -11,6 +11,7 @@ import os
 from sbi.analysis import pairplot
 from src.posterior import posterior_NPSE, posterior_SNPE_C, sample_posterior, sampler_mcmc
 from src.config import PATHS
+from src.simulator import Cl_XX
 
 def plot_posterior(samples, true_parameter, limits, param_names, title='Posterior'):
     fig, axes = pairplot(
@@ -45,14 +46,15 @@ if __name__ == "__main__":
     ])
     param_names = [r'$\omega_b$', r'$\omega_c$', r'$100\theta_{MC}$', r'$\ln(10^{10}A_s)$', r'$n_s$']
     
-    simulations = torch.load(os.path.join(PATHS["simulations"], "all_Cls_25000.pt"))
-    theta, x = simulations["theta"], simulations["x"]
-    posterior = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_all_25000.pth"), theta, x)
+    simulations = torch.load(os.path.join(PATHS["simulations"], "all_Cls_100000.pt"), weights_only=True)
+    theta, x = simulations["theta"], Cl_XX(simulations["x"], "TT+EE")
+
+    posterior = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT+EE_100000.pth"), theta, x)
     true_parameter = torch.tensor([0.02212, 0.1206, 1.04077, 3.04, 0.9626])
-    samples = sample_posterior(posterior, true_parameter)
+    samples = sample_posterior(posterior, true_parameter, type_str="TT+EE")
 
     fig, axes = plot_posterior(samples, true_parameter, limits, param_names, title='Posterior')
-    plt.savefig(os.path.join(PATHS["posteriors"], "01_NPSE_all_25000.png"), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(PATHS["posteriors"], "01_NPSE_TT+EE_100000.png"), dpi=300, bbox_inches='tight')
 
     fig = correlation_matrix(samples, param_names, title='Correlation matrix')
-    plt.savefig(os.path.join(PATHS["correlation"], "NPSE_all_25000.png"), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(PATHS["correlation"], "NPSE_TT+EE_100000.png"), dpi=300, bbox_inches='tight')

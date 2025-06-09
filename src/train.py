@@ -5,6 +5,7 @@ from sbi.inference import SNPE_C, NLE, NPSE
 from sbi.utils.user_input_checks import process_prior
 from src.prior import get_prior
 from src.config import PATHS
+from src.simulator import Cl_XX
 
 def train_SNPE_C(theta, x):
     """Entrenamiento y validación del modelo NPE"""
@@ -40,9 +41,9 @@ def train_NPSE(theta, x):
     return density_estimator
 
 if __name__ == "__main__":
-    simulations = torch.load(os.path.join(PATHS["simulations"],"all_Cls_25000.pt"), weights_only=True)
-    theta, x = simulations["theta"], simulations["x"][:,:7653]
+    simulations = torch.load(os.path.join(PATHS["simulations"],"all_Cls_100000.pt"), weights_only=True)
+    theta, x = simulations["theta"], Cl_XX(simulations["x"], "TT+EE")
     print(theta.shape, x.shape)
 
     density_estimator = train_NPSE(theta, x)
-    torch.save(density_estimator.state_dict(), os.path.join(PATHS["models"], "NPSE_TT_EE_BB_25000.pth"))
+    torch.save(density_estimator.state_dict(), os.path.join(PATHS["models"], "NPSE_TT+EE_100000.pth"))

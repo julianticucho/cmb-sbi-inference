@@ -1,4 +1,5 @@
 data/
 results/
 sbi-logs/
+sbi_inference.egg-info/
 *.ipynb_checkpoints

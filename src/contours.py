@@ -13,6 +13,7 @@ from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 from src.posterior import posterior_SNPE_C, posterior_NPSE, sampler_mcmc, sample_posterior
 from src.config import PATHS
+from src.simulator import Cl_XX
 
 def plot_confidence_contours(samples, true_parameter, limits, param_names):
     """ Grafica las posteriores de los parámetros y las regiones de confianza. """
@@ -190,6 +191,107 @@ def plot_confidence_contours_2samples(samples1, samples2, true_parameter, limits
     plt.tight_layout()
     return fig, axes
 
+def plot_confidence_contours_nsamples(all_samples, true_parameter, limits, param_names, 
+                                    labels=None, colors=None):
+    """Grafica las posteriores de n conjuntos de muestras en el mismo gráfico con regiones de confianza."""
+    n_samples = len(all_samples)
+    samples_np = [np.array(samples) for samples in all_samples]
+    true_params_np = np.array(true_parameter)
+    limits = np.array(limits)
+    n_params = samples_np[0].shape[1]
+    
+    # Default colors and labels if not provided
+    if colors is None:
+        colors = plt.cm.tab10.colors[:n_samples]
+    if labels is None:
+        labels = [f'Sample {i+1}' for i in range(n_samples)]
+    
+    fig, axes = plt.subplots(n_params, n_params, figsize=(12, 12))
+    fig.subplots_adjust(hspace=0.1, wspace=0.1)
+    
+    dash_pattern = (5, 3)  
+    dark_gray = "#444444" 
+    line_width = 0.5     
+    line_alpha = 0.9   
+    
+    def plot_1d_dist(ax, data_list, true_val, limits):
+        for i, data in enumerate(data_list):
+            sns.kdeplot(data, ax=ax, color=colors[i], label=labels[i])
+        ax.axvline(true_val, color=dark_gray, linestyle='--', 
+                   linewidth=line_width, alpha=line_alpha, dashes=dash_pattern)
+        ax.set_xlim(limits)
+        ax.set_yticklabels([])
+        ax.set_yticks([])
+    
+    def plot_2d_contour(ax, x_list, y_list, true_x, true_y, x_lim, y_lim):
+        xx, yy = np.mgrid[x_lim[0]:x_lim[1]:100j, y_lim[0]:y_lim[1]:100j]
+        positions = np.vstack([xx.ravel(), yy.ravel()])
+        
+        for i, (x, y) in enumerate(zip(x_list, y_list)):
+            kde = gaussian_kde(np.vstack([x, y]))
+            zz = np.reshape(kde(positions).T, xx.shape)
+            
+            sorted_zz = np.sort(zz.ravel())
+            cdf = np.cumsum(sorted_zz) / np.sum(sorted_zz)
+            level_95 = sorted_zz[np.argmin(np.abs(cdf - 0.05))]
+            level_68 = sorted_zz[np.argmin(np.abs(cdf - 0.32))]
+            contour_levels = sorted([level_95, level_68])
+            
+            ax.contour(xx, yy, zz, levels=contour_levels, 
+                      colors=[colors[i]], linewidths=0.5, alpha=0.7)
+            
+            ax.contourf(xx, yy, zz, levels=[contour_levels[0], contour_levels[1]], 
+                       colors=[colors[i]], alpha=0.1)  
+            ax.contourf(xx, yy, zz, levels=[contour_levels[1], zz.max()], 
+                       colors=[colors[i]], alpha=0.2)
+        
+        ax.axhline(true_y, color=dark_gray, linestyle='--', 
+                   linewidth=line_width, alpha=line_alpha, dashes=dash_pattern)
+        ax.axvline(true_x, color=dark_gray, linestyle='--', 
+                   linewidth=line_width, alpha=line_alpha, dashes=dash_pattern)
+        
+        ax.set_xlim(x_lim)
+        ax.set_ylim(y_lim)
+    
+    for i in range(n_params):
+        for j in range(n_params):
+            ax = axes[i, j]
+            if i == j:  
+                data_list = [samples[:, i] for samples in samples_np]
+                plot_1d_dist(ax, data_list, true_params_np[i], limits[i])
+            elif i > j: 
+                x_list = [samples[:, j] for samples in samples_np]
+                y_list = [samples[:, i] for samples in samples_np]
+                plot_2d_contour(ax, x_list, y_list,
+                               true_params_np[j], true_params_np[i], 
+                               limits[j], limits[i])
+            else:  
+                ax.axis('off')
+            
+            if i == n_params - 1:
+                ax.set_xlabel(param_names[j])
+            if j == 0 and i > 0:
+                ax.set_ylabel(param_names[i])
+            if i != n_params - 1:
+                ax.set_xticklabels([])
+            if j != 0:
+                ax.set_yticklabels([])
+    
+    legend_line = Line2D([0], [0], color=dark_gray, linestyle='--', 
+                        linewidth=line_width, alpha=line_alpha, 
+                        dashes=dash_pattern, label="True value")
+    
+    legend_elements = [
+        Line2D([0], [0], color=colors[i], lw=2, label=labels[i])
+        for i in range(n_samples)
+    ]
+    legend_elements.append(legend_line)
+    
+    fig.legend(handles=legend_elements, loc='upper right', bbox_to_anchor=(0.95, 0.95))
+    plt.suptitle('Posterior Distribution Comparison', y=1.02)
+    plt.tight_layout()
+    return fig, axes
+
 if __name__ == "__main__":
     limits = torch.tensor([
         [0.02212-0.00022, 0.02212+0.00022],    
@@ -200,19 +302,29 @@ if __name__ == "__main__":
     ])
     param_names = [r'$\omega_b$', r'$\omega_c$', r'$100\theta_{MC}$', r'$\ln(10^{10}A_s)$', r'$n_s$']
 
-    simulations = torch.load(os.path.join(PATHS["simulations"], "simulations_25000.pt"))
-    theta, x = simulations["theta"], simulations["x"]
-    posterior1 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_25000.pth"), theta, x)
-    posterior2 = posterior_SNPE_C(os.path.join(PATHS["models"], "SNPE_C_25000.pkl"))
-
     true_parameter1 = torch.tensor([0.02212, 0.1206, 1.04077, 3.04, 0.9626])
     true_parameter2 = torch.tensor([0.02205, 0.1224, 1.04035, 3.028, 0.9589])
     true_parameter3 = torch.tensor([0.02218, 0.1198, 1.04052, 3.052, 0.9672])
+    simulations = torch.load(os.path.join(PATHS["simulations"], "all_Cls_100000.pt"))
+    
+    theta, x_TT = simulations["theta"], Cl_XX(simulations["x"], "TT")
+    posterior_TT = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_100000.pth"), theta, x_TT)
+    samples_TT = sample_posterior(posterior_TT, true_parameter1, type_str="TT")
 
-    samples1 = sample_posterior(posterior1, true_parameter3)
-    samples2 = sample_posterior(posterior2, true_parameter3)
+    theta, x_EE = simulations["theta"], Cl_XX(simulations["x"], "EE")
+    posterior_EE = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_EE_100000.pth"), theta, x_EE)
+    samples_EE = sample_posterior(posterior_EE, true_parameter1, type_str="EE")
+
+    theta, x_BB = simulations["theta"], Cl_XX(simulations["x"], "BB")
+    posterior_BB = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_BB_100000.pth"), theta, x_BB)
+    samples_BB = sample_posterior(posterior_BB, true_parameter1, type_str="BB")
+
+    theta, x_TE = simulations["theta"], Cl_XX(simulations["x"], "TE")
+    posterior_TE = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TE_100000.pth"), theta, x_TE)
+    samples_TE = sample_posterior(posterior_TE, true_parameter1, type_str="TE")
+
     # fig, axes = plot_confidence_contours(samples, true_parameter, limits, param_names, title='Posterior')
     # plt.savefig(os.path.join(PATHS["confidence"], "SNPE_C_25000.png"), dpi=300, bbox_inches='tight')
 
-    fig, axes = plot_confidence_contours_2samples(samples1, samples2, true_parameter3, limits, param_names, labels=['NPSE', 'SNPE_C'])
-    plt.savefig(os.path.join(PATHS["confidence"], "03_model_comparison_25000.png"), dpi=300, bbox_inches='tight')
+    fig, axes = plot_confidence_contours_nsamples([samples_TT, samples_EE, samples_BB, samples_TE], true_parameter1, limits, param_names, labels=['TT', 'EE', 'BB', 'TE'], colors=["#5f17be", "#74475e", "#ff0000", "#d7ea00" ])
+    plt.savefig(os.path.join(PATHS["confidence"], "TT_EE_BB_TE_comparison_100000.png"), dpi=300, bbox_inches='tight')
