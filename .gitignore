@@ -1,5 +1,7 @@
-data/
-results/
+data/simulations
+results/calibration
+results/models
+results/samples
 sbi-logs/
 sbi_inference.egg-info/
 *.ipynb_checkpoints
