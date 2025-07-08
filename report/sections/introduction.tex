@@ -1,0 +1,144 @@
+\section{Introducción}
+\subsection{Contexto cosmológico y relevancia del CMB}
+El descubrimiento del Fondo Cósmico de Microondas por Arno Penzias y Robert Wilson en 1965 \cite{penzias} confirmó la existencia de una radiación isotrópica de microondas que permea el universo. Experimentos posteriores demostraron que este fondo sigue un espectro de cuerpo negro con una temperatura de \( T = 2.7255 \, \text{K} \). La densidad de energía del CMB es baja, con aproximadamente 411 fotones por centímetro cúbico, y su longitud de onda característica (2 mm) lo sitúa en la región de microondas del espectro electromagnético \cite{ryden}. 
+
+La existencia del CMB fue una evidencia clave a favor del modelo del Big Bang frente al modelo del Estado Estacionario. En un universo en expansión inicialmente caliente y denso, la materia estaba ionizada, lo que hacía al universo opaco. A medida que el universo se expandió y enfrió, los electrones y protones se combinaron formando átomos neutros, permitiendo que los fotones se liberaran. Esta radiación, que en su origen tenía una temperatura de \(\sim 2970 \, \text{K}\), se ha enfriado hasta los \(2.7255 \, \text{K}\) actuales debido a la expansión cósmica.  
+
+Con la llegada de las sondas \textit{WMAP} (Wilkinson Microwave Anisotropy Probe) y \textit{Planck}, se lograron mediciones de alta precisión de las anisotropías del CMB, que son fundamentales para entender las inhomogeneidades primordiales que dieron lugar a la estructura a gran escala del universo. La combinación de estos resultados con observaciones independientes, como las de supernovas tipo Ia y la distribución de galaxias, ha permitido refinar la estimación de los parámetros cosmológicos \cite{planck2018}, consolidando el modelo \(\Lambda\)CDM como el marco estándar de la cosmología moderna.
+
+\subsection{Estadística tradicional en cosmología}
+En la cosmología moderna, el análisis del CMB sigue una metodología bien establecida que enfrenta nuevos retos ante el volumen y complejidad de los datos actuales. El punto de partida son los mapas de anisotropías de temperatura, que representan fluctuaciones del orden de $\Delta T/T \sim 10^{-5}$ respecto a la temperatura media de $2.7255$ K. Estos mapas, obtenidos por misiones como \textit{Planck} \cite{planck2018} y próximamente por el Observatorio Simons \cite{simons2019}, contienen información primordial sobre las condiciones iniciales del universo. El análisis tradicional procede mediante la extracción de espectros de potencia $C_\ell$, que cuantifican las correlaciones angulares a diferentes escalas ($\ell \sim 180^\circ/\theta$). Esta transformación reduce la dimensionalidad de los datos preservando la información gaussiana:
+
+\begin{equation}
+C_\ell = \frac{1}{2\ell + 1} \sum_{m=-\ell}^\ell |a_{\ell m}|^2
+\end{equation}
+
+donde $a_{\ell m}$ son los coeficientes de la expansión en armónicos esféricos del mapa de temperatura. La inferencia de parámetros cosmológicos se realiza mediante funciones de verosimilitud usualmente gaussianas que comparan los espectros observados $\hat{C}_\ell$ con predicciones teóricas $C_\ell^{\text{teo}}(\lambda_\alpha)$, por ejemplo \cite{dodelson}:
+
+\begin{equation}
+\ln \mathcal{L}(\lambda_\alpha) = -\frac{1}{2} \sum_{\ell\ell'} \left( \hat{C}_\ell - C_\ell^{\text{teo}}(\lambda_\alpha) \right) \text{Cov}^{-1}_{\ell\ell'} \left( \hat{C}_{\ell'} - C_{\ell'}^{\text{teo}}(\lambda_\alpha) \right) + \text{cte.}
+\end{equation}
+
+La inferencia bayesiana combina estas verosimilitudes con distribuciones previas $\pi(\lambda_\alpha)$ que incorporan conocimiento teórico y restricciones independientes. En la práctica, la exploración del espacio paramétrico se realiza típicamente mediante métodos de Monte Carlo mediante Cadenas de Markov (MCMC), que muestrean eficientemente la distribución posterior incluso en espacios de alta dimensionalidad. Este enfoque ha permitido determinar con precisión sin precedentes los parámetros del modelo $\Lambda$CDM, pero enfrenta desafíos crecientes ante la complejidad de los nuevos datos. La Figura \ref{fig:inferencia_tradicional} muestra un esquema de la inferencia tradicional en cosmología.
+
+\begin{figure}[htbp]
+    \centering
+    \resizebox{0.95\textwidth}{!}{
+    \begin{tikzpicture}[
+        node distance=1.6cm and 2cm,
+        box/.style={
+            draw, 
+            rounded corners, 
+            minimum width=3.4cm, 
+            minimum height=1.6cm, 
+            align=center, 
+            fill=blue!10
+        },
+        arrow/.style={-{Latex}, thick}
+    ]
+        % Nodes
+        \node[box] (raw) {Raw Data};
+        \node[box, below=of raw] (maps) {Maps };
+        \node[box, right=of raw, yshift=-1cm] (cov) {Covariance Matrix };
+        \node[box, below=of cov] (theory) {Theoretical Two-\\Point Functions};
+        \node[box, below=of theory] (obs) {Observed Two-\\Point Functions};
+        \node[box, right=of theory] (like) {Likelihood};
+        \node[box, below=of like] (sampler) {MCMC};
+        \node[box, right=of sampler] (posterior) {Posterior};
+
+        % Optional forecast box (light gray text)
+        \node[box, above=of like, text=gray] (fisher) {Fisher forecast};
+
+        % Arrows
+        \draw[arrow] (raw) -- (maps);
+        \draw[arrow] (maps.east) -- ++(0.6,0) |- (obs.west);
+        \draw[arrow] (cov) -- (like);
+        \draw[arrow] (obs) -- (like);
+        \draw[arrow] (theory) -- (like);
+        \draw[arrow] (like) -- (sampler);
+        \draw[arrow] (sampler) -- (posterior);
+        \draw[arrow, thick] (cov) -- (fisher);
+        \draw[arrow, thick] (fisher) -- (posterior);
+        \draw[arrow] (cov) -- (theory);
+    \end{tikzpicture}
+    }
+    \caption{Inferencia tradicional con métodos de MCMC.}
+    \label{fig:inferencia_tradicional}
+\end{figure}
+
+\subsection{Inferencia basada en simulaciones}
+El enfoque tradicional presenta dos limitaciones fundamentales: (1) la pérdida de información no-gaussiana durante la compresión a espectros de potencia, y (2) la dependencia de supuestos gaussianos en la verosimilitud. Ambos problemas estan estrechamente relacionados, pues si se desea hacer inferencia con resumenes estadísticos no gaussianos, asumir una verosimilitud gaussiana podría llevar a resultados sesgados. La inferencia basada en simulaciones (SBI) busca realizar inferencia estadística en situaciones donde la función de verosimilitud es intratable o desconocida.
+
+Métodos hibridos como ABC (\textit{Approximate Bayesian Computation}) abordan este problema comparando directamente los datos simulados con los datos observados mediante una métrica de distancia. En este enfoque, se generan múltiples simulaciones a partir de diferentes valores del parámetro $\theta$ y se conservan aquellos para los cuales los datos simulados $x$ se parecen lo suficiente a los datos observados, según un umbral de tolerancia. Este método depende fuertemente de la elección de estadísticas resumidas y puede requerir un número muy elevado de simulaciones para obtener una aproximación razonable de la distribución posterior. La Figura \ref{fig:abc} se muestra el pipeline general utilizado para estimar posteriores con el método ABC.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        scale=0.6,
+        every node/.style={transform shape},
+        node distance=1.2cm and 1.8cm,
+        box/.style={draw, rounded corners, minimum width=2.4cm, minimum height=1.2cm, align=center, fill=green!10},
+        arrow/.style={-{Latex}, thick}
+    ]
+        \node[box] (prior) {Prior \\ \( p(\theta) \)};
+        \node[box, right=of prior] (simulator) {Simulator \\ \( x \sim p(x|\theta) \)};
+        \node[box, right=of simulator] (summary) {Summary statistics \\ \( s = S(x) \)};
+        \node[box, right=of summary] (distance) {Distance \\ \( \rho(s, s_0) \)};
+        \node[box, right=of distance] (accept) {Accept if \\ \( \rho < \epsilon \)};
+        \node[box, below=1.8cm of distance] (obs) {Real data \\ \( x_0 \)};
+        \node[box, right=of obs] (s_obs) {Real summary \\ \( s_0 = S(x_0) \)};
+        \node[box, right=of accept] (posterior) {Posterior \\ \( \{\theta_i\}_{\text{accepted}} \)};
+
+        \draw[arrow] (prior) -- (simulator);
+        \draw[arrow] (simulator) -- (summary);
+        \draw[arrow] (summary) -- (distance);
+        \draw[arrow] (distance) -- (accept);
+        \draw[arrow] (accept) -- (posterior);
+        \draw[arrow] (obs) -- (s_obs);
+        \draw[arrow, dashed] ([yshift=1pt] s_obs.north) to[bend left=45] (distance.south);
+
+        \node[above=0.15cm of distance] {\textbf{Simulation and rejection}};
+        \node[below=0.45cm of posterior] {\textbf{Inference}};
+    \end{tikzpicture}
+    \caption{Pipeline general de ABC.}
+    \label{fig:abc}
+\end{figure}
+
+Más recientemente, técnicas modernas basadas en aprendizaje automático como SNPE (\textit{Secuential Neural Posterior Estimation}) \cite{SNPE_C} o NPSE (\textit{Neural Posterior Score Estimation}) \cite{NPSE_1} \cite{NPSE_2} han revolucionado este enfoque. En lugar de comparar datos de manera directa, estos métodos reformulan el problema como uno de estimación de densidad: se modela la distribución conjunta de pares $(\theta, x)$ simulados, lo que permite aproximar la distribución posterior $p(\theta|x)$. Herramientas como redes neuronales profundas y flujos normalizantes permiten entrenar modelos expresivos que aprenden directamente la relación entre datos y parámetros a partir de muestras sintéticas, evitando el cálculo explícito de la verosimilitud y haciendo la inferencia mucho más eficiente. La Figura \ref{fig:npe} muestra la pipeline general para técnicas de SBI basadas en aprendizaje automático.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        scale=0.65,  
+        every node/.style={transform shape}, 
+        node distance=1.2cm and 1.8cm,
+        box/.style={draw, rounded corners, minimum width=2.4cm, minimum height=1.2cm, align=center, fill=blue!10},
+        arrow/.style={-{Latex}, thick}
+    ]
+        \node[box] (prior) {Prior \\ \( p(\theta) \)};
+        \node[box, right=of prior] (simulator) {Simulator \\ \( x \sim p(x|\theta) \)};
+        \node[box, right=of simulator] (summary) {Summary statistics \\ \( s = S(x) \)};
+        \node[box, right=of summary] (train) {Train \\ \( q_\phi(\theta|s) \)};
+        \node[box, below=1.8cm of summary] (obs) {Real data \\ \( x_0 \)};
+        \node[box, right=of obs] (s_obs) {Real summary \\ \( s_0 = S(x_0) \)};
+        \node[box, right=of s_obs] (posterior) {Posterior \\ \( q_\phi(\theta|s_0) \)};
+
+        \draw[arrow] (prior) -- (simulator);
+        \draw[arrow] (simulator) -- (summary);
+        \draw[arrow] (summary) -- (train);
+        \draw[arrow] (obs) -- (s_obs);
+        \draw[arrow] (s_obs) -- (posterior);
+        \draw[arrow, dashed] (train.south) to[bend right=25] (posterior.north);
+
+        \node[above=0.15cm of train] {\textbf{Train}};
+        \node[below=0.45cm of posterior] {\textbf{Inference}};
+    \end{tikzpicture}
+    \caption{Pipeline general para métodos con aprendizaje automático.}
+    \label{fig:npe}
+\end{figure}
+
+\subsection{Objetivos del proyecto}
+El objetivo principal de este proyecto es la implementación de técnicas de inferencia basadas en simulaciones para estimar parámetros cosmológicos a partir de espectros de potencia angulares del CMB
+
+
+

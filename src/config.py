@@ -10,7 +10,8 @@ PATHS = {
     "posteriors": os.path.join(RESULTS_DIR, "posteriors"),
     "correlation": os.path.join(RESULTS_DIR, "correlation"),
     "calibration": os.path.join(RESULTS_DIR, "calibration"),
-    "confidence": os.path.join(RESULTS_DIR, "confidence")
+    "confidence": os.path.join(RESULTS_DIR, "confidence"),
+    "summary": os.path.join(RESULTS_DIR, "summary")
 }
 
 PARAM_RANGES = {
@@ -18,7 +19,8 @@ PARAM_RANGES = {
     'omch2': (0.0996, 0.1416),
     'theta_MC_100': (1.03607, 1.04547),
     'ln_10_10_As': (2.88, 3.2),
-    'ns': (0.9056, 1.0196)
+    'ns': (0.9056, 1.0196),
+    # 'tau': (0, 0.0522+0.008*10),
 }
 
 PARAMS = {

@@ -7,6 +7,7 @@ from sbi.inference import simulate_for_sbi
 from src.config import PARAMS, PATHS
 from src.prior import get_prior
 from src.config import PATHS
+from src.bin import bin_simulations
 
 def compute_spectrum(params): 
     """Calcula el espectro teórico CMB para un conjunto de parámetros"""
@@ -15,17 +16,17 @@ def compute_spectrum(params):
     pars.set_cosmology(                
         ombh2=ombh2,            
         omch2=omch2,     
-        tau= 0.0522,
+        tau=0.0522,
         cosmomc_theta=theta_MC_100/100,   
-    )
+    ) 
     pars.InitPower.set_params(
         ns=ns,                      
-        As=np.exp(np.asarray(ln_10_10_As))/1e10      
+        As=np.exp(np.asarray(ln_10_10_As))/1e10
     )
     pars.set_for_lmax(2500)
     pars.set_accuracy(AccuracyBoost=1.0)  
     pars.NonLinear = camb.model.NonLinear_both  
-    pars.WantLensing = True      
+    pars.WantLensing = True
     results = camb.get_results(pars)
     cmb_power_spectra = results.get_cmb_power_spectra(pars, CMB_unit='muK')['total']
     
@@ -68,16 +69,112 @@ def create_simulator(type_str="TT+EE+BB+TE"):
     def simulator(theta):
         if type_str == "TT+EE+BB+TE":
             cmb_power_spectra = compute_spectrum(theta)
+
         elif type_str == "TT":
             cmb_power_spectra = compute_spectrum(theta)[:2551]
+
         elif type_str == "EE":
             cmb_power_spectra = compute_spectrum(theta)[2551:5102]
+
         elif type_str == "BB":
             cmb_power_spectra = compute_spectrum(theta)[5102:7653]
+
         elif type_str == "TE":
             cmb_power_spectra = compute_spectrum(theta)[7653:]
+
         elif type_str == "TT+EE":
             cmb_power_spectra = compute_spectrum(theta)[:5102]
+
+        elif type_str == "TT+noise":
+            cmb_power_spectra = compute_spectrum(theta)[:2551]
+            cmb_power_spectra = add_instrumental_noise(cmb_power_spectra)
+            cmb_power_spectra = sample_observed_spectra(cmb_power_spectra)
+
+        elif type_str == "TT_binned":
+            cmb_power_spectra = compute_spectrum(theta)[:2551]
+            cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
+            cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
+            cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
+            cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
+
+        elif type_str == "EE_binned":
+            cmb_power_spectra = compute_spectrum(theta)[2551:5102]
+            cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
+            cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
+            cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
+            cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
+
+        elif type_str == "BB_binned":
+            cmb_power_spectra = compute_spectrum(theta)[5102:7653]
+            cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
+            cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
+            cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
+            cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
+
+        elif type_str == "TE_binned":
+            cmb_power_spectra = compute_spectrum(theta)[7653:]
+            cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
+            cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
+            cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
+            cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
+            
+        elif type_str == "TT+EE+TE_binned":
+            TT = compute_spectrum(theta)[:2551]
+            TT = torch.from_numpy(TT).float()
+            TT = TT.unsqueeze(0)
+            TT = bin_simulations(TT, 0, 2550, 500)[1]
+            TT = TT.squeeze(0).numpy()
+
+            EE = compute_spectrum(theta)[2551:5102]
+            EE = torch.from_numpy(EE).float()
+            EE = EE.unsqueeze(0)
+            EE = bin_simulations(EE, 0, 2550, 500)[1]
+            EE = EE.squeeze(0).numpy()
+
+            TE = compute_spectrum(theta)[7653:]
+            TE = torch.from_numpy(TE).float()
+            TE = TE.unsqueeze(0)
+            TE = bin_simulations(TE, 0, 2550, 500)[1]
+            TE = TE.squeeze(0).numpy()
+
+            cmb_power_spectra = np.concatenate((TT, EE, TE))
+
+        elif type_str == "TT+EE+BB+TE_binned":
+            TT = compute_spectrum(theta)[:2551]
+            TT = torch.from_numpy(TT).float()
+            TT = TT.unsqueeze(0)
+            TT = bin_simulations(TT, 0, 2550, 500)[1]
+            TT = TT.squeeze(0).numpy()
+
+            EE = compute_spectrum(theta)[2551:5102]
+            EE = torch.from_numpy(EE).float()
+            EE = EE.unsqueeze(0)
+            EE = bin_simulations(EE, 0, 2550, 500)[1]
+            EE = EE.squeeze(0).numpy()
+
+            BB = compute_spectrum(theta)[5102:7653]
+            BB = torch.from_numpy(BB).float()
+            BB = BB.unsqueeze(0)
+            BB = bin_simulations(BB, 0, 2550, 500)[1]
+            BB = BB.squeeze(0).numpy()
+
+            TE = compute_spectrum(theta)[7653:]
+            TE = torch.from_numpy(TE).float()
+            TE = TE.unsqueeze(0)
+            TE = bin_simulations(TE, 0, 2550, 500)[1]
+            TE = TE.squeeze(0).numpy()
+
+            cmb_power_spectra = np.concatenate((TT, EE, BB, TE), axis=0)
+        
+        elif type_str == "TT+noise+binned":
+            cmb_power_spectra = compute_spectrum(theta)[:2551]
+            cmb_power_spectra = add_instrumental_noise(cmb_power_spectra)
+            cmb_power_spectra = sample_observed_spectra(cmb_power_spectra)
+
+            cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
+            cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
+            cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
+            cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
 
         return torch.from_numpy(cmb_power_spectra)
 
@@ -93,6 +190,14 @@ def generate_cosmologies(num_simulations):
     theta, x = simulate_for_sbi(simulator_wrapper, proposal=prior, num_simulations=num_simulations, num_workers=11, seed=1)
 
     return theta, x
+
+def generate_noise(x):
+    """Añade ruido a los Cls a partir de un tensor x.shape: (num_simulations, 4*2551)"""
+    x_np = x.numpy() if torch.is_tensor(x) else x
+    spectra_with_noise = np.array([add_instrumental_noise(spec) for spec in x_np])
+    noisy_spectra = np.array([sample_observed_spectra(spec) for spec in spectra_with_noise])
+
+    return torch.from_numpy(noisy_spectra).float()
 
 def Cl_XX(concatenate_batches, spectrum_type):
     """Devuelve un vector 1D de los espectros de dos puntos concatenados"""
@@ -110,8 +215,18 @@ def Cl_XX(concatenate_batches, spectrum_type):
         return concatenate_batches
 
 if __name__ == "__main__":
-    theta, x = generate_cosmologies(num_simulations=10)
+    theta, x = generate_cosmologies(num_simulations=25000)
     tensor_dict = {"theta": theta, "x": x}
-    torch.save(tensor_dict, os.path.join(PATHS["simulations"], "all_Cls_25000.pt"))
+    print(theta.shape, x.shape)
+    torch.save(tensor_dict, os.path.join(PATHS["simulations"], "all_Cls_tau_25000.pt"))
     print(f"Simulaciones completadas")
+
+    # simulations = torch.load(os.path.join(PATHS["simulations"], "all_Cls_100000.pt"), weights_only=True)
+    # theta, x = simulations["theta"], simulations["x"]
+    # x_noise = generate_noise(Cl_XX(x, "TT"))
+
+    # tensor_dict = {"theta": theta, "x": x_noise}
+    # torch.save(tensor_dict, os.path.join(PATHS["simulations"], "Cls_TT_noise_100000.pt"))
+    # print(f"Simulaciones completadas")
+
 

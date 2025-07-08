@@ -1,0 +1,69 @@
+\begin{thebibliography}{11}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{Planck Collaboration}(2020{\natexlab{a}})]{Planck2018}
+{Planck Collaboration}.
+\newblock {Planck 2018 results. VI. Cosmological parameters}.
+\newblock \emph{A\&A}, 641:\penalty0 A6, 2020{\natexlab{a}}.
+\newblock \doi{10.1051/0004-6361/201833910}.
+
+\bibitem[{Simons Observatory Collaboration}(2019)]{SO2019}
+{Simons Observatory Collaboration}.
+\newblock {The Simons Observatory: Science goals and forecasts}.
+\newblock \emph{JCAP}, 2019:\penalty0 056, 2019.
+
+\bibitem[{Abazajian} et~al.(2016)]{CMB-S42016}
+K.~{Abazajian} et~al.
+\newblock {CMB-S4 Science Book}.
+\newblock \emph{arXiv e-prints}, 2016.
+
+\bibitem[{Schneider} and {Teyssier}(2020)]{Schneider2020}
+A.~{Schneider} and R.~{Teyssier}.
+\newblock {A fast and accurate large-scale structure matter power spectrum
+  calculator}.
+\newblock \emph{JCAP}, 2020:\penalty0 019, 2020.
+
+\bibitem[{BICEP/Keck Collaboration}(2021)]{BICEP2021}
+{BICEP/Keck Collaboration}.
+\newblock {Improved Constraints on Primordial Gravitational Waves using Planck,
+  WMAP, and BICEP/Keck Observations through the 2018 Observing Season}.
+\newblock \emph{Phys. Rev. Lett.}, 127:\penalty0 151301, 2021.
+
+\bibitem[{Challinor} and {Peiris}(2011)]{Challinor2011}
+A.~{Challinor} and H.~{Peiris}.
+\newblock {The CMB bispectrum}.
+\newblock \emph{NewAR}, 55:\penalty0 223--239, 2011.
+
+\bibitem[{Planck Collaboration}(2020{\natexlab{b}})]{Planck2018NL}
+{Planck Collaboration}.
+\newblock {Planck 2018 results. VIII. Gravitational lensing}.
+\newblock \emph{A\&A}, 641:\penalty0 A8, 2020{\natexlab{b}}.
+
+\bibitem[{Efstathiou} et~al.(2004){Efstathiou}, {Frenk}, and
+  {Sugiyama}]{EFS2004}
+G.~{Efstathiou}, C.~{Frenk}, and N.~{Sugiyama}.
+\newblock {On the covariance matrix of CMB power spectrum estimates}.
+\newblock \emph{MNRAS}, 354:\penalty0 L72--L76, 2004.
+
+\bibitem[{Alsing} and {Wandelt}(2019)]{Alsing2019}
+J.~{Alsing} and B.~{Wandelt}.
+\newblock {Fast likelihood-free cosmology with neural density estimators}.
+\newblock \emph{MNRAS}, 488:\penalty0 4443--4460, 2019.
+
+\bibitem[{Jeffrey} et~al.(2021){Jeffrey}, {Alsing}, and {Lanusse}]{Jeffrey2021}
+N.~{Jeffrey}, J.~{Alsing}, and F.~{Lanusse}.
+\newblock {Dimensionality reduction for CMB data}.
+\newblock \emph{MNRAS}, 505:\penalty0 4626--4640, 2021.
+
+\bibitem[{Papamakarios} et~al.(2019){Papamakarios}, {Sterratt}, and
+  {Murray}]{Papamakarios2019}
+G.~{Papamakarios}, D.~{Sterratt}, and I.~{Murray}.
+\newblock {Sequential Neural Likelihood: Fast Likelihood-Free Inference with
+  Autoregressive Flows}.
+\newblock \emph{AISTATS}, 2019.
+
+\end{thebibliography}

@@ -1,0 +1,5 @@
+\contentsline {section}{\numberline {1}Introducción}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Contexto cosmológico y relevancia del CMB}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Estadística tradicional en cosmología}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Inferencia basada en simulaciones}{3}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Objetivos del proyecto}{4}{subsection.1.4}%

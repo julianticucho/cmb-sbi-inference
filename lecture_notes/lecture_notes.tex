@@ -9,6 +9,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
 \usepackage[T1]{fontenc}
+\usepackage[numbers,sort&compress]{natbib}
+\bibliographystyle{unsrtnat}
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric}
 
 \title{Lecture notes}
@@ -28,11 +30,12 @@
 \tableofcontents
 
 \newpage
-
+\input{sections/introduccion.tex}
 \input{sections/statistics_in_cosmology.tex}
+
 \clearpage
 
-\section{Introducción}
+\section{Introducciónnn}
 \subsection{Motivación}
 La inferencia sin verosimilitud (\textit{likelihood-free inference}) permite estimar parámetros cosmológicos sin asumir una forma analítica para la función de verosimilitud, evitando así sesgos por supuestos incorrectos como Gaussianidad. Esto es especialmente relevante en cosmología, donde procesos no lineales y efectos sistemáticos complican el modelado estadístico. En el contexto del CMB, aunque las fluctuaciones primordiales son aproximadamente Gaussianas, efectos secundarios, como lentes gravitacionales, polarización inducida y \textit{foregrounds} introducen no-Gaussianidades que desafían los análisis tradicionales basados en espectros de potencia.
 
@@ -176,4 +179,5 @@ Para \( m \) mediciones independientes, la verosimilitud conjunta es el producto
 L(w | d_i, \sigma_w) = \prod_i \frac{1}{\sqrt{2 \pi \sigma_w^2}} \exp \left( -\frac{(d_i - w)^2}{2 \sigma_w^2} \right)
 \end{equation}
 
+\bibliography{references}
 \end{document}

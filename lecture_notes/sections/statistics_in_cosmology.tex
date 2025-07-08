@@ -128,7 +128,7 @@ A partir de estos mapas, se extraen los estadísticos de dos puntos, que captura
 Con los estadísticos medidos en mano, el siguiente paso es la construcción de la verosimilitud, que compara estas mediciones con sus contrapartes teóricas. Esta comparación se realiza ponderando las diferencias mediante la matriz de covarianza inversa. Para el caso gaussiano, la función de verosimilitud para las anisotropías del CMB toma la forma:
 
 \begin{equation}
-\ln \mathcal{L}(\lambda_\alpha) = -\frac{1}{2} \sum_{ll'} \left( \hat{C}(l) - C_{\text{theory}}(l, \lambda_\alpha) \right) \text{Cov}^{-1}_{ll'} \left( \hat{C}(l') - C_{\text{theory}}(l', \lambda_\alpha) \right)
+\ln \mathcal{L}(\lambda_\alpha) = -\frac{1}{2} \sum_{ll'} \left( \hat{C}(l) - C_{\text{theory}}(l, \lambda_\alpha) \right) \text{Cov}^{-1}_{ll'} \left( \hat{C}(l') - C_{\text{theory}}(l', \lambda_\alpha) \right) .
 \end{equation}
 
 Para explorar el espacio de parámetros cosmológicos $\lambda_\alpha$ se emplean técnicas de muestreo de parámetros, particularmente algoritmos MCMC (Monte Carlo Markov Chain). Estos algoritmos evalúan sistemáticamente millones de combinaciones paramétricas, permitiendo caracterizar completamente la distribución posterior. Este proceso debe manejar adecuadamente dos desafíos clave: las degeneraciones entre parámetros cosmológicos y la marginalización sobre parámetros molestos no cosmológicos, como el parámetro de bias $b_1$ en estudios de distribución galáctica.
