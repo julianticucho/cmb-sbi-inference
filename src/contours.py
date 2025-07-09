@@ -194,7 +194,7 @@ def plot_confidence_contours_2samples(samples1, samples2, true_parameter, limits
 
 def plot_confidence_contours_nsamples(all_samples, true_parameter, limits, param_names, 
                                       param_labels=None, sample_labels=None, title=None,
-                                      sample_colors=None):
+                                      sample_colors=None, upper_samples=None, upper_styles=None):
 
     if param_labels is None:
         param_labels = [name.replace('_', r'\_') for name in param_names]
@@ -213,6 +213,18 @@ def plot_confidence_contours_nsamples(all_samples, true_parameter, limits, param
         gdist.fine_bins_2D = 1500
         gdist_samples.append(gdist)
 
+    gdist_samples_upper = []
+    for i, sample in enumerate(upper_samples):
+        sample = np.array(sample, copy=True)
+        label = sample_labels[i] if sample_labels and i < len(sample_labels) else f'Muestra {i+1}'
+        gdist = MCSamples(samples=sample, 
+                          names=param_names, 
+                          labels=param_labels,
+                          label=label,)
+        gdist.fine_bins = 1500
+        gdist.fine_bins_2D = 1500
+        gdist_samples_upper.append(gdist)
+ 
     g = plots.get_subplot_plotter()
     g.settings.scaling_factor = 0.1
     g.settings.solid_colors = sample_colors
@@ -226,21 +238,23 @@ def plot_confidence_contours_nsamples(all_samples, true_parameter, limits, param
                     param_limits=limits_dict,
                     markers=markers_dict,
                     legend_labels=sample_labels,
-                    legend_loc='upper right',
-                    contour_colors=sample_colors
+                    # legend_loc='upper right',
+                    contour_colors=sample_colors,
+                    upper_roots=gdist_samples_upper,
+                    upper_kwargs=upper_styles
                     )
-    if title is not None:
-        g.fig.suptitle(title, y=1.03)
+    # if title is not None:
+    #     g.fig.suptitle(title, y=1.03)
 
     return g
 
 if __name__ == "__main__":
     limits = [
-        [0.02212-0.00022*2, 0.02212+0.00022*2],    
-        [0.1206-0.0021*2, 0.1206+0.0021*2],  
-        [1.04077-0.00047*2, 1.04077+0.00047*2],      
-        [3.04-0.016*2, 3.04+0.016*2],    
-        [0.9626-0.0057*2, 0.9626+0.0057*2],
+        [0.02212-0.00022*(3/4), 0.02212+0.00022*(3/4)],    
+        [0.1206-0.0021*(3/4), 0.1206+0.0021*(3/4)],  
+        [1.04077-0.00047*(3/4), 1.04077+0.00047*(3/4)],      
+        [3.04-0.016*(3/4), 3.04+0.016*(3/4)],    
+        [0.9626-0.0057*(3/4), 0.9626+0.0057*(3/4)],
         # [0.0522-0.008, 0.0522+0.008]  
     ]
     param_names = ['omega_b', 'omega_c', 'theta_MC', 'ln10As', 'ns']
@@ -250,49 +264,62 @@ if __name__ == "__main__":
     true_parameter2 = [0.02205, 0.1224, 1.04035, 3.028, 0.9589]
     true_parameter3 = [0.02218, 0.1198, 1.04052, 3.052, 0.9672]
     
-    simulations_1 = torch.load(os.path.join(PATHS["simulations"], "Cls_TT_noise_binned_100000.pt"), weights_only=True)
-    theta_1, x_1 = simulations_1["theta"], simulations_1["cl"]
-    print(theta_1.shape, x_1.shape)
+    # simulations_1 = torch.load(os.path.join(PATHS["simulations"], "Cls_TT_noise_binned_100000.pt"), weights_only=True)
+    # theta_1, x_1 = simulations_1["theta"], simulations_1["cl"]
+    # print(theta_1.shape, x_1.shape)
 
-    posterior_1 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_noise_binned_100000.pth"), theta_1, x_1)
-    samples_1 = sample_posterior(posterior_1, true_parameter1, type_str="TT+noise+binned")
+    # posterior_1 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_noise_binned_100000.pth"), theta_1, x_1)
+    # samples_1 = sample_posterior(posterior_1, true_parameter1, type_str="TT+noise+binned")
 
-    simulations_2 = torch.load(os.path.join(PATHS["simulations"], "Cls_TT_noise_100000.pt"), weights_only=True)
-    theta_2, x_2 = simulations_2["theta"], simulations_2["x"]
-    print(theta_2.shape, x_2.shape)
+    # simulations_2 = torch.load(os.path.join(PATHS["simulations"], "Cls_TT_noise_100000.pt"), weights_only=True)
+    # theta_2, x_2 = simulations_2["theta"], simulations_2["x"]
+    # print(theta_2.shape, x_2.shape)
 
-    posterior_2 = posterior_NPSE(os.path.join(PATHS["models"], "TT+noise_NPSE_100000.pth"), theta_2, x_2)
-    samples_2 = sample_posterior(posterior_2, true_parameter1, type_str="TT+noise")
+    # posterior_2 = posterior_NPSE(os.path.join(PATHS["models"], "TT+noise_NPSE_100000.pth"), theta_2, x_2)
+    # samples_2 = sample_posterior(posterior_2, true_parameter1, type_str="TT+noise")
 
-    all_samples = [samples_1, samples_2]
-    fig =plot_confidence_contours_nsamples(all_samples, true_parameter1, limits, param_names, param_labels, sample_labels=['TT+noise+binned', 'TT+noise'], sample_colors=["#CE2323", "#A2D233"], title=r"Comparison of inference with and without binning in noise APS")
-    plt.savefig(os.path.join(PATHS["confidence"], "inference_with_noise.pdf"), bbox_inches='tight')
-    plt.close('all')
-    del fig
-
-    # theta, x_TT = simulations["theta"], Cl_XX(simulations["x"], "TT")
-    # posterior_TT = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_100000.pth"), theta, x_TT)
-    # samples_TT = sample_posterior(posterior_TT, true_parameter1, type_str="TT")
-
-    # theta, x_EE = simulations["theta"], Cl_XX(simulations["x"], "EE")
-    # posterior_EE = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_EE_100000.pth"), theta, x_EE)
-    # samples_EE = sample_posterior(posterior_EE, true_parameter1, type_str="EE")
-
-    # theta, x_BB = simulations["theta"], Cl_XX(simulations["x"], "BB")
-    # posterior_BB = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_BB_100000.pth"), theta, x_BB)
-    # samples_BB = sample_posterior(posterior_BB, true_parameter1, type_str="BB")
-
-    # theta, x_TE = simulations["theta"], Cl_XX(simulations["x"], "TE")
-    # posterior_TE = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TE_100000.pth"), theta, x_TE)
-    # samples_TE = sample_posterior(posterior_TE, true_parameter1, type_str="TE")
-
-    # fig = plot_confidence_contours_nsamples([samples_BB, samples_TE, samples_EE, samples_TT],
-    #                                          true_parameter=true_parameter1, limits=limits, 
-    #                                          param_names=param_names, param_labels=param_labels,
-    #                                          sample_labels=['BB', 'TE', 'EE', 'TT'], 
-    #                                          title='Comparison of posterior depending of type of data',
-    #                                          sample_colors=['#336600''#E03424', '#009966',"#000866",'#006FED'])
-                                                   
-    # plt.savefig(os.path.join(PATHS["confidence"], "data_comparison.pdf"), bbox_inches='tight')
+    # all_samples = [samples_1, samples_2]
+    # fig =plot_confidence_contours_nsamples(all_samples, true_parameter1, limits, param_names, param_labels, sample_labels=['TT+noise+binned', 'TT+noise'], sample_colors=["#CE2323", "#A2D233"], title=r"Comparison of inference with and without binning in noise APS")
+    # plt.savefig(os.path.join(PATHS["confidence"], "inference_with_noise.pdf"), bbox_inches='tight')
     # plt.close('all')
     # del fig
+
+    simulations = torch.load(os.path.join(PATHS["simulations"], "all_Cls_100000.pt"), weights_only=True)
+    
+    theta, x_TT = simulations["theta"], Cl_XX(simulations["x"], "TT")
+    posterior_TT = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_100000.pth"), theta, x_TT)
+    samples_TT = sample_posterior(posterior_TT, true_parameter1, type_str="TT")
+
+    theta, x_EE = simulations["theta"], Cl_XX(simulations["x"], "EE")
+    posterior_EE = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_EE_100000.pth"), theta, x_EE)
+    samples_EE = sample_posterior(posterior_EE, true_parameter1, type_str="EE")
+
+    theta, x_BB = simulations["theta"], Cl_XX(simulations["x"], "BB")
+    posterior_BB = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_BB_100000.pth"), theta, x_BB)
+    samples_BB = sample_posterior(posterior_BB, true_parameter1, type_str="BB")
+
+    theta, x_TE = simulations["theta"], Cl_XX(simulations["x"], "TE")
+    posterior_TE = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TE_100000.pth"), theta, x_TE)
+    samples_TE = sample_posterior(posterior_TE, true_parameter1, type_str="TE")
+
+    posterior_1 = posterior_SNPE_C(os.path.join(PATHS["models"], "SNPE_C_TT_100000.pkl"))
+    samples_1 = sample_posterior(posterior_1, true_parameter1, type_str="TT")
+
+    simulations_2 = torch.load(os.path.join(PATHS["simulations"], "all_Cls_25000.pt"), weights_only=True)
+    theta_2, x_2 = simulations_2["theta"], Cl_XX(simulations_2["x"], "TT") 
+    posterior_2 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_25000.pth"), theta_2, x_2)
+    samples_2 = sample_posterior(posterior_2, true_parameter1, type_str="TT")
+
+    fig = plot_confidence_contours_nsamples([samples_BB, samples_TE, samples_EE, samples_TT],
+                                             true_parameter=true_parameter1, limits=limits, 
+                                             param_names=param_names, param_labels=param_labels,
+                                             sample_labels=['BB', 'TE', 'EE', 'TT', 'TT $n_{sims}$=25000', 'TT SNPE'], 
+                                             title='Comparison of posterior depending of type of data',
+                                             sample_colors=['#E03424', '#009966',"#000866",'#006FED'],
+                                             upper_samples=[samples_2, samples_1, samples_TT],
+                                             upper_styles={"contour_colors": ["gray","#000000",'#006FED'], "contour_ls": ["-", "-", "-"], "show_1d": [False, False, False], "filled": [True, False, True]})
+                                             
+                                                   
+    plt.savefig(os.path.join(PATHS["confidence"], "data_comparison_0.pdf"), bbox_inches='tight')
+    plt.close('all')
+    del fig
