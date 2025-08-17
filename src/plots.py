@@ -54,52 +54,30 @@ def plot_summary_train(inference):
 
 if __name__ == "__main__":
     limits = torch.tensor([
-        [0.02212-0.00022, 0.02212+0.00022],    
-        [0.1206-0.0021, 0.1206+0.0021],  
-        [1.04077-0.00047, 1.04077+0.00047],      
-        [3.04-0.016, 3.04+0.016],    
-        [0.9626-0.0057, 0.9626+0.0057], 
-        [0.0522-0.008, 0.0522+0.008] 
+        [0.02212-0.00022*2, 0.02212+0.00022*2],    
+        [0.1206-0.0021*2, 0.1206+0.0021*2],  
+        [1.04077-0.00047*2, 1.04077+0.00047*2],      
+        [3.04-0.016*2, 3.04+0.016*2],    
+        [0.9626-0.0057*2, 0.9626+0.0057*2], 
+        # [0.0522-0.008, 0.0522+0.008] 
     ])
     param_names = [r'$\omega_b$',
                    r'$\omega_c$',
                    r'$100\theta_{MC}$',
-                   r'$\ln(10^{10}A_s)$', r'$n_s$',
-                   r'$\tau$',
+                   r'$\ln(10^{10}A_s)$', 
+                   r'$n_s$',
+                #    r'$\tau$',
     ]
     
-    simulations = torch.load(os.path.join(PATHS["simulations"],"all_Cls_tau_25000.pt"), weights_only=True)
-    theta, TT, EE, TE = simulations["theta"], Cl_XX(simulations["x"], "TT"), Cl_XX(simulations["x"], "EE"), Cl_XX(simulations["x"], "TE")
-    true_parameter = torch.tensor([0.02212, 0.1206, 1.04077, 3.04, 0.9626, 0.0522])
+    simulations = torch.load(os.path.join(PATHS["simulations"],"Cls_TT_repeat_noise_25000.pt"), weights_only=True)
+    theta, x = simulations["theta"], simulations["x"]
+    true_parameter = torch.tensor([0.02212, 0.1206, 1.04077, 3.04, 0.9626])
 
-    posterior_TT = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_tau_25000.pth"), theta, TT)
-    samples_TT = sample_posterior(posterior_TT, true_parameter, type_str="TT")
+    posterior = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_repeat_noise_25000.pth"), theta, x)
+    samples = sample_posterior(posterior, true_parameter, type_str="TT+noise")
 
-    posterior_EE = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_EE_tau_25000.pth"), theta, EE)
-    samples_EE = sample_posterior(posterior_EE, true_parameter, type_str="EE")
+    fig, axes = plot_posterior(samples, true_parameter, limits, param_names, title='Posterior')
+    plt.savefig(os.path.join(PATHS["posteriors"], "01_NPSE_TT_repeat_noise_25000.png"), dpi=300, bbox_inches='tight')
 
-    posterior_TE = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TE_tau_25000.pth"), theta, TE)
-    samples_TE = sample_posterior(posterior_TE, true_parameter, type_str="TE")
-
-    # fig, axes = plot_posterior([samples,samples], true_parameter, limits, param_names, title='Posterior')
-    # plt.savefig(os.path.join(PATHS["posteriors"], "01_SNPE_C_TT_25000.png"), dpi=300, bbox_inches='tight')
-
-    fig = correlation_matrix(samples_TT, param_names, title='Correlation matrix TT')
-    plt.savefig(os.path.join(PATHS["correlation"], "NPSE_TT_tau_25000.pdf"), bbox_inches='tight')
-
-    fig = correlation_matrix(samples_EE, param_names, title='Correlation matrix EE')
-    plt.savefig(os.path.join(PATHS["correlation"], "NPSE_EE_tau_25000.pdf"), bbox_inches='tight')
-
-    fig = correlation_matrix(samples_TE, param_names, title='Correlation matrix TE')
-    plt.savefig(os.path.join(PATHS["correlation"], "NPSE_TE_tau_25000.pdf"), bbox_inches='tight')
-
-    # posterior = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_EE_TE_binned_25000.pth"), theta, x)
-    # true_parameter = torch.tensor([0.02212, 0.1206, 1.04077, 3.04, 0.9626, 0.0522])
-    # samples = sample_posterior(posterior, true_parameter, type_str="TT+EE+TE_binned")
-
-    # fig, axes = plot_posterior([samples,samples], true_parameter, limits, param_names, title='Posterior')
-    # plt.savefig(os.path.join(PATHS["posteriors"], "01_NPSE_TT_EE_TE_binned_25000.png"), dpi=300, bbox_inches='tight')
-
-    # fig = correlation_matrix(samples, param_names, title='Correlation matrix')
-    # plt.savefig(os.path.join(PATHS["correlation"], "NPSE_TT_EE_TE_binned_25000.png"), dpi=300, bbox_inches='tight')
-
+    fig = correlation_matrix(samples, param_names, title='Correlation matrix')
+    plt.savefig(os.path.join(PATHS["correlation"], "01_NPSE_TT_repeat_noise_25000.png"), dpi=300, bbox_inches='tight')

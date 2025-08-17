@@ -6,8 +6,8 @@ from sbi.utils.user_input_checks import process_prior, process_simulator
 from sbi.inference import simulate_for_sbi
 from src.config import PARAMS, PATHS
 from src.prior import get_prior
-from src.config import PATHS
 from src.bin import bin_simulations
+from tqdm import tqdm
 
 def compute_spectrum(params): 
     """Calcula el espectro teórico CMB para un conjunto de parámetros"""
@@ -84,41 +84,47 @@ def create_simulator(type_str="TT+EE+BB+TE"):
 
         elif type_str == "TT+EE":
             cmb_power_spectra = compute_spectrum(theta)[:5102]
+        
+        elif type_str == "TT+EE+TE":
+            cmb_power_spectra = np.concatenate([compute_spectrum(theta)[:5102], compute_spectrum(theta)[7653:]])
+        
+        elif type_str == "TT+lowEE+lowTE":
+            cmb_power_spectra = np.concatenate([compute_spectrum(theta)[:2551], compute_spectrum(theta)[2551:2582], compute_spectrum(theta)[7653:7684]])
 
         elif type_str == "TT+noise":
             cmb_power_spectra = compute_spectrum(theta)[:2551]
             cmb_power_spectra = add_instrumental_noise(cmb_power_spectra)
             cmb_power_spectra = sample_observed_spectra(cmb_power_spectra)
 
-        elif type_str == "TT_binned":
+        elif type_str == "TT_bin500":
             cmb_power_spectra = compute_spectrum(theta)[:2551]
             cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
             cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
             cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
             cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
 
-        elif type_str == "EE_binned":
+        elif type_str == "EE_bin500":
             cmb_power_spectra = compute_spectrum(theta)[2551:5102]
             cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
             cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
             cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
             cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
 
-        elif type_str == "BB_binned":
+        elif type_str == "BB_bin500":
             cmb_power_spectra = compute_spectrum(theta)[5102:7653]
             cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
             cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
             cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
             cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
 
-        elif type_str == "TE_binned":
+        elif type_str == "TE_bin500":
             cmb_power_spectra = compute_spectrum(theta)[7653:]
             cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
             cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
             cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
             cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
             
-        elif type_str == "TT+EE+TE_binned":
+        elif type_str == "TT+EE+TE_bin500":
             TT = compute_spectrum(theta)[:2551]
             TT = torch.from_numpy(TT).float()
             TT = TT.unsqueeze(0)
@@ -139,7 +145,7 @@ def create_simulator(type_str="TT+EE+BB+TE"):
 
             cmb_power_spectra = np.concatenate((TT, EE, TE))
 
-        elif type_str == "TT+EE+BB+TE_binned":
+        elif type_str == "TT+EE+BB+TE_bin500":
             TT = compute_spectrum(theta)[:2551]
             TT = torch.from_numpy(TT).float()
             TT = TT.unsqueeze(0)
@@ -166,7 +172,7 @@ def create_simulator(type_str="TT+EE+BB+TE"):
 
             cmb_power_spectra = np.concatenate((TT, EE, BB, TE), axis=0)
         
-        elif type_str == "TT+noise+binned":
+        elif type_str == "TT+noise+bin500":
             cmb_power_spectra = compute_spectrum(theta)[:2551]
             cmb_power_spectra = add_instrumental_noise(cmb_power_spectra)
             cmb_power_spectra = sample_observed_spectra(cmb_power_spectra)
@@ -175,9 +181,19 @@ def create_simulator(type_str="TT+EE+BB+TE"):
             cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
             cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 500)[1]
             cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
+        
+        elif type_str == "TT+noise+bin100":
+            cmb_power_spectra = compute_spectrum(theta)[:2551]
+            cmb_power_spectra = add_instrumental_noise(cmb_power_spectra)
+            cmb_power_spectra = sample_observed_spectra(cmb_power_spectra)
+
+            cmb_power_spectra = torch.from_numpy(cmb_power_spectra).float()
+            cmb_power_spectra = cmb_power_spectra.unsqueeze(0)
+            cmb_power_spectra = bin_simulations(cmb_power_spectra, 0, 2550, 100)[1]
+            cmb_power_spectra = cmb_power_spectra.squeeze(0).numpy()
 
         return torch.from_numpy(cmb_power_spectra)
-
+    
     return simulator
 
 def generate_cosmologies(num_simulations):
@@ -211,22 +227,70 @@ def Cl_XX(concatenate_batches, spectrum_type):
         return concatenate_batches[:, 7653:]
     elif spectrum_type == "TT+EE":
         return concatenate_batches[:, :5102]
+    elif spectrum_type == "TT+EE+TE":
+        return torch.concatenate((concatenate_batches[:, :5102], concatenate_batches[:, 7653:]), dim=1)
+    elif spectrum_type == "TT+lowEE+lowTE":
+        return torch.concatenate((concatenate_batches[:, :2551], concatenate_batches[:, 2551:2582], concatenate_batches[:, 7653:7684]), dim=1)
     elif spectrum_type == "TT+EE+BB+TE":
         return concatenate_batches
+    
+
+def generate_noise_multiple(x, K=10):
+    """
+    Genera K realizaciones de ruido por cada espectro en x.
+    """
+    x_np = x.numpy() if torch.is_tensor(x) else x
+    spectra_list = []
+    
+    # Usamos tqdm para mostrar progreso
+    for spec in tqdm(x_np, desc="Generando ruido", unit="simulación"):
+        for _ in range(K):
+            spec_noise = add_instrumental_noise(spec)
+            spec_noise = sample_observed_spectra(spec_noise)
+            spectra_list.append(spec_noise)
+    
+    spectra_with_noise = np.array(spectra_list)
+    return torch.from_numpy(spectra_with_noise).float()
+
+
+def generate_noise_multiple_inplace(x, K=10):
+    """
+    Genera K realizaciones de ruido por espectro, guardando directamente en un tensor Torch preasignado.
+    """
+    num_sims = x.shape[0]
+    lmax = x.shape[1]  # número de multipolos
+    
+    # Prealocación del tensor final
+    spectra_with_noise = torch.empty((num_sims * K, lmax), dtype=torch.float32)
+    
+    idx = 0
+    for spec in tqdm(x, desc="Generando ruido", unit="simulación"):
+        for _ in range(K):
+            spec_noise = add_instrumental_noise(spec.numpy())
+            spec_noise = sample_observed_spectra(spec_noise)
+            spectra_with_noise[idx] = torch.from_numpy(spec_noise).float()
+            idx += 1
+    
+    return spectra_with_noise
+
 
 if __name__ == "__main__":
-    theta, x = generate_cosmologies(num_simulations=25000)
-    tensor_dict = {"theta": theta, "x": x}
-    print(theta.shape, x.shape)
-    torch.save(tensor_dict, os.path.join(PATHS["simulations"], "all_Cls_tau_25000.pt"))
-    print(f"Simulaciones completadas")
-
-    # simulations = torch.load(os.path.join(PATHS["simulations"], "all_Cls_100000.pt"), weights_only=True)
-    # theta, x = simulations["theta"], simulations["x"]
-    # x_noise = generate_noise(Cl_XX(x, "TT"))
-
-    # tensor_dict = {"theta": theta, "x": x_noise}
-    # torch.save(tensor_dict, os.path.join(PATHS["simulations"], "Cls_TT_noise_100000.pt"))
+    # theta, x = generate_cosmologies(num_simulations=25000)
+    # tensor_dict = {"theta": theta, "x": x}
+    # print(theta.shape, x.shape)
+    # torch.save(tensor_dict, os.path.join(PATHS["simulations"], "all_Cls_tau_25000.pt"))
     # print(f"Simulaciones completadas")
+
+    simulations = torch.load(os.path.join(PATHS["simulations"], "all_Cls_tau_50000_reduced_prior.pt"), weights_only=True)
+    theta, x = simulations["theta"], simulations["x"]
+    print(f"Simulaciones cargadas: {theta.shape}, {x.shape}")
+
+    K = 5
+    x_noise = generate_noise_multiple_inplace(Cl_XX(x, "TT"), K=K)
+    theta_expanded = theta.repeat_interleave(K, dim=0)
+
+    tensor_dict = {"theta": theta_expanded, "x": x_noise}
+    torch.save(tensor_dict, os.path.join(PATHS["simulations"], "Cls_TT_reduced_prior_repeat5_noise_50000.pt"))
+    print(f"Simulaciones completadas")
 
 

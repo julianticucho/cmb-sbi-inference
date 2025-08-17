@@ -1,0 +1,95 @@
+\begin{thebibliography}{10}
+  \providecommand\backrefparscanfalse{}
+  \providecommand\backrefparscantrue{}
+  \providecommand\backrefprint{}
+
+\backrefparscanfalse
+\bibitem{penzias}
+Penzias, A.~A. y Wilson, R.~W., ``A measurement of excess antenna temperature
+  at 4080 mc/s'', {The Astrophysical Journal}, 1965,
+  \href{https://dx.doi.org/10.1086/148307}
+  {\nolinkurl{doi:\detokenize{10.1086/148307}}}.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{ryden}
+Ryden, B., {Introduction to Cosmology}.
+\newblock Cambridge University Press, 2~ed., 2017.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{planck2018}
+Collaboration, P., ``Planck 2018 results. {VI}. cosmological parameters'',
+  {arXiv preprint arXiv:1807.06209}, Jun 2018.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{simons2019}
+Collaboration, S.~O., ``The simons observatory: Science goals and forecasts'',
+  {arXiv preprint arXiv:1808.07445}, Mar 2019.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{SNPE_C}
+Greenberg, D.~S., Nonnenmacher, M., y Macke, J.~H., ``Automatic posterior
+  transformation for likelihood-free inference'', {arXiv preprint
+  arXiv:1905.07488}, May 2019.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{NPSE_1}
+Sharrock, L., Simons, J., Liu, S., y Beaumont, M., ``Sequential neural score
+  estimation: Likelihood-free inference with conditional score based diffusion
+  models'', {arXiv preprint arXiv:2210.04872}, Jun 2024.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{NPSE_2}
+Geffner, T., Papamakarios, G., y Mnih, A., ``Compositional score modeling for
+  simulation-based inference'', {arXiv preprint arXiv:2209.14249}, Jul 2023.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{CAMB}
+Lewis, A., ``Camb: Code for anisotropies in the microwave background'', 2023.
+\newblock Accessed: 2025-07-11.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{SBI}
+Tejero-Cantero, A., Boelts, J., Deistler, M., Lueckmann, J.-M., Durkan, C.,
+  Goncalves, P.~J., Greenberg, D., y Macke, J.~H., ``sbi: A toolkit for
+  simulation-based inference'', 2020,
+  \href{https://dx.doi.org/10.21105/joss.02505}
+  {\nolinkurl{doi:\detokenize{10.21105/joss.02505}}}.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{HuWhite1997}
+Hu, W. y White, M., ``A cmb polarization primer'', 1997,
+  \href{https://dx.doi.org/10.1016/S1384-1076(97)00022-5}
+  {\nolinkurl{doi:\detokenize{10.1016/S1384-1076(97)00022-5}}}.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{noiseCole}
+Cole, A., Miller, B.~K., Witte, S.~J., Cai, M.~X., Grootes, M.~W., Nattino, F.,
+  y Weniger, C., ``Fast and credible likelihood-free cosmology with truncated
+  marginal neural ratio estimation'', {arXiv preprint arXiv:2111.08030}, 2021,
+  \href{https://doi.org/10.48550/arXiv.2111.08030}
+  {\nolinkurl{\detokenize{https://doi.org/10.48550/arXiv.2111.08030}}}.
+\newblock Submitted on 15 Nov 2021 (v1), last revised 8 Nov 2022 (v2).
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
+\bibitem{novaes}
+Novaes, C.~P., Thiele, L., Armijo, J., Cheng, S., Cowell, J.~A., Marques,
+  G.~A., Ferreira, E. G.~M., Shirasaki, M., Osato, K., y Liu, J., ``Cosmology
+  from hsc y1 weak lensing with combined higher-order statistics and
+  simulation-based inference'', {arXiv preprint arXiv:2409.01301}, 2024,
+  \href{https://doi.org/10.48550/arXiv.2409.01301}
+  {\nolinkurl{\detokenize{https://doi.org/10.48550/arXiv.2409.01301}}}.
+\newblock Submitted on 2 Sep 2024.
+\backrefprint\backrefparscantrue
+
+\end{thebibliography}

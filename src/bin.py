@@ -87,9 +87,9 @@ if __name__ == "__main__":
     theta, x = simulations["theta"], simulations["x"]
     print(theta.shape, x.shape)
 
-    l_binned, x_binned = bin_simulations(x, 0, 2550, 500)
+    l_binned, x_binned = bin_simulations(x, 0, 2550, 100)
     tensor_dict = {"theta": theta, "cl": x_binned, "l": l_binned}
-    torch.save(tensor_dict, os.path.join(PATHS["simulations"], "Cls_TT_noise_binned_100000.pt"))
+    torch.save(tensor_dict, os.path.join(PATHS["simulations"], "Cls_TT_noise_bin100_100000.pt"))
     print(f"Simulaciones completadas")
 
     # l_binned_TT, x_binned_TT = bin_simulations(Cl_XX(x, "TT"), 0, 2550, 500)
