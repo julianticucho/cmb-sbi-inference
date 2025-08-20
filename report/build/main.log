@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.4)  17 AUG 2025 00:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.4)  17 AUG 2025 21:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/Julian/Documents/Clases/Proyecto/reporte/main.tex
-(c:/Users/Julian/Documents/Clases/Proyecto/reporte/main.tex
+**c:/Users/Julian/Documents/cmb-sbi-inference/report/main.tex
+(c:/Users/Julian/Documents/cmb-sbi-inference/report/main.tex
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-16>
 (C:\Users\Julian\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -2145,7 +2145,7 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'spanish'.
- (c:\Users\Julian\Documents\Clases\Proyecto\reporte\build\main.aux
+ (c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.aux
 LaTeX Info: Redefining \. on input line 29.
 LaTeX Info: Redefining \% on input line 29.
 
@@ -2325,7 +2325,7 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 (Font)              scaled to size 9.5pt on input line 49.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 (Font)              scaled to size 13.68002pt on input line 49.
-(c:\Users\Julian\Documents\Clases\Proyecto\reporte\build\main.authn
+(c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.authn
 LaTeX Font Info:    Calculating math sizes for size <9.5> on input line 1.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
 (Font)              scaled to size 9.5pt on input line 1.
@@ -2411,7 +2411,7 @@ LaTeX Font Info:    Font shape `TS1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 5.22502pt on input line 1.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 6.93495pt on input line 1.
-) (c:\Users\Julian\Documents\Clases\Proyecto\reporte\build\main.authd
+) (c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.authd
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 7.91676pt on input line 1.
 LaTeX Font Info:    Calculating math sizes for size <7.91676> on input line 1.
@@ -2536,45 +2536,45 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 
 
 {C:/Users/Julian/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_7grukw.enc}]) (sections/methodology.tex
-<img/cmb_aps_subplot_0.pdf, id=48, 1141.86598pt x 460.35991pt>
+<img/cmb_aps_subplot_0.pdf, id=49, 1141.86598pt x 460.35991pt>
 File: img/cmb_aps_subplot_0.pdf Graphic file (type pdf)
 <use img/cmb_aps_subplot_0.pdf>
 Package pdftex.def Info: img/cmb_aps_subplot_0.pdf  used on input line 12.
 (pdftex.def)             Requested size: 256.92618pt x 103.58353pt.
-<img/inference_model_comparison.pdf, id=56, 708.24597pt x 740.7675pt>
+<img/inference_model_comparison.pdf, id=57, 708.24597pt x 740.7675pt>
 File: img/inference_model_comparison.pdf Graphic file (type pdf)
 <use img/inference_model_comparison.pdf>
 Package pdftex.def Info: img/inference_model_comparison.pdf  used on input line 22.
 (pdftex.def)             Requested size: 247.8898pt x 259.2725pt.
  [2 <./img/cmb_aps_subplot_0.pdf> <./img/inference_model_comparison.pdf>]) (sections/results.tex
-<img/data_comparison.pdf, id=135, 708.24597pt x 740.7675pt>
+<img/data_comparison.pdf, id=137, 708.24597pt x 740.7675pt>
 File: img/data_comparison.pdf Graphic file (type pdf)
 <use img/data_comparison.pdf>
 Package pdftex.def Info: img/data_comparison.pdf  used on input line 7.
 (pdftex.def)             Requested size: 247.8898pt x 259.2725pt.
-<img/data_comparison_tau_100000_1.pdf, id=138, 852.78598pt x 852.78598pt>
+<img/data_comparison_tau_100000_1.pdf, id=140, 852.78598pt x 852.78598pt>
 File: img/data_comparison_tau_100000_1.pdf Graphic file (type pdf)
 <use img/data_comparison_tau_100000_1.pdf>
 Package pdftex.def Info: img/data_comparison_tau_100000_1.pdf  used on input line 21.
 (pdftex.def)             Requested size: 255.83777pt x 255.83777pt.
  [3 <./img/data_comparison.pdf> <./img/data_comparison_tau_100000_1.pdf>]
-<img/grafico.pdf, id=196, 606.09206pt x 310.7724pt>
+<img/grafico.pdf, id=197, 606.09206pt x 310.7724pt>
 File: img/grafico.pdf Graphic file (type pdf)
 <use img/grafico.pdf>
 Package pdftex.def Info: img/grafico.pdf  used on input line 51.
 (pdftex.def)             Requested size: 248.49934pt x 127.4175pt.
-<img/01_repeat_noise_comparison_100000.pdf, id=199, 708.24597pt x 708.24597pt>
+<img/01_repeat_noise_comparison_100000.pdf, id=200, 708.24597pt x 708.24597pt>
 File: img/01_repeat_noise_comparison_100000.pdf Graphic file (type pdf)
 <use img/01_repeat_noise_comparison_100000.pdf>
 Package pdftex.def Info: img/01_repeat_noise_comparison_100000.pdf  used on input line 62.
 (pdftex.def)             Requested size: 247.8898pt x 247.8898pt.
 ) (sections/conclusion.tex) (sections/anexo.tex [4 <./img/grafico.pdf> <./img/01_repeat_noise_comparison_100000.pdf>]
-<img/nsims_comparison.pdf, id=256, 708.24597pt x 740.7675pt>
+<img/nsims_comparison.pdf, id=257, 708.24597pt x 740.7675pt>
 File: img/nsims_comparison.pdf Graphic file (type pdf)
 <use img/nsims_comparison.pdf>
 Package pdftex.def Info: img/nsims_comparison.pdf  used on input line 4.
 (pdftex.def)             Requested size: 247.8898pt x 259.2725pt.
-<img/NPSE_TT_tau_100000.png, id=257, 597.9138pt x 147.1899pt>
+<img/NPSE_TT_tau_100000.png, id=258, 597.9138pt x 147.1899pt>
 File: img/NPSE_TT_tau_100000.png Graphic file (type png)
 <use img/NPSE_TT_tau_100000.png>
 Package pdftex.def Info: img/NPSE_TT_tau_100000.png  used on input line 11.
@@ -2584,23 +2584,23 @@ Overfull \hbox (8.02136pt too wide) in paragraph at lines 11--12
  [][] 
  []
 
-<img/cmb_aps_pred_vs_obs_0.pdf, id=259, 1144.64381pt x 679.33798pt>
+<img/cmb_aps_pred_vs_obs_0.pdf, id=260, 1144.64381pt x 679.33798pt>
 File: img/cmb_aps_pred_vs_obs_0.pdf Graphic file (type pdf)
 <use img/cmb_aps_pred_vs_obs_0.pdf>
 Package pdftex.def Info: img/cmb_aps_pred_vs_obs_0.pdf  used on input line 18.
 (pdftex.def)             Requested size: 257.55121pt x 152.85481pt.
-<img/inference_with_noise.pdf, id=260, 708.24597pt x 740.7675pt>
+<img/inference_with_noise.pdf, id=261, 708.24597pt x 740.7675pt>
 File: img/inference_with_noise.pdf Graphic file (type pdf)
 <use img/inference_with_noise.pdf>
 Package pdftex.def Info: img/inference_with_noise.pdf  used on input line 25.
 (pdftex.def)             Requested size: 247.8898pt x 259.2725pt.
-) (c:\Users\Julian\Documents\Clases\Proyecto\reporte\build\main.bbl
+) (c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.bbl
 
 [5 <./img/nsims_comparison.pdf> <./img/NPSE_TT_tau_100000.png> <./img/cmb_aps_pred_vs_obs_0.pdf> <./img/inference_with_noise.pdf>])
 
 (C:\Users\Julian\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\se-utf8.def
 File: se-utf8.def 2019/11/29 v1.12 stringenc: UTF-8
-) [6] (c:\Users\Julian\Documents\Clases\Proyecto\reporte\build\main.aux
+) [6] (c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.aux
 LaTeX Info: Redefining \. on input line 29.
 LaTeX Info: Redefining \% on input line 29.
 )
@@ -2615,17 +2615,17 @@ LaTeX Warning: There were multiply-defined labels.
  ) 
 Here is how much of TeX's memory you used:
  35814 strings out of 473899
- 600176 string characters out of 5726029
+ 600202 string characters out of 5726029
  1960960 words of memory out of 5000000
  57929 multiletter control sequences out of 15000+600000
  683643 words of font info for 216 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 113i,11n,110p,2931b,2616s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 113i,11n,110p,2932b,2616s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathMI.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathMI5.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathMI7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathRM.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineT.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineTB.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineTI.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/NewTXMI.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmvtt10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txexs.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txmiaX.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txsys.pfb>
-Output written on c:\Users\Julian\Documents\Clases\Proyecto\reporte\build\main.pdf (6 pages, 3434083 bytes).
+Output written on c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.pdf (6 pages, 3434157 bytes).
 PDF statistics:
- 490 PDF objects out of 1000 (max. 8388607)
- 420 compressed objects within 5 object streams
+ 491 PDF objects out of 1000 (max. 8388607)
+ 421 compressed objects within 5 object streams
  50 named destinations out of 1000 (max. 500000)
  197 words of extra memory for PDF output out of 10000 (max. 10000000)
 

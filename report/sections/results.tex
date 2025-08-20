@@ -12,7 +12,7 @@ Since the parameter $\tau$ has a known physical degeneracy with the parameter $A
 The results show how the choice of dataset ($C_{\ell}^{TT}$, $C_{\ell}^{EE}$, $C_{\ell}^{BB}$, $C_{\ell}^{TE}$) affects the posterior distributions of the selected cosmological parameters. The variation in $\omega_b$, $\omega_c$, $n_s$, $\ln(10^{10}A_s)$, and $100\theta_{MC}$ is small but non-negligible, reflecting the sensitivity of each parameter to the type of information included. In particular, the temperature and E-mode spectra (TT, EE, TE) introduce slight tensions compared to the B-mode spectrum (BB), highlighting the lack of information contained in the B-mode spectra computed only from scalar perturbations, without including primordial B-modes. Figure \ref{fig:pred_vs_obs} shows the comparison between the power spectra corresponding to the true parameters and those corresponding to a random sample from the posterior distribution obtained by training an NPSE inference model with 100,000 simulations of the $C_{\ell}^{TT}$ power spectrum.  
 
 \subsection{Inference with reionization parameter}
-When the parameter $\tau$ is included, the full set of six cosmological parameters is recovered. Figure \ref{fig:parameters_inference_tau} shows the results obtained by training the NPSE inference model with 100,000 simulations including $\tau$. This parameter introduces a clear degeneracy with $\ln(10^{10}A_s)$, which results in a broadening and a slight bias in the posterior distribution of both parameters compared to the case without $\tau$, as well as an elongation of their joint distribution.  
+When the parameter $\tau$ is included, the full set of six cosmological parameters is recovered. Figure \ref{fig:parameters_inference_tau} shows the results obtained by training the NPSE inference model with 100,000 simulations including $\tau$. This parameter introduces a clear degeneracy with $A_s$, which results in a broadening and a slight bias in the posterior distribution of both parameters compared to the case without $\tau$, as well as an elongation of their joint distribution.  
 
 Moreover, the inclusion of $\tau$ produces slight variations in the posterior distributions of $n_s$ and $\omega_c$, although these remain within statistical dispersion. The temperature (TT) and polarization (EE, TE) spectra, particularly at large scales, provide the strongest sensitivity to the value of $\tau$, while the TT modes at high multipoles are unable to break the degeneracy. Consequently, this confirms the necessity of incorporating information from the first 30 multipoles of the polarization spectra (lowEE, lowTE) to improve the precision in the estimation of $\tau$ and, therefore, of $A_s$.
 
@@ -60,7 +60,7 @@ Figure \ref{fig:realizations_noise} shows an example of multiple realizations of
 \begin{figure}
     \centering
     \includegraphics[scale=0.35]{img/01_repeat_noise_comparison_100000.pdf}
-    \caption{Inference of cosmological parameters from the TT power spectrum. The model training without additional realizations (\texttt{TT}) is compared to the case with five noisy realizations per cosmology (\texttt{TT repeat5}).}
+    \caption{Inference of cosmological parameters from the TT power spectrum. The model training without additional realizations (\texttt{TT}) is compared to the case with five noisy realizations per cosmology (\texttt{TT repeat5}). These NPSE models were trained with 100,000 base cosmologies.}
     \label{fig:inference_with_noise}
 \end{figure}
 

@@ -32,8 +32,8 @@ PARAM_RANGES = {
 PARAMS = {
     "noise": {
         'theta_fwhm': 5.0,
-        'sigma_T': 33.0,
-        'f_sky': 0.7,
-        'l_transition': 52
+        'sigma_T': 0.0, # 33.0
+        'f_sky': 10, # 0.7
+        'l_transition': -1 # 52
     }
 }

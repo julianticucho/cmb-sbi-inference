@@ -131,10 +131,11 @@ def ABC(theta, x):
     pass
 
 if __name__ == "__main__":
-    simulations = torch.load(os.path.join(PATHS["simulations"],"Cls_TT_reduced_prior_repeat10_noise_50000.pt"), weights_only=True)
+    simulations = torch.load(os.path.join(PATHS["simulations"],"Cls_TT_reduced_prior_repeat5_low_noise_50000.pt"), weights_only=True)
     theta, x = simulations["theta"], simulations["x"]
     print(theta.shape, x.shape)
 
     density_estimator, fig, axes = train_NPSE(theta, x)
-    torch.save(density_estimator.state_dict(), os.path.join(PATHS["models"], "NPSE_TT_reduced_prior_repeat10_noise_50000.pth"))
-    plt.savefig(os.path.join(PATHS["summary"], "NPSE_TT_reduced_prior_repeat10_noise_50000.png"), dpi=300, bbox_inches='tight')
+    torch.save(density_estimator.state_dict(), os.path.join(PATHS["models"], "NPSE_TT_reduced_prior_repeat5_low_noise_50000.pth"))
+    plt.savefig(os.path.join(PATHS["summary"], "NPSE_TT_reduced_prior_repeat5_low_noise_50000.png"), dpi=300, bbox_inches='tight')
+

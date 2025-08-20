@@ -50,6 +50,13 @@ Geffner, T., Papamakarios, G., y Mnih, A., ``Compositional score modeling for
 \backrefprint\backrefparscantrue
 
 \backrefparscanfalse
+\bibitem{HuWhite1997}
+Hu, W. y White, M., ``A cmb polarization primer'', 1997,
+  \href{https://dx.doi.org/10.1016/S1384-1076(97)00022-5}
+  {\nolinkurl{doi:\detokenize{10.1016/S1384-1076(97)00022-5}}}.
+\backrefprint\backrefparscantrue
+
+\backrefparscanfalse
 \bibitem{CAMB}
 Lewis, A., ``Camb: Code for anisotropies in the microwave background'', 2023.
 \newblock Accessed: 2025-07-11.
@@ -62,13 +69,6 @@ Tejero-Cantero, A., Boelts, J., Deistler, M., Lueckmann, J.-M., Durkan, C.,
   simulation-based inference'', 2020,
   \href{https://dx.doi.org/10.21105/joss.02505}
   {\nolinkurl{doi:\detokenize{10.21105/joss.02505}}}.
-\backrefprint\backrefparscantrue
-
-\backrefparscanfalse
-\bibitem{HuWhite1997}
-Hu, W. y White, M., ``A cmb polarization primer'', 1997,
-  \href{https://dx.doi.org/10.1016/S1384-1076(97)00022-5}
-  {\nolinkurl{doi:\detokenize{10.1016/S1384-1076(97)00022-5}}}.
 \backrefprint\backrefparscantrue
 
 \backrefparscanfalse

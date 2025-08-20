@@ -32,18 +32,17 @@ def compute_spectrum(params):
     
     return np.concatenate([cmb_power_spectra[:, i] for i in range(4)])
     
-def add_instrumental_noise(spectra):
+def add_instrumental_noise(spectra, theta_fwhm=PARAMS["noise"]['theta_fwhm'], sigma_T=PARAMS["noise"]['sigma_T']):
     """Añade ruido instrumental a los espectros"""
-    noise_config = PARAMS["noise"]
     lmax = spectra.shape[0]
     ell = np.arange(lmax)
-    theta_fwhm_rad = noise_config['theta_fwhm'] * np.pi / (180 * 60)
+    theta_fwhm_rad = theta_fwhm * np.pi / (180 * 60)
     
-    Nl_TT = (theta_fwhm_rad * noise_config['sigma_T'])**2 * np.exp(ell*(ell+1)*(theta_fwhm_rad**2)/(8*np.log(2)))
+    Nl_TT = (theta_fwhm_rad * sigma_T)**2 * np.exp(ell*(ell+1)*(theta_fwhm_rad**2)/(8*np.log(2)))
     
     return spectra + Nl_TT
 
-def sample_observed_spectra(spectra):
+def sample_observed_spectra(spectra, l_transition=PARAMS["noise"]['l_transition'], f_sky=PARAMS["noise"]['f_sky']):
     """Muestrea espectros observados considerando cobertura parcial del cielo"""
     noise_config = PARAMS["noise"]
     noisy_spectra = np.zeros_like(spectra)
@@ -52,14 +51,14 @@ def sample_observed_spectra(spectra):
     for ell in range(2, lmax):
         C_ell = spectra[ell]
         
-        if ell < noise_config['l_transition']:
-            dof = int(round(noise_config['f_sky'] * (2*ell + 1)))
+        if ell < l_transition:
+            dof = int(round(f_sky * (2*ell + 1)))
             if dof < 1:
                 dof = 1
             samples = np.random.normal(scale=np.sqrt(C_ell), size=dof)
             noisy_spectra[ell] = np.sum(samples**2) / dof
         else:
-            var = 2 * C_ell**2 / (noise_config['f_sky'] * (2*ell + 1))
+            var = 2 * C_ell**2 / (f_sky * (2*ell + 1))
             noisy_spectra[ell] = np.random.normal(loc=C_ell, scale=np.sqrt(var))
     
     return noisy_spectra
@@ -93,8 +92,13 @@ def create_simulator(type_str="TT+EE+BB+TE"):
 
         elif type_str == "TT+noise":
             cmb_power_spectra = compute_spectrum(theta)[:2551]
-            cmb_power_spectra = add_instrumental_noise(cmb_power_spectra)
-            cmb_power_spectra = sample_observed_spectra(cmb_power_spectra)
+            cmb_power_spectra = add_instrumental_noise(cmb_power_spectra, theta_fwhm=5.0, sigma_T=33.0)
+            cmb_power_spectra = sample_observed_spectra(cmb_power_spectra, l_transition=52, f_sky=0.7)
+        
+        elif type_str == "TT+low_noise":
+            cmb_power_spectra = compute_spectrum(theta)[:2551]
+            cmb_power_spectra = add_instrumental_noise(cmb_power_spectra, theta_fwhm=5.0, sigma_T=0.0)
+            cmb_power_spectra = sample_observed_spectra(cmb_power_spectra, l_transition=-1, f_sky=10)
 
         elif type_str == "TT_bin500":
             cmb_power_spectra = compute_spectrum(theta)[:2551]
@@ -281,7 +285,7 @@ if __name__ == "__main__":
     # torch.save(tensor_dict, os.path.join(PATHS["simulations"], "all_Cls_tau_25000.pt"))
     # print(f"Simulaciones completadas")
 
-    simulations = torch.load(os.path.join(PATHS["simulations"], "all_Cls_tau_50000_reduced_prior.pt"), weights_only=True)
+    simulations = torch.load(os.path.join(PATHS["simulations"], "all_Cls_reduced_prior_50000.pt"), weights_only=True)
     theta, x = simulations["theta"], simulations["x"]
     print(f"Simulaciones cargadas: {theta.shape}, {x.shape}")
 
@@ -290,7 +294,7 @@ if __name__ == "__main__":
     theta_expanded = theta.repeat_interleave(K, dim=0)
 
     tensor_dict = {"theta": theta_expanded, "x": x_noise}
-    torch.save(tensor_dict, os.path.join(PATHS["simulations"], "Cls_TT_reduced_prior_repeat5_noise_50000.pt"))
+    torch.save(tensor_dict, os.path.join(PATHS["simulations"], "Cls_TT_reduced_prior_repeat5_low_noise_50000.pt"))
     print(f"Simulaciones completadas")
 
 

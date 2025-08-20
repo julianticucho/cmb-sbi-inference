@@ -38,6 +38,7 @@
 \BKM@entry{id=6,dest={73656374696F6E2E32},srcline={1}}{5C3337365C3337375C303030325C3030305C3034305C3030304D5C303030655C303030745C303030685C3030306F5C303030645C3030306F5C3030306C5C3030306F5C303030675C30303079}
 \BKM@entry{id=7,dest={73756273656374696F6E2E322E31},srcline={2}}{5C3337365C3337375C303030325C3030302E5C303030315C3030305C3034305C303030435C3030306F5C303030735C3030306D5C3030306F5C3030306C5C3030306F5C303030675C303030695C303030635C303030615C3030306C5C3030305C3034305C303030505C303030615C303030725C303030615C3030306D5C303030655C303030745C303030655C303030725C30303073}
 \citation{planck2018}
+\citation{HuWhite1997}
 \BKM@entry{id=8,dest={73756273656374696F6E2E322E32},srcline={5}}{5C3337365C3337375C303030325C3030302E5C303030325C3030305C3034305C303030535C303030695C3030306D5C303030755C3030306C5C303030615C303030745C303030695C3030306F5C3030306E5C30303073}
 \citation{planck2018}
 \citation{CAMB}
@@ -79,8 +80,8 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Adding Noise}{4}{subsection.3.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Multiple realizations of a power spectrum for the same combination of cosmological parameters, including instrumental noise and the effect of partial sky coverage. Each color represents a different realization.}}{4}{figure.caption.5}\protected@file@percent }
 \newlabel{fig:realizations_noise}{{5}{4}{Multiple realizations of a power spectrum for the same combination of cosmological parameters, including instrumental noise and the effect of partial sky coverage. Each color represents a different realization}{figure.caption.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Inference of cosmological parameters from the TT power spectrum. The model training without additional realizations (\texttt  {TT}) is compared to the case with five noisy realizations per cosmology (\texttt  {TT repeat5}).}}{4}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:inference_with_noise}{{6}{4}{Inference of cosmological parameters from the TT power spectrum. The model training without additional realizations (\texttt {TT}) is compared to the case with five noisy realizations per cosmology (\texttt {TT repeat5})}{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Inference of cosmological parameters from the TT power spectrum. The model training without additional realizations (\texttt  {TT}) is compared to the case with five noisy realizations per cosmology (\texttt  {TT repeat5}). These NPSE models were trained with 100,000 base cosmologies.}}{4}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:inference_with_noise}{{6}{4}{Inference of cosmological parameters from the TT power spectrum. The model training without additional realizations (\texttt {TT}) is compared to the case with five noisy realizations per cosmology (\texttt {TT repeat5}). These NPSE models were trained with 100,000 base cosmologies}{figure.caption.6}{}}
 \BKM@entry{id=16,dest={73656374696F6E2E35},srcline={1}}{5C3337365C3337375C303030355C3030305C3034305C303030415C303030705C303030705C303030655C3030306E5C303030645C303030695C30303078}
 \bibdata{references}
 \BKM@entry{id=17,dest={6669677572652E63617074696F6E2E3130},srcline={1}}{5C3337365C3337375C303030525C303030655C303030665C303030655C303030725C303030655C3030306E5C303030635C303030655C30303073}
@@ -95,16 +96,16 @@
 \newlabel{fig:nsims_comparison}{{8}{5}{Evolution of the loss function on training and validation sets across 500 epochs. The NPSE model was trained with 100,000 simulations of the $C_{\ell }^{TT}$ spectrum}{figure.caption.8}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Comparison of the power spectra $C_{\ell }^{TT}$, $C_{\ell }^{EE}$, $C_{\ell }^{BB}$, and $C_{\ell }^{TE}$ simulated with the true parameter values and the power spectra obtained from a random posterior sample derived from training an NPSE inference model with 100,000 simulations of the $C_{\ell }^{TT}$ power spectrum. The lower panel of each subplot shows the difference between the observed and predicted power spectra.}}{5}{figure.caption.9}\protected@file@percent }
 \newlabel{fig:pred_vs_obs}{{9}{5}{Comparison of the power spectra $C_{\ell }^{TT}$, $C_{\ell }^{EE}$, $C_{\ell }^{BB}$, and $C_{\ell }^{TE}$ simulated with the true parameter values and the power spectra obtained from a random posterior sample derived from training an NPSE inference model with 100,000 simulations of the $C_{\ell }^{TT}$ power spectrum. The lower panel of each subplot shows the difference between the observed and predicted power spectra}{figure.caption.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Comparison of cosmological inference from the TT power spectrum, considering two training schemes: with unbinned noise (\texttt  {TT+noise}) and with noise averaged over 500 bins (\texttt  {TT+noise+binned}).}}{5}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:nsims_comparison}{{10}{5}{Comparison of cosmological inference from the TT power spectrum, considering two training schemes: with unbinned noise (\texttt {TT+noise}) and with noise averaged over 500 bins (\texttt {TT+noise+binned})}{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Comparison of cosmological inference from the TT power spectrum, considering two training schemes: with unbinned noise (\texttt  {TT+noise}) and with noise averaged over 500 bins (\texttt  {TT+noise+binned}). These NPSE models were trained with 100,000 base cosmologies}}{5}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:nsims_comparison}{{10}{5}{Comparison of cosmological inference from the TT power spectrum, considering two training schemes: with unbinned noise (\texttt {TT+noise}) and with noise averaged over 500 bins (\texttt {TT+noise+binned}). These NPSE models were trained with 100,000 base cosmologies}{figure.caption.10}{}}
 \@writefile{toc}{\contentsline {section}{References}{5}{figure.caption.10}\protected@file@percent }
 \bibcite{simons2019}{{4}{}{{}}{{}}}
 \bibcite{SNPE_C}{{5}{}{{}}{{}}}
 \bibcite{NPSE_1}{{6}{}{{}}{{}}}
 \bibcite{NPSE_2}{{7}{}{{}}{{}}}
-\bibcite{CAMB}{{8}{}{{}}{{}}}
-\bibcite{SBI}{{9}{}{{}}{{}}}
-\bibcite{HuWhite1997}{{10}{}{{}}{{}}}
+\bibcite{HuWhite1997}{{8}{}{{}}{{}}}
+\bibcite{CAMB}{{9}{}{{}}{{}}}
+\bibcite{SBI}{{10}{}{{}}{{}}}
 \bibcite{noiseCole}{{11}{}{{}}{{}}}
 \bibcite{novaes}{{12}{}{{}}{{}}}
 \providecommand\NAT@force@numbers{}\NAT@force@numbers

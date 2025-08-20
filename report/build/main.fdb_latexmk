@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex build/main"] 1755405192.79559 "build/main.aux" "build/main.bbl" "build/main" 1755405427.56758 0
+["bibtex build/main"] 1755480990.96815 "build/main.aux" "build/main.bbl" "build/main" 1755480997.93873 0
   "./natnumurl.bst" 1724420424 21201 c3a97a2434b58cd70f7f9c9df607b80a ""
   "./references.bib" 1755396224 3840 a9c2c2905d74e9935d7510016c1dcc5e ""
-  "build/main.aux" 1755405426 16492 d37cbdfbd8712f0b705cedc8218258e5 "pdflatex"
+  "build/main.aux" 1755480995 16762 9b6633be276962c922b175312ad4f98c "pdflatex"
   (generated)
   "build/main.bbl"
   "build/main.blg"
   (rewritten before read)
-["pdflatex"] 1755405423.27159 "c:/Users/Julian/Documents/Clases/Proyecto/reporte/main.tex" "build/main.pdf" "main" 1755405427.56828 0
+["pdflatex"] 1755480991.42802 "c:/Users/Julian/Documents/cmb-sbi-inference/report/main.tex" "build/main.pdf" "main" 1755480997.94211 0
   "C:/Users/Julian/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1754969279 526323 5b814101b089841e95c8246fc2eed6a1 ""
   "C:/Users/Julian/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs10.tfm" 1725485591 688 37338d6ab346c2f1466b29e195316aa4 ""
   "C:/Users/Julian/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs5.tfm" 1725485592 684 3a51bd4fd9600428d5264cf25f04bb9a ""
@@ -309,11 +309,11 @@
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/tex/latex/xurl/xurl.sty" 1641733940 4675 e4b8c405820368c2dfb03526e16d725a ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/tex/latex/zref/zref-abspage.sty" 1695383086 2269 4fe6fb3396214c91f164d45faf9bec45 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/tex/latex/zref/zref-base.sty" 1695383086 20785 f7d1133a287929598a897c93f8f4c44b ""
-  "build/main.authd" 1755405425 122 6f52505407798cfc2acd465642fecb05 "pdflatex"
-  "build/main.authn" 1755405425 40 55f69dba19ae31135056733622300d3b "pdflatex"
-  "build/main.aux" 1755405426 16492 d37cbdfbd8712f0b705cedc8218258e5 "pdflatex"
-  "build/main.bbl" 1755405193 3694 29cf641ca81e69be2de78e7cc06d26c8 "bibtex build/main"
-  "c:/Users/Julian/Documents/Clases/Proyecto/reporte/main.tex" 1755405422 2905 968da2933253cf8df766c488d301fd97 ""
+  "build/main.authd" 1755480994 122 6f52505407798cfc2acd465642fecb05 "pdflatex"
+  "build/main.authn" 1755480994 40 55f69dba19ae31135056733622300d3b "pdflatex"
+  "build/main.aux" 1755480995 16762 9b6633be276962c922b175312ad4f98c "pdflatex"
+  "build/main.bbl" 1755480991 3694 cf67dc20644627e8087e38b3a81a70b4 "bibtex build/main"
+  "c:/Users/Julian/Documents/cmb-sbi-inference/report/main.tex" 1755405422 2905 968da2933253cf8df766c488d301fd97 ""
   "img/01_repeat_noise_comparison_100000.pdf" 1754860067 799062 da9432bde76f5af49c351c13664c7508 ""
   "img/NPSE_TT_tau_100000.png" 1752194179 74152 fa6b570ca4621c6b8db474bf3d2cf798 ""
   "img/cmb_aps_pred_vs_obs_0.pdf" 1752183528 461491 e146d9ee1d41eeeaac9c95d4bf3f5e27 ""
@@ -325,11 +325,11 @@
   "img/inference_with_noise.pdf" 1751926955 642266 38924d3765563f960bebe5b902c40308 ""
   "img/nsims_comparison.pdf" 1751842165 308373 06b8816af71a765e0c96ceac1548dc19 ""
   "main.tex" 1755405422 2905 968da2933253cf8df766c488d301fd97 ""
-  "sections/anexo.tex" 1755398984 1860 d5db24fa6b8bec47162ef018fad8790f ""
+  "sections/anexo.tex" 1755480984 1921 76c7e8eb4bcd12831e4bbdae2da944be ""
   "sections/conclusion.tex" 1755399047 466 333566a0c4f7d7fa345ead499ac2c47f ""
   "sections/introduction.tex" 1755405168 6182 f12ef06ba658a807d58b1bc60da69bf2 ""
-  "sections/methodology.tex" 1755405150 4340 320c223f40967e0e3269e72b718ce781 ""
-  "sections/results.tex" 1755405150 8740 705db3102662d913f678d721f85d2af3 ""
+  "sections/methodology.tex" 1755480301 4311 8373d07b6f6af3d2ef5a146bbffcaef1 ""
+  "sections/results.tex" 1755480843 8790 cc6c4bdab4827584fc5a76facb1dcf9f ""
   "template.tex" 1755391329 253262 b211f14f2179e5436e18950d0bc53c80 ""
   "template_config.tex" 1755392274 20104 df73272c43b19e7bb5c4671d20749639 ""
   (generated)
