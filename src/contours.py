@@ -78,11 +78,11 @@ def plot_confidence_contours_nsamples(all_samples, true_parameter, limits, param
 
 if __name__ == "__main__":
     limits = [
-        [0.02212-0.00022*(1), 0.02212+0.00022*(1)],    
-        [0.1206-0.0021*(1), 0.1206+0.0021*(1)],  
-        [1.04077-0.00047*(1), 1.04077+0.00047*(1)],      
-        [3.04-0.016*(1), 3.04+0.016*(1)],    
-        [0.9626-0.0057*(1), 0.9626+0.0057*(1)],
+        [0.02212-0.00022*(1/2), 0.02212+0.00022*(1/2)],    
+        [0.1206-0.0021*(1/2), 0.1206+0.0021*(1/2)],  
+        [1.04077-0.00047*(1/2), 1.04077+0.00047*(1/2)],      
+        [3.04-0.016*(1/2), 3.04+0.016*(1/2)],    
+        [0.9626-0.0057*(1/2), 0.9626+0.0057*(1/2)],
         # [0.0522-0.008*(3/4), 0.0522+0.008*(3/4)]  
     ]
     param_names = ['omega_b', 'omega_c', 'theta_MC', 'ln10As', 'ns']
@@ -121,41 +121,29 @@ if __name__ == "__main__":
                                                    
     # plt.savefig(os.path.join(PATHS["confidence"], "02_reduced_prior_repeat_noise_50000.pdf"), bbox_inches='tight')
     # plt.close('all')
-    # del fig
+    # del fig 
 
-    simulations1 = torch.load(os.path.join(PATHS["simulations"], "Cls_TT_reduced_prior_noise_50000.pt"), weights_only=True)
-    simulations2 = torch.load(os.path.join(PATHS["simulations"], "Cls_TT_reduced_prior_low_noise_50000.pt"), weights_only=True)
-    simulations3 = torch.load(os.path.join(PATHS["simulations"], "all_Cls_reduced_prior_50000.pt"), weights_only=True)
-    simulations4 = torch.load(os.path.join(PATHS["simulations"], "Cls_TT_reduced_prior_repeat5_low_noise_50000.pt"), weights_only=True)
+    simulations1 = torch.load(os.path.join(PATHS["simulations"], "all_Cls_reduced_prior_50000.pt"), weights_only=True)
+    simulations2 = torch.load(os.path.join(PATHS["simulations"], "02_all_Cls_50000_reduced_prior.pt"), weights_only=True)
 
     theta1, x1 = simulations1["theta"], Cl_XX(simulations1["x"], "TT")
-    posterior1 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_reduced_prior_noise_50000.pth"), theta1, x1)
-    samples1 = sample_posterior(posterior1, true_parameter1, type_str="TT+noise")
+    posterior1 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_noise_reduced_prior_50000_01.pth"), theta1, x1)
+    samples1 = sample_posterior(posterior1, true_parameter1, type_str="TT")
     
-    theta2, x2 = simulations2["theta"], simulations2["x"]
-    posterior2 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_reduced_prior_low_noise_50000.pth"), theta2, x2)
-    samples2 = sample_posterior(posterior2, true_parameter1, type_str="TT+low_noise")
+    theta2, x2 = simulations2["theta"], Cl_XX(simulations2["x"], "TT")
+    posterior2 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_noise_reduced_prior_50000_02.pth"), theta2, x2)
+    samples2 = sample_posterior(posterior2, true_parameter1, type_str="TT")
 
-    theta3, x3 = simulations3["theta"], Cl_XX(simulations3["x"], "TT")
-    posterior3 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_reduced_prior_50000.pth"), theta3, x3)
-    samples3 = sample_posterior(posterior3, true_parameter1, type_str="TT")
-
-    theta4, x4 = simulations4["theta"], simulations4["x"]
-    posterior4 = posterior_NPSE(os.path.join(PATHS["models"], "NPSE_TT_reduced_prior_repeat5_low_noise_50000.pth"), theta4, x4)
-    samples4 = sample_posterior(posterior4, true_parameter1, type_str="TT+low_noise")
-
-    fig = plot_confidence_contours_nsamples([samples1, samples2, samples3, samples4],
+    fig = plot_confidence_contours_nsamples([samples1, samples2],
                                              true_parameter=true_parameter1, limits=limits, 
                                              param_names=param_names, param_labels=param_labels,
-                                             sample_labels=['TT+high_noise','TT+low_noise','TT','TT+low_noise+repeat5'], 
+                                             sample_labels=['seed 1','seed 2'], 
                                              title='Posterior Predictive Check',
-                                             sample_colors=['#006FED','#000866',"#E03424", "#000000"],
-                                             filled=[True, True, True, False],
-                                            #  upper_samples=[samples_2, samples_1, samples_TT],
-                                            #  upper_styles={"contour_colors": ["gray","#000000",'#006FED'], "contour_ls": ["-", "-", "-"], "show_1d": [False, False, False], "filled": [True, False, True]}
+                                             sample_colors=['#000866', "#000000"],
+                                             filled=[True, False],
     )
                                                    
-    plt.savefig(os.path.join(PATHS["confidence"], "01_NPSE_TT_noise_repeat_comparison_reduced_prior_50000.pdf"), bbox_inches='tight')
+    plt.savefig(os.path.join(PATHS["confidence"], "NPSE_TT_seed_comparison.pdf"), bbox_inches='tight')
     plt.close('all')
     del fig
 

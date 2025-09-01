@@ -262,9 +262,8 @@ def generate_noise_multiple_inplace(x, K=10):
     Genera K realizaciones de ruido por espectro, guardando directamente en un tensor Torch preasignado.
     """
     num_sims = x.shape[0]
-    lmax = x.shape[1]  # número de multipolos
+    lmax = x.shape[1]  
     
-    # Prealocación del tensor final
     spectra_with_noise = torch.empty((num_sims * K, lmax), dtype=torch.float32)
     
     idx = 0
