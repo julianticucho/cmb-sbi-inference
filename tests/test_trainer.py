@@ -1,9 +1,9 @@
 import os
 import pytest
 import torch
-from srcOOP.generator import Generator
-from srcOOP.trainer import Trainer
-from srcOOP.config import PATHS
+from src.generator import Generator
+from src.trainer import Trainer
+from src.config import PATHS
 
 
 @pytest.fixture

@@ -2,9 +2,9 @@ import pytest
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
-from srcOOP.processor import Processor
-from srcOOP.generator import Generator
-from srcOOP.config import PARAMS
+from src.processor import Processor
+from src.generator import Generator
+from src.config import PARAMS
 
 def test_instantiation():
     processor = Processor(type_str="TT", K=5, device="cpu")
@@ -63,5 +63,15 @@ def test_select_component():
     x_selected = processor.select_components(x, TT=True, EE=True)
     assert x_selected.shape == torch.Size([1, 5102])
 
+@pytest.mark.bin
+def test_bin_high_ell():
+    D_ell_raw = torch.arange(2480, dtype=torch.float32)  
+    lmin = torch.tensor([32, 63, 94], dtype=torch.int32)
+    lmax = torch.tensor([62, 93, 123], dtype=torch.int32)
 
- 
+    processor = Processor()
+    D_binned = processor.bin_high_ell(D_ell_raw, lmin, lmax)
+
+    assert isinstance(D_binned, torch.Tensor)
+    assert D_binned.shape == torch.Size([len(lmin)])  
+

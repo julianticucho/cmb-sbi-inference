@@ -1,7 +1,7 @@
 import pytest
 import torch
 import numpy as np
-from srcOOP.generator import Generator  
+from src.generator import Generator  
 
 def test_instantiation():
     gen = Generator()

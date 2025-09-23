@@ -1,11 +1,11 @@
 import os
 import pytest
 import matplotlib.pyplot as plt
-from srcOOP.processor import Processor
-from srcOOP.generator import Generator
-from srcOOP.plotter import Plotter
-from srcOOP.trainer import Trainer
-from srcOOP.config import PATHS
+from src.processor import Processor
+from src.generator import Generator
+from src.plotter import Plotter
+from src.trainer import Trainer
+from src.config import PATHS
 
 def test_plot_spectra():
     gen = Generator(type_str="TT", num_workers=1, seed=1)

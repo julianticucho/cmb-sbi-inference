@@ -1,7 +1,8 @@
 data/simulations
-results/calibration
-results/models
-results/samples
+results/
+data/
+.vscode/
+.pytest_cache/
 sbi-logs/
 sbi_inference.egg-info/
 *.ipynb_checkpoints
