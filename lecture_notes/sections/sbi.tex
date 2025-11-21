@@ -1,0 +1,20 @@
+\section{Inferencia basada en simulaciones}
+
+La inferencia sin verosimilitud (\textit{Likelihood-Free Inference}, LFI) busca estimar con precisión la distribución posterior \( p(\theta|x_o) \) sin acceso a la verosimilitud \( p(x|\theta) \), utilizando un número limitado de simulaciones. En este contexto, la tarea puede formularse como un problema de estimación de densidad condicional, donde se entrena una red neuronal \( F \) para mapear los datos simulados \( x \) a una estimación de la posterior \( p(\theta|x) \). Una vez entrenada, la red puede aplicarse directamente sobre los datos observados \( x_o \).
+
+Para el entrenamiento, se simulan pares de parámetros y datos \((\theta_j, x_j)\) muestreados del prior, y se minimiza la pérdida
+\[
+L(\phi) = -\sum_{j=1}^{N} \log q_{F(x_j, \phi)}(\theta_j),
+\]
+donde \( q_{F(x, \phi)}(\theta) \) es la estimación neuronal de la densidad posterior. Si el modelo es suficientemente expresivo, el mapeo aprendido aproxima correctamente la distribución posterior real.
+
+\section{Estimación secuencial de densidad neuronal}
+
+El enfoque secuencial busca mejorar la eficiencia del entrenamiento al priorizar simulaciones en regiones del espacio de parámetros donde la densidad posterior \( p(\theta|x_o) \) es mayor. Esto se logra mediante una propuesta \( \tilde{p}(\theta) \) que se actualiza iterativamente, un proceso conocido como \textit{Sequential Neural Posterior Estimation} (SNPE). Sin embargo, al usar muestras de una propuesta distinta del prior, el entrenamiento optimiza una \textit{posterior de la propuesta} \( \tilde{p}(\theta|x) \), que difiere de la verdadera posterior por un factor de corrección:
+\[
+\tilde{p}(\theta|x) = p(\theta|x) \frac{\tilde{p}(\theta)}{p(\theta)} \frac{p(x)}{\tilde{p}(x)}.
+\]
+
+Se han desarrollado tres variantes principales para abordar este problema. \textbf{SNPE-A} corrige post-hoc la distribución mediante una solución analítica bajo suposiciones gaussianas, aunque no maneja propuestas multimodales y puede generar matrices de covarianza no definidas positivas. \textbf{SNPE-B} incorpora pesos de importancia en la función de pérdida, eliminando la necesidad de corrección posterior, pero a costa de una alta varianza en las actualizaciones de parámetros. Finalmente, \textbf{SNL} estima la verosimilitud \( p(x|\theta) \) directamente, permitiendo el uso de propuestas arbitrarias o esquemas de aprendizaje activo, aunque requiere un muestreo MCMC adicional para recuperar la posterior, lo cual puede resultar costoso.
+
+APT supera estas limitaciones al combinar las ventajas de los enfoques anteriores sin requerir pesos de importancia ni correcciones post-hoc, logrando un equilibrio entre flexibilidad, estabilidad y eficiencia computacional.

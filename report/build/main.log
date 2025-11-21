@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.4)  17 AUG 2025 21:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.4)  11 NOV 2025 09:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2572,35 +2572,87 @@ Package pdftex.def Info: img/01_repeat_noise_comparison_100000.pdf  used on inpu
 <img/nsims_comparison.pdf, id=257, 708.24597pt x 740.7675pt>
 File: img/nsims_comparison.pdf Graphic file (type pdf)
 <use img/nsims_comparison.pdf>
-Package pdftex.def Info: img/nsims_comparison.pdf  used on input line 4.
+Package pdftex.def Info: img/nsims_comparison.pdf  used on input line 5.
 (pdftex.def)             Requested size: 247.8898pt x 259.2725pt.
 <img/NPSE_TT_tau_100000.png, id=258, 597.9138pt x 147.1899pt>
 File: img/NPSE_TT_tau_100000.png Graphic file (type png)
 <use img/NPSE_TT_tau_100000.png>
-Package pdftex.def Info: img/NPSE_TT_tau_100000.png  used on input line 11.
+Package pdftex.def Info: img/NPSE_TT_tau_100000.png  used on input line 12.
 (pdftex.def)             Requested size: 269.05872pt x 66.23483pt.
 
-Overfull \hbox (8.02136pt too wide) in paragraph at lines 11--12
+Overfull \hbox (8.02136pt too wide) in paragraph at lines 12--13
  [][] 
  []
 
 <img/cmb_aps_pred_vs_obs_0.pdf, id=260, 1144.64381pt x 679.33798pt>
 File: img/cmb_aps_pred_vs_obs_0.pdf Graphic file (type pdf)
 <use img/cmb_aps_pred_vs_obs_0.pdf>
-Package pdftex.def Info: img/cmb_aps_pred_vs_obs_0.pdf  used on input line 18.
+Package pdftex.def Info: img/cmb_aps_pred_vs_obs_0.pdf  used on input line 19.
 (pdftex.def)             Requested size: 257.55121pt x 152.85481pt.
 <img/inference_with_noise.pdf, id=261, 708.24597pt x 740.7675pt>
 File: img/inference_with_noise.pdf Graphic file (type pdf)
 <use img/inference_with_noise.pdf>
-Package pdftex.def Info: img/inference_with_noise.pdf  used on input line 25.
+Package pdftex.def Info: img/inference_with_noise.pdf  used on input line 26.
 (pdftex.def)             Requested size: 247.8898pt x 259.2725pt.
-) (c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.bbl
+[5 <./img/nsims_comparison.pdf> <./img/NPSE_TT_tau_100000.png> <./img/cmb_aps_pred_vs_obs_0.pdf> <./img/inference_with_noise.pdf>] [6]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 6.33337pt on input line 131.
+LaTeX Font Info:    Calculating math sizes for size <6.33337> on input line 131.
+LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
+(Font)              scaled to size 6.33337pt on input line 131.
+LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
+(Font)              scaled to size 4.62332pt on input line 131.
+LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
+(Font)              scaled to size 3.48337pt on input line 131.
+LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
+(Font)              scaled to size 6.33337pt on input line 131.
+LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
+(Font)              scaled to size 4.62332pt on input line 131.
+LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
+(Font)              scaled to size 3.48337pt on input line 131.
+LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
+(Font)              scaled to size 6.33337pt on input line 131.
+LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
+(Font)              scaled to size 4.62332pt on input line 131.
+LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
+(Font)              scaled to size 3.48337pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
+(Font)              scaled to size 6.33337pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
+(Font)              scaled to size 4.62332pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
+(Font)              scaled to size 3.48337pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
+(Font)              scaled to size 6.33337pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
+(Font)              scaled to size 4.62332pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
+(Font)              scaled to size 3.48337pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
+(Font)              scaled to size 6.33337pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
+(Font)              scaled to size 4.62332pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
+(Font)              scaled to size 3.48337pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
+(Font)              scaled to size 6.33337pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
+(Font)              scaled to size 4.62332pt on input line 131.
+LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
+(Font)              scaled to size 3.48337pt on input line 131.
+LaTeX Font Info:    Font shape `TS1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 6.33337pt on input line 131.
+LaTeX Font Info:    Font shape `TS1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 4.62332pt on input line 131.
+LaTeX Font Info:    Font shape `TS1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 3.48337pt on input line 131.
+)
 
-[5 <./img/nsims_comparison.pdf> <./img/NPSE_TT_tau_100000.png> <./img/cmb_aps_pred_vs_obs_0.pdf> <./img/inference_with_noise.pdf>])
+[7] (c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.bbl)
 
 (C:\Users\Julian\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\se-utf8.def
 File: se-utf8.def 2019/11/29 v1.12 stringenc: UTF-8
-) [6] (c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.aux
+) [8] (c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.aux
 LaTeX Info: Redefining \. on input line 29.
 LaTeX Info: Redefining \% on input line 29.
 )
@@ -2614,18 +2666,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 35814 strings out of 473899
- 600202 string characters out of 5726029
- 1960960 words of memory out of 5000000
- 57929 multiletter control sequences out of 15000+600000
- 683643 words of font info for 216 fonts, out of 8000000 for 9000
+ 35892 strings out of 473899
+ 601572 string characters out of 5726029
+ 1968960 words of memory out of 5000000
+ 57984 multiletter control sequences out of 15000+600000
+ 704347 words of font info for 264 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 113i,11n,110p,2932b,2616s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathMI.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathMI5.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathMI7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathRM.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineT.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineTB.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineTI.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/NewTXMI.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmvtt10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txexs.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txmiaX.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txsys.pfb>
-Output written on c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.pdf (6 pages, 3434157 bytes).
+ 113i,11n,110p,2932b,2634s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathMI.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathMI5.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathMI7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/LibertineMathRM.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineT.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineTB.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineTI.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/NewTXMI.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmvtt10.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txexs.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txmiaX.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txsym.pfb><C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txsys.pfb>
+Output written on c:\Users\Julian\Documents\cmb-sbi-inference\report\build\main.pdf (8 pages, 3478884 bytes).
 PDF statistics:
- 491 PDF objects out of 1000 (max. 8388607)
- 421 compressed objects within 5 object streams
- 50 named destinations out of 1000 (max. 500000)
- 197 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 549 PDF objects out of 1000 (max. 8388607)
+ 473 compressed objects within 5 object streams
+ 68 named destinations out of 1000 (max. 500000)
+ 229 words of extra memory for PDF output out of 10000 (max. 10000000)
 

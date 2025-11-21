@@ -10,8 +10,10 @@
 \usepackage{tikz}
 \usepackage[T1]{fontenc}
 \usepackage[numbers,sort&compress]{natbib}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
 \bibliographystyle{unsrtnat}
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric}
+\usetikzlibrary{automata, positioning, arrows.meta}
 
 \title{Lecture notes}
 \author{}
@@ -32,6 +34,7 @@
 \newpage
 \input{sections/introduccion.tex}
 \input{sections/statistics_in_cosmology.tex}
+\input{sections/sbi.tex}
 
 \clearpage
 
@@ -178,6 +181,8 @@ Para \( m \) mediciones independientes, la verosimilitud conjunta es el producto
 \begin{equation}
 L(w | d_i, \sigma_w) = \prod_i \frac{1}{\sqrt{2 \pi \sigma_w^2}} \exp \left( -\frac{(d_i - w)^2}{2 \sigma_w^2} \right)
 \end{equation}
+
+\input{sections/automata.tex}
 
 \bibliography{references}
 \end{document}

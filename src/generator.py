@@ -45,7 +45,7 @@ class Generator:
         pars.set_cosmology(
             ombh2=ombh2,
             omch2=omch2,
-            tau=0.0925, #0.0522
+            tau=0.0522, #0.0925
             cosmomc_theta=theta_MC_100/100
         )
         pars.InitPower.set_params(ns=ns, As=np.exp(ln_10_10_As)/1e10)

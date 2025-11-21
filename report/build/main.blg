@@ -5,6 +5,7 @@ Reallocating 'name_of_file' (item size: 1) to 10 items.
 The style file: natnumurl.bst
 Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: references.bib
+Warning--I didn't find a database entry for ""
 Warning--vacio journal en HuWhite1997
 Warning--vacio journal en CAMB
 Warning--vacio journal en SBI
@@ -49,4 +50,4 @@ warning$ -- 3
 while$ -- 12
 width$ -- 14
 write$ -- 130
-(There were 3 warnings)
+(There were 4 warnings)

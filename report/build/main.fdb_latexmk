@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex build/main"] 1755480990.96815 "build/main.aux" "build/main.bbl" "build/main" 1755480997.93873 0
+["bibtex build/main"] 1762864574.79559 "build/main.aux" "build/main.bbl" "build/main" 1762865033.25904 0
   "./natnumurl.bst" 1724420424 21201 c3a97a2434b58cd70f7f9c9df607b80a ""
   "./references.bib" 1755396224 3840 a9c2c2905d74e9935d7510016c1dcc5e ""
-  "build/main.aux" 1755480995 16762 9b6633be276962c922b175312ad4f98c "pdflatex"
+  "build/main.aux" 1762865031 19127 36a5366546642884ee986c2c908d32c4 "pdflatex"
   (generated)
   "build/main.bbl"
   "build/main.blg"
   (rewritten before read)
-["pdflatex"] 1755480991.42802 "c:/Users/Julian/Documents/cmb-sbi-inference/report/main.tex" "build/main.pdf" "main" 1755480997.94211 0
+["pdflatex"] 1762865027.6455 "c:/Users/Julian/Documents/cmb-sbi-inference/report/main.tex" "build/main.pdf" "main" 1762865033.25994 0
   "C:/Users/Julian/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1754969279 526323 5b814101b089841e95c8246fc2eed6a1 ""
   "C:/Users/Julian/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs10.tfm" 1725485591 688 37338d6ab346c2f1466b29e195316aa4 ""
   "C:/Users/Julian/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs5.tfm" 1725485592 684 3a51bd4fd9600428d5264cf25f04bb9a ""
@@ -79,6 +79,7 @@
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb" 1247596667 36094 798f80770b3b148ceedd006d487db67c ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247596667 35752 024fb6c41858982481f6968b5fc26508 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1247596667 32722 d7379af29a190c3f453aba36302ff5a9 ""
+  "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb" 1247596667 31809 8670ca339bf94e56da1fc21c80635e2a ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1247596667 32734 69e00a6b65cedb993666e42eedb3d48f ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1247596667 32762 7fee39e011c23b3589931effd97b9702 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1247596667 32726 39f0f9e62e84beb801509898a605dbd5 ""
@@ -96,12 +97,14 @@
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/NewTXMI.pfb" 1725093049 32409 70669e52221234457749adcf327540bc ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txexs.pfb" 1725093049 33424 8b2b99d9d7571201cc7eece13c492c55 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txmiaX.pfb" 1725093049 56815 b27b5bd4ce89a9e0ed516572b28e11a8 ""
+  "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txsym.pfb" 1725093049 44726 4b73c75a3c0ddaf1e8552a98de81766e ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txsys.pfb" 1725093049 45985 fd5f8adcc4f0e93e9a95469e12126723 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/vf/public/libertine/LinLibertineT-tlf-t1.vf" 1497089888 1728 58c30b3c2a148b5042bfabf244389b2f ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/vf/public/libertine/LinLibertineTB-tlf-t1.vf" 1497089888 1768 5d66dfd9709f1f38b8fb3cb38db46402 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/vf/public/libertine/LinLibertineTI-tlf-t1.vf" 1497089888 1768 b3bfd8ed1fe2dce5fd19610abe4c3dbe ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/vf/public/newtx/ntxexx.vf" 1725093049 1716 73c8d39d4c3ace9ec98a8f066bb3b494 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/vf/public/newtx/ntxsy.vf" 1725093049 1792 7cf99effbd74f7851ca7683a6d12b685 ""
+  "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/vf/public/newtx/ntxsy5.vf" 1725093049 1856 05afd1fb7a543fb973348907ffdabf53 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/vf/public/newtx/ntxsy7.vf" 1725093049 1940 bf4bac1135a7513fb45cfd9280176019 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/vf/public/newtx/nxlmi.vf" 1725093049 2744 3e5ba39e1559219ae379b7645e2f9524 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/fonts/vf/public/newtx/nxlmi5.vf" 1725093049 2740 c8b5f27ae076b0aa71375fdbd19167ca ""
@@ -309,10 +312,10 @@
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/tex/latex/xurl/xurl.sty" 1641733940 4675 e4b8c405820368c2dfb03526e16d725a ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/tex/latex/zref/zref-abspage.sty" 1695383086 2269 4fe6fb3396214c91f164d45faf9bec45 ""
   "C:/Users/Julian/AppData/Local/Programs/MiKTeX/tex/latex/zref/zref-base.sty" 1695383086 20785 f7d1133a287929598a897c93f8f4c44b ""
-  "build/main.authd" 1755480994 122 6f52505407798cfc2acd465642fecb05 "pdflatex"
-  "build/main.authn" 1755480994 40 55f69dba19ae31135056733622300d3b "pdflatex"
-  "build/main.aux" 1755480995 16762 9b6633be276962c922b175312ad4f98c "pdflatex"
-  "build/main.bbl" 1755480991 3694 cf67dc20644627e8087e38b3a81a70b4 "bibtex build/main"
+  "build/main.authd" 1762865030 122 6f52505407798cfc2acd465642fecb05 "pdflatex"
+  "build/main.authn" 1762865030 40 55f69dba19ae31135056733622300d3b "pdflatex"
+  "build/main.aux" 1762865031 19127 36a5366546642884ee986c2c908d32c4 "pdflatex"
+  "build/main.bbl" 1762864575 3694 cf67dc20644627e8087e38b3a81a70b4 "bibtex build/main"
   "c:/Users/Julian/Documents/cmb-sbi-inference/report/main.tex" 1755405422 2905 968da2933253cf8df766c488d301fd97 ""
   "img/01_repeat_noise_comparison_100000.pdf" 1754860067 799062 da9432bde76f5af49c351c13664c7508 ""
   "img/NPSE_TT_tau_100000.png" 1752194179 74152 fa6b570ca4621c6b8db474bf3d2cf798 ""
@@ -325,7 +328,7 @@
   "img/inference_with_noise.pdf" 1751926955 642266 38924d3765563f960bebe5b902c40308 ""
   "img/nsims_comparison.pdf" 1751842165 308373 06b8816af71a765e0c96ceac1548dc19 ""
   "main.tex" 1755405422 2905 968da2933253cf8df766c488d301fd97 ""
-  "sections/anexo.tex" 1755480984 1921 76c7e8eb4bcd12831e4bbdae2da944be ""
+  "sections/anexo.tex" 1762865026 16817 316eb30c44801e83eb82c0cd094aca9e ""
   "sections/conclusion.tex" 1755399047 466 333566a0c4f7d7fa345ead499ac2c47f ""
   "sections/introduction.tex" 1755405168 6182 f12ef06ba658a807d58b1bc60da69bf2 ""
   "sections/methodology.tex" 1755480301 4311 8373d07b6f6af3d2ef5a146bbffcaef1 ""

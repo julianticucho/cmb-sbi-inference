@@ -1,4 +1,5 @@
 \section{Appendix}
+\subsection{Figures}
 \begin{figure}
     \centering
     \includegraphics[scale=0.35]{img/nsims_comparison.pdf}
@@ -27,3 +28,111 @@
     and with noise averaged over 500 bins (\texttt{TT+noise+binned}). These NPSE models were trained with 100,000 base cosmologies}
     \label{fig:nsims_comparison}
 \end{figure}
+
+\subsection{Simulation-based Inference}
+Un desafío persistente en la inferencia bayesiana es el tratamiento de simuladores estocásticos complejos cuyas funciones de verosimilitud son intrínsecamente intratables. Recientemente, los métodos de Inferencia Basada en Simulación (Simulation-Based Inference, SBI) que utilizan estimadores de densidad condicional basados en redes neuronales han surgido como una solución prometedora. Estas técnicas aprenden la distribución posterior a partir de simulaciones propuestas de manera adaptativa, superando las limitaciones de escalabilidad de los enfoques clásicos, como la Computación Bayesiana Aproximada (ABC), en problemas de alta dimensión.
+
+Dentro del aprendizaje automático, las técnicas SBI se pueden clasificar en dos categorías principales. Los métodos de \textit{Verosimilitud Sintética} (Sequential Neural Likelihood, SNL) se centran en estimar la verosimilitud $p(x|\theta)$ para luego obtener la posterior mediante procedimientos de inferencia adicionales (e.g., MCMC). Por otro lado, los métodos de \textit{Estimación de la Posterior} (Sequential Neural Posterior Estimation, SNPE) apuntan directamente a aprender la distribución posterior $p(\theta|x)$. Si bien este último enfoque permite una inferencia amortizada y aprovecha la capacidad de las redes neuronales para aprender características directamente de los datos, se enfrenta a una limitación fundamental: el uso de distribuciones de propuesta distintas a la previa requiere la aplicación de correcciones post-hoc numéricamente inestables o el uso de ponderación de importancia, lo que puede aumentar la varianza durante el entrenamiento y limitar el rendimiento práctico.
+
+\subsection{Automatic Posterior Transformation}
+Para abordar estas limitaciones, \cite{SNPE_C} introdujeron la Transformación Automática de la Posterior (APT o SNPE-C). APT es un método de estimación posterior neuronal secuencial que combina las ventajas de ambos enfoques. Al replantear el problema de inferencia como uno de estimación de razón de densidades, APT permite el uso de distribuciones de propuesta arbitrarias y actualizadas dinámicamente sin necesidad de pesos de importancia o correcciones inestables. Esta flexibilidad, combinada con la compatibilidad con potentes estimadores de densidad basados en flujos normales (Normalizing Flows), hace de APT un método más escalable y eficiente, capaz de operar directamente sobre datos complejos como series temporales multidimensionales o imágenes.
+
+El problema central de la Inferencia Basada en Simulación consiste en estimar la distribución posterior $p(\theta|x_o)$ de los parámetros $\theta$ dados unos datos observados $x_o$, cuando el simulador define implícitamente un modelo con verosimilitud $p(x|\theta)$ analíticamente intratable. Este marco se puede abordar como un problema de estimación de densidad condicional, donde una red neuronal $F$ con parámetros $\phi$ aprende un mapeo desde los datos $x$ hasta los parámetros $\psi$ de una distribución $q_\psi(\theta)$ que aproxima la posterior $p(\theta|x)$. El entrenamiento se realiza minimizando la pérdida
+
+\begin{equation}
+\label{eq:loss}
+\mathcal{L}(\phi) = - \sum_{j=1}^N \log q_{F(x_j, \phi)}(\theta_j),
+\end{equation}
+
+sobre un conjunto de simulaciones $\{(\theta_j, x_j)\}$ generadas a partir de la distribución previa $p(\theta)$. Dado que el interés final reside en la posterior condicionada a $x_o$, resulta ineficiente seguir muestreando parámetros de la previa inicial una vez se dispone de una estimación preliminar de $p(\theta|x_o)$. Los métodos secuenciales abordan esto refinando iterativamente la distribución de propuesta $\tilde{p}(\theta)$ para concentrar las simulaciones en regiones del espacio de parámetros más relevantes para $x_o$. No obstante, este enfoque introduce una dificultad: si el entrenamiento se realiza con parámetros muestreados de $\tilde{p}(\theta) \neq p(\theta)$, el estimador converge a la posterior de propuesta $\tilde{p}(\theta|x)$, que está relacionada con la posterior verdadera mediante
+
+\begin{equation}
+\label{eq:posteriorr}
+\tilde{p}(\theta|x) = \frac{\tilde{p}(\theta)p(x)}{p(\theta)\tilde{p}(x)}.
+\end{equation}
+
+Existen varias estrategias para resolver este problema. \textbf{SNPE-A} \cite{} restringe las familias de distribuciones (usualmente mezclas de Gaussianas) y las propuestas (Gaussianas) para permitir una corrección analítica \textit{post-hoc}, pero esta falta de flexibilidad limita su aplicabilidad. \textbf{SNPE-B} \citep{} utiliza ponderación de importancia en la función de pérdida para recuperar directamente $p(\theta|x)$, eliminando las restricciones pero introduciendo una alta varianza en las actualizaciones del gradiente que puede ralentizar o desestabilizar el entrenamiento. Una alternativa diferente es \textbf{SNL} \citep{}, que estima la verosimilitud $p(x|\theta)$ en lugar de la posterior, lo que permite usar cualquier propuesta pero requiere una etapa adicional de muestreo MCMC para obtener la posterior, incrementando el coste computacional para distribuciones complejas. 
+
+La Transformación Automática de la Posterior es una técnica que combina las propiedades deseables de los enfoques de estimación de la posterior y de los basados en verosimilitud. APT aprende a inferir la posterior verdadera maximizando una posterior de propuesta estimada. Utiliza la relación \ref{eq:posteriorr} para formar una parametrización que permite transformar automáticamente entre estimaciones de $p(\theta|x)$ y $\tilde{p}(\theta|x)$, facilitando así leer directamente la estimación de la posterior. Este enfoque evita los desafíos numéricos de las técnicas SNPE anteriores y permite utilizar una amplia gama de distribuciones de propuesta y estimadores de densidad. En APT, $q_{F(x,\phi)}(\theta)$ representa una estimación de $p(\theta|x)$. Para transformarla en una estimación de $\tilde{p}(\theta|x)$, se define:
+
+\begin{equation}
+\tilde{q}_{x,\phi}(\theta) = q_{F(x,\phi)}(\theta) \frac{\tilde{p}(\theta)}{p(\theta)} \frac{1}{Z(x, \phi)}
+\end{equation}
+
+donde 
+
+\begin{equation}
+Z(x, \phi) = \int_\theta q_{F(x,\phi)}(\theta) \frac{\tilde{p}(\theta)}{p(\theta)}
+\end{equation}
+
+es una constante de normalización. La red se entrena minimizando la pérdida de (\ref{eq:loss}). Si el estimador de densidad condicional es suficientemente expresivo, minimizar $\tilde{\mathcal{L}}(\phi)$ garantiza que $q_{F(x,\phi)}(\theta) \to p(\theta|x)$ y $\tilde{q}_{x,\phi}(\theta) \to \tilde{p}(\theta|x)$ cuando $N \to \infty$. Al igual que otros métodos secuenciales, APT refina iterativamente los pesos de la red $\phi$ y la propuesta $\tilde{p}(\theta)$ a lo largo de múltiples rondas de simulación. Una ventaja clave es que puede entrenarse con datos de todas las rondas simplemente sumando sus términos de pérdida, a diferencia de SNPE-A (que no puede reutilizar datos entre rondas) o SNPE-B (que debe aplicar diferentes pesos de importancia).
+
+\subsection{Neural Posterior Score Estimation}
+Recientemente, \cite{NPSE_1} \cite{NPSE_2} introdujeron la Estimación Neuronal Secuencial del Puntaje de la Posterior (Sequential Neural Posterior Score Estimation, SNPSE), un método innovador para inferencia bayesiana en modelos basados en simuladores que se inspira en el notable éxito de los modelos basados en score en el modelado generativo. A diferencia de métodos anteriores como SNPE que se basan en estimadores de densidad normalizados (por ejemplo, flujos normales), SNPSE utiliza modelos de difusión condicionales basados en score para generar muestras de la distribución posterior de interés. El modelo se entrena mediante una función de objetivo que estima directamente el score (es decir, el gradiente del logaritmo de la densidad) de la posterior, aprovechando técnicas de \textit{score matching}.
+
+Una ventaja fundamental de NPSE es que, al solo requerir estimaciones del gradiente del log-densidad, evita la necesidad de un modelo normalizable. Esto elimina restricciones arquitectónicas fuertes y la inestabilidad asociada con los objetivos de entrenamiento adversariales utilizados en otros métodos. El enfoque se puede implementar en una variante amortizada (NPSE) o embeberse en un procedimiento de entrenamiento secuencial (SNPSE), donde las simulaciones son guiadas por la aproximación actual de la posterior en la observación de interés, reduciendo significativamente el costo computacional de simulación.
+
+El marco de Inferencia Basada en Simulación (SBI) con modelos de difusión aborda el problema clásico de inferir la distribución posterior $p(\theta|x_{\text{obs}})$ cuando solo se tiene acceso a un simulador que genera pares $(\theta, x) \sim p(\theta)p(x|\theta)$, pero la verosimilitud $p(x|\theta)$ es intrínsecamente intratable. La propuesta central utiliza modelos de difusión basados en puntajes (\textit{score-based}) condicionales \cite{} para muestrear directamente de la posterior. En este enfoque, se define un proceso directo de difusión (ecuación diferencial estocástica) que gradualmente agrega ruido a la distribución objetivo $p(\theta|x)$ hasta transformarla en una distribución de referencia manejable, típicamente una Gaussiana estándar.
+
+\begin{equation}
+d\theta_t = f(\theta_t, t)dt + g(t)dw_t
+\end{equation}
+
+La clave reside en que la reversión temporal de este proceso
+
+\begin{equation}
+d\bar{\theta}_t = \left[-f(\bar{\theta}_t, T-t) + g^2(T-t)\nabla_\theta \log p_{T-t}(\bar{\theta}_t|x)\right]dt + g(T-t)dw_t.
+\end{equation}
+
+es también un proceso de difusión, cuyas dinámicas dependen del puntaje $\nabla_\theta \log p_t(\theta_t|x)$ y pueden aproximarse mediante \textit{score matching}. Esto permite generar muestras de la distribución posterior de interés de manera eficiente y sin la necesidad de un modelo normalizable. Antes de abordar las variantes secuenciales, es crucial comprender el funcionamiento del método no secuencial (NPSE). La idea central de NPSE es entrenar una red neuronal $s_\psi(\theta_t, x, t)$ para que aproxime el \textbf{score} de la distribución posterior en diferentes niveles de ruido $t$. El puntaje se define como el gradiente del logaritmo de la densidad: $\nabla_{\theta} \log p_t(\theta_t | x)$. La training se realiza mediante la técnica de Denoising Score Matching (DSM) \cite{}. En DSM, se corrompen muestras $\theta_0 \sim p(\theta|x)$ con ruido gaussiano, obteniendo 
+
+\begin{equation}
+\theta_t \sim p_{t|0}(\theta_t|\theta_0) = \mathcal{N}(\theta_t; \theta_0, \sigma_t^2 I).
+\end{equation}
+
+La función de pérdida es:
+
+\begin{equation}
+\begin{aligned}
+\mathcal{L}_{\text{DSM}}(\psi) 
+= \frac{1}{2} \int_0^T \lambda_t 
+\mathbb{E}_{p_{t|0}(\theta_t|\theta_0)p(\theta_0|x)}
+\Big[ \| s_\psi(\theta_t, x, t) \\ 
+- \nabla_{\theta_t} \log p_{t|0}(\theta_t|\theta_0) \|^2 \Big]\, dt
+\end{aligned}
+\end{equation}
+donde $\lambda_t$ es una función de ponderación temporal. El término 
+
+\begin{equation}
+\nabla_{\theta_t} \log p_{t|0}(\theta_t|\theta_0) = -(\theta_t - \theta_0)/\sigma_t^2
+\end{equation}
+
+es el score del proceso de difusión directo, que actúa como target de training. Bajo condiciones de regularidad, minimizar esta pérdida equivale a hacer \textit{score matching} directo con el score verdadero $\nabla_{\theta} \log p_t(\theta_t | x)$. Una vez entrenada la red de scores, se puede generar muestras de la posterior $p(\theta|x_{\text{obs}})$ sustituyendo 
+
+\begin{equation}
+s_\psi(\theta_t, x_{\text{obs}}, t) \approx \nabla_{\theta} \log p_t(\theta_t|x_{\text{obs}})    
+\end{equation}
+
+en el proceso de reversión temporal o en la EDO de flujo de probabilidad. La principal ventaja de este enfoque es que no requiere que el modelo de densidad sea normalizable, evitando restricciones arquitectónicas y permitiendo el uso de poderosos modelos de difusión. El método secuencial preferido es SNPSE Truncado (TSNPSE), inspirado en \cite{}. En cada ronda $r$, la propuesta $\tilde{p}_r(\theta)$ se define como un promedio de versiones truncadas de la previa. Específicamente, 
+
+\begin{equation}
+\bar{p}_r(\theta) \propto p(\theta) \cdot \mathbb{I}\{\theta \in \text{HPR}_\epsilon(p^{r-1}_{\psi}(\theta|x_{\text{obs}}))\}.
+\end{equation}
+
+donde $\text{HPR}_\epsilon$ es la región de probabilidad más alta (con masa $1-\epsilon$) de la aproximación posterior de la ronda anterior. La propuesta final es 
+
+\begin{equation}
+\tilde{p}_r(\theta) = \frac{1}{r} \sum_{s=0}^{r-1} \bar{p}_s(\theta).
+\end{equation}
+
+La ventaja crucial de este enfoque es que, si la región de truncamiento contiene el soporte de la posterior verdadera $p(\theta|x_{\text{obs}})$, la propuesta es proporcional a la previa dentro de dicho soporte. Esto significa que la función de pérdida de \textit{score matching} sigue estando minimizada en el puntaje de la posterior verdadera, sin necesidad de aplicar correcciones por pesos de importancia, lo que conduce a un entrenamiento estable y eficaz. Se exploran análogos secuenciales de los métodos SNPE-A, SNPE-B y SNPE-C en el espacio del puntaje:
+
+\begin{itemize}
+    \item \textbf{SNPSE-A:} Realiza una corrección \textit{post-hoc} mediante remuestreo por importancia (SIR) de las muestras de la posterior de propuesta, usando los pesos $h_i = p(\tilde{\theta}_i) / \tilde{p}_r(\tilde{\theta}_i)$. Su precisión se ve limitada por la aproximación inherente en estos pesos cuando la posterior de propuesta aprendida no coincide bien con la verdadera.
+    \item \textbf{SNPSE-B:} Incorpora pesos de importancia $p(\theta_0) / \tilde{p}_r(\theta_0)$ directamente en el objetivo de \textit{denoising score matching}. Si bien el minimizador teórico es el puntaje verdadero, los pesos de importancia de alta varianza often resultan en un entrenamiento inestable y un rendimiento pobre, un problema análogo al de SNPE-B.
+    \item \textbf{SNPSE-C:} Propone una corrección automática en el espacio del puntaje. Estima el puntaje de la posterior de propuesta $\nabla_\theta \log \tilde{p}^r_t(\theta_t|x)$ y luego lo transforma en una estimación del puntaje verdadero $\nabla_\theta \log p_t(\theta_t|x)$ usando una identidad que relaciona ambos. Aunque evita los pesos de importancia, requiere la aproximación de varios términos de puntaje adicionales (marginales y condicionales) que no están inmediatamente disponibles, introduciendo complejidad y fuentes potenciales de error.
+\end{itemize}
+
+Las pruebas empíricas indican que los enfoques SNPSE-A, -B y -C, con sus respectivas correcciones, tienen un rendimiento significativamente inferior al de TSNPSE. Por lo tanto, TSNPSE emerge como el método secuencial preferido para la estimación del puntaje de la posterior, al ofrecer precisión y estabilidad superiores.
+
+

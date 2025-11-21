@@ -1,0 +1,86 @@
+\section{Inferencia Basada en Simulación con Simuladores Diferenciables}
+
+La inferencia bayesiana tiene como objetivo inferir los parámetros $\theta_0$ que han
+generado una observación dada $x_0$. Del teorema de Bayes tenemos
+\begin{equation}
+p(\theta|x_0) = \frac{p(x_0|\theta)p(\theta)}{p(x_0)}
+\propto p(x_0|\theta)p(\theta),
+\end{equation}
+y dado que $x_0$ es el resultado de un gran número de transformaciones que involucran un gran número de variables latentes $z$, la
+verosimilitud marginal
+\begin{equation}
+p(x_0|\theta) = \int p(x_0|\theta, z)p(z)dz,
+\end{equation}
+es intratable.
+
+SBI es particularmente útil en este caso ya que proporciona un
+marco para aproximar la posterior sin usar una verosimilitud analítica. Para aproximar $p(\theta|x_0)$ los algoritmos SBI
+requieren la observación $x_0$, una previa $p(\theta)$ para los parámetros del modelo $\theta$ y un simulador $x \sim p(x|\theta)$ para muestrear de la
+verosimilitud intratable.
+
+En este trabajo estamos interesados en hacer NPE que tiene como objetivo
+aprender directamente la siguiente distribución
+\begin{equation}
+p(\theta|x) \propto \int p(x|\theta, z)p(z|\theta)p(\theta)dz,
+\end{equation}
+usando un Estimador de Densidad Neuronal (NDE) como un Flujo Normalizante (en adelante NF).
+
+Se puede entrenar el NDE para aprender la distribución aproximada $p_\phi(\theta|x)$ a partir de muestras $(x, \theta)$ de la distribución conjunta
+minimizando
+\begin{equation}
+\mathcal{L}_{\text{NLL}} = \mathbb{E}_{p(\theta,x)} \left[ -\log p_\phi(\theta|x) \right],
+\end{equation}
+y luego evaluarla en la observación dada $x_0$ para obtener la
+posterior aproximada $p_\phi(\theta|x = x_0) \approx p(\theta|x_0)$.
+
+Como se reconoce en Brehmer et al. (2020), cuando los simuladores son diferenciables se puede extraer para cada simulación
+los gradientes con respecto a los parámetros de simulación, lo que proporciona
+significativamente más información que las muestras del simulador, y puede usarse para ayudar a constreñir las estimaciones de densidad posterior obtenidas por SBI. Por lo tanto, en nuestro caso,
+extraemos para cada simulación $(x_i, \theta_i)$ el gradiente de la
+log-probabilidad conjunta del simulador con respecto a los parámetros de entrada. En lo siguiente, notaremos este gradiente como
+\begin{align}
+\nabla_\theta \log p(\theta|x, z) &= \nabla_\theta \log p(x|\theta, z) \\
+&\quad + \nabla_\theta \log p(z|\theta) \\
+&\quad + \nabla_\theta \log p(\theta),
+\end{align}
+donde $z$ son variables estocásticas latentes del simulador. En un
+ligero abuso de lenguaje, nos referiremos a $\nabla_\theta \log p(\theta|x, z)$ como
+el \textit{score} conjunto, pero debe notarse que la definición convencional
+de la función \textit{score} en estadística (también adoptada en
+Brehmer et al. (2020)) es el gradiente de la log-verosimilitud
+$\nabla_\theta \log p(x|\theta, z)$.
+
+Podemos entonces definir una pérdida de emparejamiento de \textit{score} directa
+\begin{equation}
+\mathcal{L}_{\text{SM}} = \mathbb{E}_{p(x,z,\theta)} \left[ 
+\| \nabla_\theta \log p(\theta|x, z) - \nabla_\theta \log p_\phi(\theta|x) \|^2_2 
+\right].
+\end{equation}
+
+Inspirados por Brehmer et al. (2020), esta cantidad se minimiza
+por
+\begin{align}
+\mathbb{E}_{p(z|x,\theta)} [\nabla_\theta \log p(\theta|x, z)]
+&= \mathbb{E}_{p(z|x,\theta)} \left[ \nabla_\theta \log \frac{p(\theta,z|x)p(x)}{p(z,x)} \right] \\
+&= \mathbb{E}_{p(z|x,\theta)} \left[ \nabla_\theta \log p(\theta, z|x) \right] \\
+&= \nabla_\theta \log p(\theta|x)
+\end{align}
+lo que significa que al minimizar $\mathcal{L}_{\text{SM}}$ aproximamos el \textit{score} marginal intratable.
+
+Finalmente, entrenamos nuestro NDE usando la siguiente pérdida
+combinada:
+\begin{equation}
+\mathcal{L} = \mathcal{L}_{\text{NLL}} + \lambda \mathcal{L}_{\text{SM}},
+\end{equation}
+
+donde $\lambda$ es un hiper-parámetro que puede usarse para sintonizar la
+contribución del \textit{score} a la función de pérdida. El valor óptimo
+para $\lambda$ típicamente depende del problema considerado.
+
+Nótese que para entrenar el NDE constriñendo su
+\textit{score} $\nabla_\theta \log p_\phi(\theta|x)$, necesita ser suficientemente suave
+con respecto a $\theta$, motivando el desarrollo de arquitecturas de NF
+dedicadas descritas en la siguiente sección.
+
+Mientras que en este trabajo nos enfocamos en NPE, que permite inferencia amortizada, como se demuestra en Brehmer et al. (2020)
+ecuaciones similares pueden formularse para mejorar la estimación de verosimilitud y razón de verosimilitud con información de gradientes.

@@ -17,9 +17,14 @@ class Trainer:
         model_params: Optional[Dict] = None
     ):
         """Class for handling density estimator training, loading and sampling."""
+        default_params = {
+            "sde_type": "ve",
+            "hidden_features": 50,
+            "model": "mlp"
+        }
         self.method = method
         self.embedding_type = embedding_type 
-        self.model_params = model_params or {}
+        self.model_params = {**default_params, **(model_params or {})}
         self.inference = self._create_inference()
         self.density_estimator = None
         self.posterior: Optional[sbi.inference.base.Posterior] = None
@@ -49,20 +54,30 @@ class Trainer:
         if self.method in ["SNPE_C", "FMPE"]:
             return sbi.neural_nets.posterior_nn(model=self.model_params.get("model", "nsf"), embedding_net=embeding_net)
         elif self.method == "NPSE":
-            return sbi.neural_nets.posterior_score_nn(sde_type=self.model_params.get("sde_type", "ve"), embedding_net=embeding_net)
+            return sbi.neural_nets.posterior_score_nn(
+                sde_type=self.model_params.get("sde_type"),
+                hidden_features=self.model_params.get("hidden_features"), 
+                embedding_net=embeding_net)
         elif self.method in ["NLE", "MNLE"]:
             return sbi.neural_nets.likelihood_nn(model=self.model_params.get("model", "nsf"), embedding_net=embeding_net)
         else:
             raise ValueError(f"Unrecognized inference method: {self.method}, use 'SNPE_C', 'NPSE', 'FMPE', 'NLE' or 'MNLE'")
         
+
     def _create_embedding(self, embedding_type: Optional[str]):
         """Create an embedding network based on the selected type."""
+        from sbi.neural_nets.embedding_nets import FCEmbedding, CNNEmbedding
         if embedding_type is None:
             return torch.nn.Identity()
         elif embedding_type == "FCE":
-            return sbi.neural_nets.embedding_nets.FCEmbedding(input_dim=2551)
+            return FCEmbedding(input_dim=2448)
         elif embedding_type == "CNN":
-            return sbi.neural_nets.embedding_nets.CNNEmbedding(input_shape=(2551,))
+            return CNNEmbedding(
+                input_shape=(2448,),
+                output_dim=80,
+                num_conv_layers=3,
+                out_channels_per_layer = [8, 16, 32]
+            )
         else:
             raise ValueError(f"Embedding net not recognized: {embedding_type}, use 'identity', 'FCE' or 'CNN'")
 
@@ -84,7 +99,10 @@ class Trainer:
         """Save the trained density estimator"""
         if self.density_estimator is None:
             raise RuntimeError("Density estimator is not trained.")
-        torch.save(self.density_estimator.state_dict(), os.path.join(PATHS["models"], filename))
+        if self.method == "NPSE":
+            torch.save(self.density_estimator.state_dict(), os.path.join(PATHS["models"], filename))
+        else:
+            torch.save(self.density_estimator, os.path.join(PATHS["models"], filename))
 
     def load_posterior(
         self, 
@@ -96,8 +114,11 @@ class Trainer:
         path = os.path.join(PATHS["models"], filename)
         if theta is not None and x is not None:
             self.inference.append_simulations(theta, x)
-        self.density_estimator = self.inference.train(max_num_epochs=0)
-        self.density_estimator.load_state_dict(torch.load(path, weights_only=True))
+        if self.method == "NPSE":
+            self.density_estimator = self.inference.train(max_num_epochs=0)
+            self.density_estimator.load_state_dict(torch.load(path, weights_only=True))
+        else:
+            self.density_estimator = torch.load(path, weights_only=False)
         return self.build_posterior()
 
     def build_posterior(self):
@@ -126,15 +147,6 @@ class Trainer:
             x = simulator(true_parameter)
         return self.posterior.set_default_x(x).sample((num_samples,))
     
-
-if __name__ == "__main__":
-    processor = Processor(type_str="TT+EE+BB+TE", K=1)
-    theta, x = processor.load_simulations("03_all_Cls_reduced_prior_50000.pt")
-    tt = processor.select_components(x, TT=True)
-    
-    inf = Trainer("NPSE")
-    inf.train(theta, tt, plot=False)
-    inf.save("NPSE_TT_noise_reduced_prior_50000_03.pth")
 
 
 

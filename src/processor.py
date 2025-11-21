@@ -279,6 +279,28 @@ class Processor:
             batch_list.append(self.add_cov_noise(x[i], cov))  # pasar fila i
 
         return torch.stack(batch_list)
+    
+    @staticmethod
+    def expand_cov_from_binned(
+        cov_bin: torch.Tensor, 
+        lmin: torch.Tensor, 
+        lmax: torch.Tensor,
+        jitter: float = 1e-2
+    ) -> torch.Tensor:
+        N_bin = len(lmin)
+        N_ell_total = lmax[-1] - lmin[0] + 1
+        Cov_full = torch.zeros((N_ell_total, N_ell_total), dtype=cov_bin.dtype)
+
+        for i in range(N_bin):
+            l0_i, l1_i = lmin[i] - lmin[0], lmax[i] - lmin[0]
+            for j in range(N_bin):
+                l0_j, l1_j = lmin[j] - lmin[0], lmax[j] - lmin[0]
+                Cov_full[l0_i:l1_i+1, l0_j:l1_j+1] = cov_bin[i, j]
+
+        Cov_full = (Cov_full + Cov_full.T) / 2
+        Cov_full += jitter * torch.eye(N_ell_total, dtype=cov_bin.dtype)
+
+        return Cov_full
 
     @classmethod
     def select_components(

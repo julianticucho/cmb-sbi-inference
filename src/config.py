@@ -14,6 +14,7 @@ PATHS = {
     "confidence": os.path.join(RESULTS_DIR, "confidence"),
     "summary": os.path.join(RESULTS_DIR, "summary"),
     "consistency": os.path.join(RESULTS_DIR, "consistency"),
+    "chains": os.path.join(RESULTS_DIR, "chains"),
 }
 
 PARAM_RANGES = {
