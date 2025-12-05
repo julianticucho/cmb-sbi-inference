@@ -18,9 +18,7 @@ class Trainer:
     ):
         """Class for handling density estimator training, loading and sampling."""
         default_params = {
-            "sde_type": "ve",
-            "hidden_features": 50,
-            "model": "mlp"
+            "sde_type": "ve"
         }
         self.method = method
         self.embedding_type = embedding_type 
@@ -56,7 +54,6 @@ class Trainer:
         elif self.method == "NPSE":
             return sbi.neural_nets.posterior_score_nn(
                 sde_type=self.model_params.get("sde_type"),
-                hidden_features=self.model_params.get("hidden_features"), 
                 embedding_net=embeding_net)
         elif self.method in ["NLE", "MNLE"]:
             return sbi.neural_nets.likelihood_nn(model=self.model_params.get("model", "nsf"), embedding_net=embeding_net)
