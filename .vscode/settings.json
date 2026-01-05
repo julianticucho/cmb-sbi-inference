@@ -6,5 +6,11 @@
     "python.testing.pytestEnabled": true,
     "files.watcherExclude": {
         "**/target": true
+    },
+    "python.terminal.executeInFileDir": false,
+    "python.analysis.extraPaths": ["./src"],
+    "python.envFile": "${workspaceFolder}/.env",
+    "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${workspaceFolder}"
     }
 }
