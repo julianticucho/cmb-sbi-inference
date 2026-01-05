@@ -1,16 +1,17 @@
 {
-    "python.testing.pytestArgs": [
-        "tests"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "files.watcherExclude": {
-        "**/target": true
-    },
-    "python.terminal.executeInFileDir": false,
-    "python.analysis.extraPaths": ["./src"],
-    "python.envFile": "${workspaceFolder}/.env",
-    "terminal.integrated.env.linux": {
-        "PYTHONPATH": "${workspaceFolder}"
-    }
+  "python.testing.pytestArgs": ["tests"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "files.watcherExclude": {
+    "**/target": true
+  },
+  "python.terminal.executeInFileDir": false,
+  "python.analysis.extraPaths": ["./src"],
+  "python.envFile": "${workspaceFolder}/.env",
+  "terminal.integrated.env.linux": {
+    "PYTHONPATH": "${workspaceFolder}"
+  },
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python-envs.defaultPackageManager": "ms-python.python:conda",
+  "python-envs.pythonProjects": []
 }

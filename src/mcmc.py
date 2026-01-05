@@ -1,69 +1,168 @@
 import torch
-import pyro
-import pyro.distributions as dist
-from pyro.infer import MCMC, NUTS
 import os
+import sys
+import getdist.plots as gdplt
+import numpy as np
+from cobaya.run import run
+from cobaya import load_samples
+from cobaya.likelihood import Likelihood
+from src.data import Dataset
+from src.processor import Processor
 from src.config import PATHS
-from src.prior import get_prior
+
+class PlanckTTGaussian(Likelihood):
+    """
+    Gaussian likelihood for binned high-ell TT spectra
+    """
+    def initialize(self):
+        dataset = Dataset()
+        _, _, _, _, _, lmin, lmax, _, cov = dataset.import_data()
+
+        self.proc = Processor(type_str="TT")
+        true_parameter1 = [0.022068, 0.12029, 1.04122, 3.098, 0.9624]
+        self.simulator = self.proc.create_simulator()
+        x_obs = self.simulator(true_parameter1)
+        x_obs = x_obs[30:2478]
+        x_obs = self.proc.bin_high_ell(x_obs, lmin, lmax)
+        x_obs = self.proc.add_cov_noise(x_obs, cov, seed=0)
+
+        self.x_obs = x_obs
+        self.icov = torch.linalg.inv(cov)
+
+        self.lmin = lmin
+        self.lmax = lmax
+        self.lmax_global = int(torch.max(lmax).item())
+
+    def get_requirements(self):
+        return {
+            "Cl": {
+                "tt": 2500
+            }
+        }
+
+    def logp(self, **params):
+        try:
+            tt = params["Cl"]["tt"]
+            print("cl de camb:", tt.shape)
+            tt = torch.as_tensor(tt)
+            tt = tt[30:2478]
+            print("cl de camb reducido:", tt.shape)
+            tt = self.proc.bin_high_ell(tt, self.lmin, self.lmax)
+            print("cl binned:", tt.shape)
+            delta = self.x_obs - tt
+            loglike = -0.5 * delta @ self.icov @ delta
+
+            return loglike.item()
+
+        except Exception as e:
+            return -1e30
+        
+def build_info2():
+    info = {
+        "theory": {
+            "camb": {
+                "extra_args": {
+                    "lens_potential_accuracy": 1,
+                    "AccuracyBoost": 1.0,
+                    "lmax": 2500,
+                    "nonlinear": "both",
+                }
+            }
+        },
+
+        "likelihood": {
+            'my_likelihood': {
+                "external": PlanckTTGaussian
+            },
+        },
+
+        "params": {
+            "tau": {
+                "value": 0.0522,
+                "latex": r"\tau"
+            },
+            "ombh2": {
+                "prior": {
+                    "min": 0.02212 - 5 * 0.00022,
+                    "max": 0.02212 + 5 * 0.00022
+                },
+                "latex": r"\Omega_b h^2",
+            },
+            "omch2": {
+                "prior": {
+                    "min": 0.1206 - 5 * 0.0021,
+                    "max": 0.1206 + 5 * 0.0021
+                },
+                "latex": r"\Omega_c h^2"
+            },
+            "cosmomc_theta": {
+                "prior": {
+                    "min": 1.04077 / 100 - 0.00047 / 100 * 5,
+                    "max": 1.04077 / 100 + 0.00047 / 100 * 5
+                },
+                "latex": r"\theta_{\rm MC}"
+            },
+            "As": {
+                "prior": {
+                    "min": np.exp(3.04 - 5 * 0.016) / 1e10,
+                    "max": np.exp(3.04 + 5 * 0.016) / 1e10,
+                },
+                "latex": r"A_s"
+            },
+            "ns": {
+                "prior": {
+                    "min": 0.9626 - 5 * 0.0057,
+                    "max": 0.9626 + 5 * 0.0057
+                },
+                "latex": r"n_s"
+            },
+            "theta_MC_100": {
+                "derived": lambda cosmomc_theta: 100 * cosmomc_theta,
+                "latex": r"100\theta_{\rm MC}"
+            },
+            "ln_10_10_As": {
+                "derived": lambda As: np.log(1e10 * As),
+                "latex": r"\ln(10^{10} A_s)"
+            }
+        },
+
+        "sampler": {
+            "mcmc": {
+                "Rminus1_stop": 0.01,
+                "max_tries": 1_000_000
+            }
+        },
+        "output": "results/chains/gaussian_likelihood_custom_V2"
+    }
+
+    return info
 
 
-class MCMCSampler:
-    def __init__(
-        self,
-        simulator,
-        cov_matrix: torch.Tensor,
-        step_size: float = 0.01,
-        num_chains: int = 4,
-        seed: int = 0
-    ):
-        self.simulator = simulator
-        self.prior = get_prior(format="pyro")
-        self.cov = cov_matrix
-        self.inv_cov = torch.linalg.inv(self.cov)
-        self.step_size = step_size
-        self.num_chains = num_chains
-        self.seed = seed
-        self.dim = self.prior.sample((1,)).shape[1]
+def run_mcmc2(info):
+    for k, v in {"-f": "force", "-r": "resume", "-d": "debug"}.items():
+        if k in sys.argv:
+            info[v] = True
 
-    def _model(self, x_obs: torch.Tensor):
-        theta = pyro.sample("theta", self.prior)
-        x_sim = self.simulator(theta)
-        delta = x_obs - x_sim
+    updated_info, sampler = run(info)
 
-        if delta.dim() == 1:
-            delta = delta.unsqueeze(0)
+    gd_sample = load_samples(
+        info["output"],
+        to_getdist=True
+    )
 
-        log_likelihood = -0.5 * (delta @ self.inv_cov @ delta.T).squeeze()
-        pyro.factor("likelihood", log_likelihood)
+    gdplot = gdplt.get_subplot_plotter()
+    gdplot.triangle_plot(
+        gd_sample,
+        ["ombh2", "omch2", "theta_MC_100", "ln_10_10_As", "ns"],
+        filled=True
+    )
 
-    def sample(
-        self,
-        x_obs: torch.Tensor,
-        num_samples: int = 10_000,
-        burn_in: int = 1_000
-    ) -> torch.Tensor:
-        pyro.set_rng_seed(self.seed)
+    os.makedirs(PATHS["confidence"], exist_ok=True)
+    gdplot.export(
+        os.path.join(PATHS["confidence"], "gaussian_likelihood_custom_V2.pdf")
+    )
+    print("Run finished successfully")
 
-        nuts_kernel = NUTS(self._model, step_size=self.step_size, adapt_step_size=True)
-
-        mcmc = MCMC(
-            nuts_kernel,
-            num_samples=num_samples,
-            warmup_steps=burn_in,
-            num_chains=self.num_chains,
-            disable_progbar=False,
-        )
-
-        mcmc.run(x_obs)
-        posterior_samples = mcmc.get_samples(group_by_chain=True)
-        print(mcmc.summary())
-
-        samples = posterior_samples["theta"]
-        return samples
-
-    def save_samples(self, samples: torch.Tensor, filename: str):
-        torch.save(samples, os.path.join(PATHS["chains"], filename))
-
-    def load_samples(self, filename: str) -> torch.Tensor:
-        filepath = os.path.join(PATHS["chains"], filename)
-        return torch.load(filepath)
+if __name__ == "__main__":
+    info = build_info2()
+    run_mcmc2(info)

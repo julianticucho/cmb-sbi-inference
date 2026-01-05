@@ -46,3 +46,4 @@ class Dataset:
         cov_matrix = torch.from_numpy(cov_matrix)
 
         return ell_low, dell_low, err_low, ell_high, dell_high, lmin, lmax, err_high, cov_matrix
+    

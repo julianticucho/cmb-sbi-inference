@@ -13,6 +13,7 @@ from src.trainer import Trainer
 from src.config import PATHS, CONFIG
 from src.prior import get_prior
 from typing import Optional, Tuple, Dict, Callable
+from tqdm.auto import tqdm
 
 import matplotlib.pyplot as plt
 import scienceplots
@@ -221,7 +222,6 @@ class Plotter:
         """Plot posterior calibration: percentage of times true parameters fall within
         posterior credible intervals. The true parameters are sampled from the prior."""
         
-        from tqdm.auto import tqdm
         if percentiles is None:
             percentiles = torch.linspace(1, 99.9, 100, device=device)  
         
@@ -284,6 +284,111 @@ class Plotter:
         
         return fig, {p.item(): cov for p, cov in zip(percentiles, coverage_results)}
             
+    def plot_posterior_calibration_residuals(
+        self,
+        posterior: torch.distributions.Distribution,
+        simulator: callable,
+        num_posterior_samples: int = 5000,
+        num_true_samples: int = 100,
+        percentiles: torch.Tensor = None,
+        device: str = "cpu"
+    ):
+        """
+        Plot posterior calibration residuals.
+
+        One subplot per parameter (stacked vertically).
+        x-axis: Credible interval (%)
+        y-axis: (observed_coverage - expected_coverage) / expected_coverage
+        """
+        if percentiles is None:
+            percentiles = torch.linspace(1, 99.9, 100, device=device)
+
+        prior = get_prior(device=device)
+        true_parameters = prior.sample((num_true_samples,))
+        n_samples, n_params = true_parameters.shape
+
+        low_percentiles = (100 - percentiles) / 2
+        high_percentiles = 100 - low_percentiles
+
+        all_percentiles = torch.cat([low_percentiles, high_percentiles])
+        all_percentiles = torch.unique(all_percentiles)
+        all_percentiles, _ = torch.sort(all_percentiles)
+        all_percentiles_prob = all_percentiles / 100
+
+        coverage_results = torch.zeros(len(percentiles), n_params, device=device)
+
+        pbar = tqdm(total=n_samples, desc="Generating posterior samples")
+
+        for i in range(n_samples):
+            theta_true = true_parameters[i]
+            x = simulator(theta_true.unsqueeze(0))
+
+            posterior_samples = posterior.set_default_x(x).sample(
+                (num_posterior_samples,)
+            )
+
+            percentile_values = torch.quantile(
+                posterior_samples,
+                all_percentiles_prob,
+                dim=0
+            )
+
+            percentile_dict = {
+                p.item(): val for p, val in zip(all_percentiles, percentile_values)
+            }
+
+            for idx, p in enumerate(percentiles):
+                low = (100 - p) / 2
+                high = 100 - low
+
+                lower_bounds = percentile_dict[low.item()]
+                upper_bounds = percentile_dict[high.item()]
+
+                within = (theta_true >= lower_bounds) & (theta_true <= upper_bounds)
+                coverage_results[idx] += within.float()
+
+            pbar.update(1)
+
+        pbar.close()
+
+        coverage_results = (coverage_results / n_samples) * 100
+        expected = percentiles.unsqueeze(1)
+        residuals = (coverage_results - expected) / expected
+        fig, axes = plt.subplots(
+            n_params, 1,
+            figsize=(7, 2.5 * n_params),
+            sharex=True
+        )
+        if n_params == 1:
+            axes = [axes]
+        xvals = percentiles.cpu().numpy()
+        for j, ax in enumerate(axes):
+            yvals = residuals[:, j].cpu().numpy()
+
+            ax.axhline(0.0, linestyle="--", color="gray", linewidth=1)
+            ax.plot(
+                xvals,
+                yvals,
+                marker="o",
+                markersize=3,
+                linewidth=1,
+                alpha=0.8
+            )
+
+            ax.set_ylabel(
+                r"$\frac{\mathrm{coverage}-\mathrm{CI}}{\mathrm{CI}}$"
+            )
+            ax.set_title(self.param_labels[j])
+
+        axes[-1].set_xlabel("Credible interval")
+
+        fig.tight_layout()
+
+        return fig, {
+            "percentiles": percentiles,
+            "coverage": coverage_results,
+            "residuals": residuals
+        }
 
     
 
