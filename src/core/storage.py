@@ -69,6 +69,10 @@ class StorageManager:
         path = self.paths.confidence_dir / filename
         plt.savefig(path, bbox_inches='tight')
 
-    def save_diagnostic(self, fig: plt.Figure, filename: str):
-        path = self.paths.calibration_dir / filename
+    def save_hpd(self, fig: plt.Figure, filename: str):
+        path = self.paths.hpd_dir / filename
+        plt.savefig(path, bbox_inches='tight')
+
+    def save_diagnostics(self, fig: plt.Figure, filename: str):
+        path = self.paths.diagnostics_dir / filename
         plt.savefig(path, bbox_inches='tight')

@@ -24,9 +24,8 @@ def run_pipeline_on_saved_simulations(
 if __name__ == "__main__":
     run_pipeline_on_saved_simulations(
         input_file=[
-            "standard_tt_10_1.pt",
-            "standard_tt_10_2.pt"
+            "calibration_standard_tt_1000_1.pt",
         ],
         pipeline_type="planck_processing",
-        output_name="planck_processing_standard_tt_20.pt"
+        output_name="calibration_planck_processing_standard_tt_1000_1.pt"
     )

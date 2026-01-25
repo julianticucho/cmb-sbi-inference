@@ -1,8 +1,6 @@
 from typing import Dict, Tuple, Any
-
 from src.simulation.contracts.base_prior import BasePrior
 from ..priors.standard_cosmology_prior import StandardCosmologyPrior
-
 
 class PriorFactory:
 

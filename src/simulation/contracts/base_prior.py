@@ -20,3 +20,7 @@ class BasePrior(ABC):
     @abstractmethod
     def to_sbi(self) -> Any:
         pass
+    
+    @abstractmethod
+    def to_pyro(self) -> Any:
+        pass

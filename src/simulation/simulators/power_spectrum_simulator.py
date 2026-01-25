@@ -14,15 +14,23 @@ class PowerSpectrumSimulator(BaseSimulator):
         "TE": slice(7653, 10204),  # Temperature-E mode cross correlation
     }
     
-    def __init__(self, components: List[str]):
+    def __init__(
+        self,
+        components: List[str],
+        accuracy_boost: float = 1.0,
+        nonlinear: bool = True,
+        want_lensing: bool = True,
+    ):
         super().__init__(data_type='power_spectrum')
         self.components = components
+        self.accuracy_boost = accuracy_boost
+        self.nonlinear = nonlinear
+        self.want_lensing = want_lensing
         for comp in components:
             if comp not in self.COMPONENT_SLICES:
                 raise ValueError(f"Unknown component: {comp}. Available: {list(self.COMPONENT_SLICES.keys())}")
     
-    @staticmethod
-    def _compute_full_spectrum(params: List[float]) -> np.ndarray:
+    def _compute_full_spectrum(self, params: List[float]) -> np.ndarray:
         ombh2, omch2, theta_MC_100, ln_10_10_As, ns = params
         pars = camb.CAMBparams()
         pars.set_cosmology(
@@ -33,9 +41,9 @@ class PowerSpectrumSimulator(BaseSimulator):
         )
         pars.InitPower.set_params(ns=ns, As=np.exp(ln_10_10_As)/1e10)
         pars.set_for_lmax(2500)  # Multipole range 2-2500
-        pars.set_accuracy(AccuracyBoost=1.0)
-        pars.NonLinear = camb.model.NonLinear_both
-        pars.WantLensing = True
+        pars.set_accuracy(AccuracyBoost=self.accuracy_boost)
+        pars.NonLinear = camb.model.NonLinear_both if self.nonlinear else camb.model.NonLinear_none
+        pars.WantLensing = bool(self.want_lensing)
         results = camb.get_results(pars)
         spectra = results.get_cmb_power_spectra(pars, CMB_unit='muK')['total']
         

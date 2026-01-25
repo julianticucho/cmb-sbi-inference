@@ -1,6 +1,7 @@
 data/simulations
 results/
 data/
+legacy/
 .vscode/
 .pytest_cache/
 sbi-logs/

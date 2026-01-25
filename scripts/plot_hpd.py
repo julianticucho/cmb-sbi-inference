@@ -3,7 +3,7 @@ import torch
 from src.core import StorageManager
 from src.simulation import SimulatorFactory, PriorFactory
 from src.preprocessing import PipelineFactory
-from src.inference import InferenceFactory
+from src.inference import NeuralInferenceFactory
 from src.visualization import plot_hpd
 
 
@@ -16,7 +16,7 @@ def load_model_and_create_components(
     state_dict, simulation_files, prior_type, inference_type = storage.load_model(model_filename)
     
     theta, x = storage.load_multiple_simulations(simulation_files)
-    model = InferenceFactory.get_inference(inference_type, prior_type)
+    model = NeuralInferenceFactory.get_inference(inference_type, prior_type)
     model.append_simulations(theta, x)
     density_estimator = model.train(max_num_epochs=0)
     density_estimator.load_state_dict(state_dict)
@@ -61,7 +61,7 @@ def plot_hpd_and_save(
 if __name__ == "__main__":
     
     posterior, simulator, prior = load_model_and_create_components(
-        model_filename="snpe_c_test_50k_cov_binned.pth",
+        model_filename="snpe_c_default_standard_test_50k_cov_binned.pth",
         simulator_type="tt",
         pipeline_type="planck_processing"
     )
@@ -77,7 +77,7 @@ if __name__ == "__main__":
             r'$\ln(10^{10}A_s)$', 
             r'$n_s$'
         ],
-        num_posterior_samples=5000,
-        num_true_samples=5,
-        output_hpd_name="snpe_c_test_50k_cov_binned.pdf"
+        num_posterior_samples=2000,
+        num_true_samples=1000,
+        output_hpd_name="hpd_snpe_c_default_standard_test_50k_cov_binned.pdf"
     )

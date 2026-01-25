@@ -1,5 +1,5 @@
 from typing import Dict, Any
-from ..pipelines import PlanckProcessingPipeline, UnbinnedPlanckProcessingPipeline
+from ..pipelines import PlanckProcessingPipeline, UnbinnedPlanckProcessingPipeline, PlanckBinningPipeline
 
 
 class PipelineFactory:
@@ -9,6 +9,7 @@ class PipelineFactory:
         return {
             "planck_processing": PipelineFactory.create_planck_processing,
             "unbinned_planck_processing": PipelineFactory.create_unbinned_planck_processing,
+            "planck_binning": PipelineFactory.create_planck_binning,
         }
 
     @staticmethod
@@ -25,5 +26,9 @@ class PipelineFactory:
     @staticmethod
     def create_unbinned_planck_processing():
         return UnbinnedPlanckProcessingPipeline()
+    
+    @staticmethod
+    def create_planck_binning():
+        return PlanckBinningPipeline()
     
 

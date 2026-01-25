@@ -1,6 +1,8 @@
-from .factories import InferenceFactory
-
+from .factories import NeuralInferenceFactory, MCMCInferenceFactory 
+from . import likelihoods
 
 __all__ = [
-    'InferenceFactory'
+    'NeuralInferenceFactory',
+    'MCMCInferenceFactory',
+    'likelihoods',
 ]

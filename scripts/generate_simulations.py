@@ -11,7 +11,7 @@ def generate_and_save_simulations(
     num_workers: int = 1,
     output_name: Optional[str] = None
 ):  
-    prior = PriorFactory.get_prior(prior_type).to_sbi
+    prior = PriorFactory.get_prior(prior_type).to_sbi()
     simulator = SimulatorFactory.get_simulator(simulator_type)
     
     print(f"Generating {num_simulations} simulations...")
@@ -35,9 +35,10 @@ def generate_and_save_simulations(
 
 if __name__ == "__main__":
     generate_and_save_simulations(
-        num_simulations=10,
-        prior_type="standard_tau",
-        simulator_type="tt_tau",
+        num_simulations=1000,
+        prior_type="standard",
+        simulator_type="tt",
         seed=1,
-        num_workers=11
+        num_workers=11,
+        output_name="calibration_standard_tt_1000_1.pt"
     )

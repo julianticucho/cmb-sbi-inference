@@ -1,6 +1,6 @@
 
 from .contracts import BasePipeline, BaseStep
-from .pipelines import PlanckProcessingPipeline, UnbinnedPlanckProcessingPipeline
+from .pipelines import PlanckProcessingPipeline, UnbinnedPlanckProcessingPipeline, PlanckBinningPipeline
 from .steps import (
     GaussianNoiseCovarianceStep,
     BinningPlanckStep,
@@ -21,7 +21,7 @@ __all__ = [
     "RangeCutStep", 
     
     # pipelines
-    "PlanckProcessingPipeline", "UnbinnedPlanckProcessingPipeline",
+    "PlanckProcessingPipeline", "UnbinnedPlanckProcessingPipeline", "PlanckBinningPipeline",
     
     # factories
     "PipelineFactory",

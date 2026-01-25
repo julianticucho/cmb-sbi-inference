@@ -1,9 +1,12 @@
-from typing import Optional, List
 import torch
+from typing import Optional, List
+from getdist import loadMCSamples
+
 from src.core import StorageManager
-from src.inference.factories import InferenceFactory
+from src.inference.factories import NeuralInferenceFactory
 from src.preprocessing.factories import ObservationFactory
 from src.visualization import plot_ppc
+
 
 
 def simulate_observation(
@@ -22,14 +25,34 @@ def sample_model(
     storage = StorageManager()
     state_dict, simulation_files, prior_type, inference_type = storage.load_model(model_filename)
     theta, x = storage.load_multiple_simulations(simulation_files)
-    model = InferenceFactory.get_inference(inference_type, prior_type)
+    model = NeuralInferenceFactory.get_inference(inference_type, prior_type)
     model.append_simulations(theta, x)
     density_estimator = model.train(max_num_epochs=0)
     density_estimator.load_state_dict(state_dict)
-    posterior = model.build_posterior(density_estimator).set_default_x(x_obs)
-    samples = posterior.sample((num_samples,))
+    posterior = model.build_posterior(density_estimator)
+    samples = posterior.sample((num_samples,), x=x_obs)
     
     return samples
+
+
+def load_cobaya_chain_as_tensor(
+    chain_prefix: str,
+    param_names: Optional[List[str]] = None,
+    ignore_rows: float = 0.3,
+) -> torch.Tensor:
+    gds = loadMCSamples(chain_prefix, settings={"ignore_rows": ignore_rows})
+    if param_names is None:
+        return torch.tensor(gds.samples, dtype=torch.float32)
+    name_to_index = {p.name: i for i, p in enumerate(gds.paramNames.names)}
+    missing = [n for n in param_names if n not in name_to_index]
+    if missing:
+        raise ValueError(
+            f"Some param_names were not found in chain: {missing}. "
+            f"Available: {list(name_to_index.keys())}"
+        )
+    idxs = [name_to_index[n] for n in param_names]
+    return torch.tensor(gds.samples[:, idxs], dtype=torch.float32)
+
 
 def plot_ppc_and_save(
     samples: List[torch.Tensor],
@@ -65,34 +88,47 @@ def plot_ppc_and_save(
 
 
 if __name__ == "__main__":
-    theta_true_example = torch.tensor([0.022068, 0.12029, 1.04122, 3.098, 0.9624])
-    
+    theta_true_example = torch.tensor([0.02212, 0.1206, 1.04077, 3.04, 0.9626])
+
     x_obs = simulate_observation(
         theta_true=theta_true_example,
         observation_type="planck_tt",
         seed=0
     )
-    
+
+    mcmc_samples = load_cobaya_chain_as_tensor(
+        chain_prefix="results/chains/planck_tt_gaussian_run_4",
+        param_names=["ombh2", "omch2", "theta_MC_100", "ln_10_10_As", "ns"],
+        ignore_rows=0.3
+    )   
+
     samples_1 = sample_model(
-        model_filename="fmpe_default_25k_cov_binned.pth",
+        model_filename="snpe_c_default_standard_test_250k_cov_binned.pth",
         x_obs=x_obs,
         num_samples=25000,
     )
 
+    samples_2 = sample_model(
+        model_filename="nle_default_standard_test_250k_cov_binned.pth",
+        x_obs=x_obs,
+        num_samples=25000,
+    )
+    
     plot_ppc_and_save(
-        samples=[samples_1],  
+        samples=[samples_1, samples_2, mcmc_samples],  
         true_parameter=theta_true_example.tolist(),
         param_names=['omega_b', 'omega_c', 'theta_MC', 'ln10As', 'ns'],
         param_labels=[r'$\omega_b$', r'$\omega_c$', r'$100\theta_{MC}$', r'$\ln(10^{10}A_s)$', r'$n_s$'],
-        sample_labels=['fmpe 25k'],
-        sample_colors=['#E03424'],
-        filled=[True],
+        sample_labels=['snpe_c 250k', 'nle 250k', 'mcmc'],
+        sample_colors=['#cccccc', '#666666', '#000000'], #'#006FED'
+        filled=[True, False, False],
         limits=[
-            [0.022068-0.00022*(5), 0.022068+0.00022*(5)],    
-            [0.12029-0.0021*(5), 0.12029+0.0021*(5)],  
-            [1.04122-0.00047*(5), 1.04122+0.00047*(5)],      
-            [3.098-0.016*(5), 3.098+0.016*(5)],    
-            [0.9624-0.0057*(5), 0.9624+0.0057*(5)]
+            [0.02212-0.00022*5, 0.02212+0.00022*5],
+            [0.1206-0.0021*5, 0.1206+0.0021*5],
+            [1.04077-0.00047*5, 1.04077+0.00047*5],
+            [3.04-0.016*5, 3.04+0.016*5],
+            [0.9626-0.0057*5, 0.9626+0.0057*5]
         ],
-        output_ppc_name="fmpe_default_25k_cov_binned.pdf"
-    )
+        output_ppc_name="mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf"
+    ) 
+

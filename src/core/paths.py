@@ -35,6 +35,8 @@ class Paths:
         self.posteriors_dir = self.results_dir / "posteriors"
         self.summary_dir = self.results_dir / "summary"
         self.synthetic_dir = self.results_dir / "synthetic"
+        self.hpd_dir = self.results_dir / "hpd"
+        self.diagnostics_dir = self.results_dir / "diagnostics"
     
     def ensure_directories(self):
         paths = [
