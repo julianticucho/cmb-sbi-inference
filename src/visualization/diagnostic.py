@@ -357,3 +357,119 @@ def plot_hpd_legacy(
         ax.legend(loc='lower right')
         
         return fig, {p.item(): cov for p, cov in zip(percentiles, coverage_results)}
+
+def plot_data_ppc(
+    posterior_samples: torch.Tensor,
+    simulator: Any,
+    pipeline: Any,
+    observation: torch.Tensor,
+    x_axis_values: Optional[np.ndarray] = None,
+    num_samples_for_plot: int = 100,
+    confidence_intervals: List[float] = [0.68, 0.95],
+    title: str = "Posterior Predictive Check (Data Space)",
+    xlabel: str = "Bin / Index",
+    ylabel: str = "Data",
+    log_scale: bool = False,
+    device: str = "cpu"
+) -> plt.Figure:
+    posterior_samples = posterior_samples.to(device)
+    observation = observation.to(device)
+    
+    if len(posterior_samples) > num_samples_for_plot:
+        indices = torch.randperm(len(posterior_samples))[:num_samples_for_plot]
+        samples_to_run = posterior_samples[indices]
+    else:
+        samples_to_run = posterior_samples
+        
+    simulated_data = []
+    
+    # Run simulations
+    print(f"Generating {len(samples_to_run)} simulations for PPC...")
+    for theta in tqdm(samples_to_run, desc="Simulating PPC"):
+        # 1. Simulate clean data
+        # Note: Simulator might expect shape (N_params) or (1, N_params)
+        try:
+            x_clean = simulator.simulate(theta)
+        except Exception:
+             # Try batched if single fails or vice versa, but simulator.simulate usually takes single param tensor 
+             # based on previous file read (power_spectrum_simulator.py: simulate takes 1D tensor)
+            x_clean = simulator.simulate(theta)
+
+        # 2. Process through pipeline (add noise, binning, etc.)
+        # Pipeline .run() typically takes clean x and optional seed
+        # We don't fix seed here to capture noise uncertainty unless we want to isolate parameter uncertainty
+        # Usually for PPC we want predictive distribution P(x|theta) which includes noise P(x|theta, clean_x)
+        x_proc = pipeline.run(x_clean)
+        
+        simulated_data.append(x_proc.cpu().numpy())
+    
+    simulated_data = np.array(simulated_data) # Shape: (N_sims, Data_Dim)
+    observation_np = observation.cpu().numpy()
+    
+    if x_axis_values is None:
+        x_axis_values = np.arange(len(observation_np))
+        
+    mu = np.mean(simulated_data, axis=0)
+    std = np.std(simulated_data, axis=0)
+    
+    fig, axes = plt.subplots(2, 1, figsize=(10, 8), sharex=True, gridspec_kw={'height_ratios': [3, 1]})
+    ax_main = axes[0]
+    
+    # Plot Confidence Intervals
+    # Sort data for quantiles is safer for non-gaussian distributions
+    for ci in sorted(confidence_intervals, reverse=True):
+        alpha = (1 - ci) / 2
+        lower = np.quantile(simulated_data, alpha, axis=0)
+        upper = np.quantile(simulated_data, 1 - alpha, axis=0)
+        ax_main.fill_between(x_axis_values, lower, upper, alpha=0.3, label=f'{int(ci*100)}% CI')
+        
+    ax_main.plot(x_axis_values, mu, 'b--', label='Mean Simulated', alpha=0.8)
+    ax_main.plot(x_axis_values, observation_np, 'k-', label='Observation', linewidth=1.5)
+    
+    if log_scale:
+        ax_main.set_yscale('log')
+        
+    ax_main.set_ylabel(ylabel)
+    ax_main.set_title(title)
+    ax_main.legend()
+    ax_main.grid(True, alpha=0.3)
+    
+    ax_res = axes[1]
+    std_safe = std.copy()
+    std_safe[std_safe == 0] = 1.0
+    
+    residuals = (observation_np - mu) / std_safe
+    
+    ax_res.plot(x_axis_values, residuals, 'k.', markersize=4)
+    ax_res.axhline(0, color='gray', linestyle='--')
+    ax_res.axhline(2, color='r', linestyle=':', alpha=0.5)
+    ax_res.axhline(-2, color='r', linestyle=':', alpha=0.5)
+    ax_res.set_ylabel(r"$(x_{obs} - \mu_{sim}) / \sigma_{sim}$")
+    ax_res.set_xlabel(xlabel)
+    ax_res.grid(True, alpha=0.3)
+    # Limit y-axis if residuals are huge
+    # ax_res.set_ylim(-5, 5) 
+    
+    plt.tight_layout()
+    return fig
+
+def plot_loss_history(
+    loss_history: List[float],
+    validation_loss: Optional[List[float]] = None,
+    log_scale: bool = True,
+    title: str = "Training Loss"
+) -> plt.Figure:
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(loss_history, label='Training Loss')
+    if validation_loss is not None:
+        ax.plot(validation_loss, label='Validation Loss')
+    
+    if log_scale:
+        ax.set_yscale('log')
+        
+    ax.set_xlabel('Epoch')
+    ax.set_ylabel('Loss')
+    ax.set_title(title)
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+    return fig

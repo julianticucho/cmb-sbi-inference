@@ -1,0 +1,30 @@
+\section{Introducción}
+
+Esta sección buscará dar una idea general de cómo se conectan los modelos teóricos con los datos reales. En el fondo, hay dos formas de ver este problema: el problema directo y el problema inverso. El problema directo es más sencillo, porque consiste en tomar parámetros $\Theta$ y generar datos $x$ usando un modelo, como si estuviéramos simulando la realidad. En cambio, el problema inverso es más complicado, ya que parte de datos observados $x_0$ y trata de encontrar qué parámetros $\Theta$ los generaron. Esto implica explorar muchas posibles soluciones, lo que lo convierte en la base de la inferencia estadística.
+
+\subsection{Marco Bayesiano}
+
+La inferencia bayesiana es una forma estructurada de abordar el problema inverso. La idea principal es tratar los parámetros $\Theta$ como variables aleatorias en lugar de valores fijos, lo que permite modelar la incertidumbre de forma explícita. Se parte de un prior $p(\Theta)$, que representa lo que creemos antes de ver los datos, y de una likelihood $p(x|\Theta)$, que describe cómo el modelo genera datos. A partir de esto, se usa el teorema de Bayes:
+
+\begin{equation}
+p(\Theta|x) = \frac{p(x|\Theta)p(\Theta)}{p(x)}
+\end{equation}
+
+donde la evidencia está dada por:
+
+\begin{equation}
+p(x) = \int p(x|\Theta)p(\Theta)\, d\Theta
+\end{equation}
+
+La interpretación es bastante intuitiva: el prior representa las creencias iniciales, la likelihood mide qué tan bien el modelo explica los datos, y la posterior corresponde a las creencias actualizadas después de observar los datos. También es útil considerar la distribución conjunta $p(x, \Theta) = p(x|\Theta)p(\Theta)$, ya que desde ella se pueden obtener todas las demás distribuciones mediante marginalización o condicionamiento. En ejemplos simples, todo esto se puede calcular de forma exacta, pero en problemas reales, donde los modelos son complejos o tienen muchos parámetros, estos cálculos se vuelven complicados.
+
+\subsection{Interpretación de la likelihood y la posterior}
+
+Algo importante es cómo interpretar correctamente la likelihood y la posterior. Muchas veces se dice informalmente que ambas son distribuciones de probabilidad, pero esto no es del todo preciso sin contexto. La likelihood $p(x|\Theta)$, estrictamente hablando, es una distribución de probabilidad sobre los datos $x$ para un valor fijo de $\Theta$. Sin embargo, cuando se usa en inferencia, se suele ver como una función de $\Theta$ con los datos fijos. En ese sentido, no es una distribución de probabilidad sobre $\Theta$, sino más bien una \textit{familia de distribuciones} indexada por los parámetros. Es decir, para cada valor de $\Theta$ tenemos una distribución distinta sobre $x$. Por otro lado, la posterior $p(\Theta|x)$ sí es una distribución de probabilidad sobre los parámetros $\Theta$, una vez que los datos $x$ están fijos. Pero incluso aquí hay una sutileza: en realidad también estamos hablando de una familia de distribuciones, ya que para cada conjunto de datos distinto obtendríamos una posterior distinta. Tanto la likelihood como la posterior dependen de qué variable se esté fijando y cuál se está considerando como variable aleatoria. Pensarlas como familias de distribuciones ayuda a evitar confusiones conceptuales.
+
+\subsection{Enfoques Computacionales}
+
+En la práctica, la distribución posterior $p(\Theta|x)$ casi nunca tiene una forma cerrada y puede tener estructuras complicadas, como múltiples modos o regiones difíciles de explorar. Por eso, es necesario recurrir a métodos computacionales para aproximarla. Los métodos clásicos como MCMC \cite{hasting1970} o Nested Sampling \cite{skilling2004} se basan en evaluar la likelihood $p(x_0|\Theta)$ y construir esquemas de muestreo que evitan calcular directamente la evidencia. Métodos más avanzados, como Hamiltonian Monte Carlo \cite{brooks2011} o la Inferencia Variacional \cite{hoffman2013}, además utilizan gradientes $\nabla_\Theta \log p(x_0|\Theta)$ para moverse de manera más eficiente en espacios de alta dimensión.
+
+Por otro lado, existe un enfoque diferente llamado inferencia basada en simulación (SBI) \cite{cranmer2020}, que no requiere evaluar la likelihood de forma explícita. En su lugar, solo necesita poder generar muestras conjuntas $(x, \Theta)$ a partir del modelo. Esto resulta especialmente útil cuando la likelihood es desconocida, muy difícil de calcular o el modelo funciona como una caja negra. Sin embargo, este enfoque implica aprender una aproximación de la distribución posterior a partir de datos simulados. En general, cada método hace distintos supuestos sobre qué se puede calcular del modelo, lo que determina cuándo es aplicable. Estas ideas vienen desarrollándose desde hace décadas, con orígenes en trabajos de los años 80, y dieron lugar a métodos como la Computación Bayesiana Aproximada (ABC).
+

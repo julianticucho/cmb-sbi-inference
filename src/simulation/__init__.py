@@ -5,6 +5,9 @@ from .simulators.power_spectrum_simulator import PowerSpectrumSimulator
 from .simulators.power_spectrum_tau_simulator import PowerSpectrumTauSimulator
 from .factories.prior_factory import PriorFactory
 from .factories.simulator_factory import SimulatorFactory
+from .factories.pipeline_factory import PipelineFactory
+from .factories.observation_factory import ObservationFactory
+from . import api
 
 
 __all__ = [
@@ -18,5 +21,8 @@ __all__ = [
     'PowerSpectrumSimulator', 'PowerSpectrumTauSimulator',
 
     # factories
-    'PriorFactory', 'SimulatorFactory', 
+    'PriorFactory', 'SimulatorFactory', 'PipelineFactory', 'ObservationFactory',
+    
+    # api
+    'api'
 ]

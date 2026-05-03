@@ -6,4 +6,7 @@ legacy/
 .pytest_cache/
 sbi-logs/
 sbi_inference.egg-info/
+notes/
+report/
 *.ipynb_checkpoints
+docs/

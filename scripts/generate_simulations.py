@@ -1,44 +1,25 @@
-from typing import Optional
-from src.simulation import PriorFactory, SimulatorFactory
-from src.core import StorageManager
-
-
-def generate_and_save_simulations(
-    num_simulations: int = 100,
-    prior_type: str = "standard",
-    simulator_type: str = "tt",
-    seed: Optional[int] = None,
-    num_workers: int = 1,
-    output_name: Optional[str] = None
-):  
-    prior = PriorFactory.get_prior(prior_type).to_sbi()
-    simulator = SimulatorFactory.get_simulator(simulator_type)
-    
-    print(f"Generating {num_simulations} simulations...")
-    theta, x = simulator.simulate_batch(
-        num_simulations=num_simulations,
-        prior=prior,
-        seed=seed,
-        num_workers=num_workers
-    )
-
-    if output_name is None:
-        output_name = f"{prior_type}_{simulator_type}_{num_simulations}_{seed}.pt"
-    
-    StorageManager().save_simulations(theta, x, output_name)
-    print(f"Parameters shape: {theta.shape}")
-    print(f"Simulations shape: {x.shape}")
-    print(f"Saved as: {output_name}")
-    
-    return theta, x
-
+from src.simulation.api import generate_simulations
 
 if __name__ == "__main__":
-    generate_and_save_simulations(
-        num_simulations=1000,
-        prior_type="standard",
+    # generate_simulations(
+    #     num_simulations=50000,
+    #     prior_type="1sigma",
+    #     simulator_type="tt",
+    #     seed=1,
+    #     num_workers=11,
+    #     output_name="tt_1sigma_50000_1.pt"
+    # )
+    # print("simulations saved as tt_1sigma_50000_1.pt.")
+
+    generate_simulations(
+        num_simulations=50000,
+        prior_type="1sigma",
         simulator_type="tt",
-        seed=1,
+        seed=2,
         num_workers=11,
-        output_name="calibration_standard_tt_1000_1.pt"
+        output_name="tt_1sigma_50000_2.pt"
     )
+    print("simulations saved as tt_1sigma_50000_2.pt.")
+
+
+    

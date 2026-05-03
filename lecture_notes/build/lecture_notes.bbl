@@ -1,69 +1,167 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{27}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[{Planck Collaboration}(2020{\natexlab{a}})]{Planck2018}
-{Planck Collaboration}.
-\newblock {Planck 2018 results. VI. Cosmological parameters}.
-\newblock \emph{A\&A}, 641:\penalty0 A6, 2020{\natexlab{a}}.
-\newblock \doi{10.1051/0004-6361/201833910}.
+\bibitem[Alsing et~al.(2018)Alsing, Wandelt, and Feeney]{alsing2018}
+Justin Alsing, Benjamin Wandelt, and Stephen Feeney.
+\newblock Massive optimal data compression and density estimation for scalable, likelihood-free inference in cosmology.
+\newblock \emph{Monthly Notices of the Royal Astronomical Society}, 477\penalty0 (3):\penalty0 2874–2885, March 2018.
+\newblock ISSN 1365-2966.
+\newblock \doi{10.1093/mnras/sty819}.
+\newblock URL \url{http://dx.doi.org/10.1093/mnras/sty819}.
 
-\bibitem[{Simons Observatory Collaboration}(2019)]{SO2019}
-{Simons Observatory Collaboration}.
-\newblock {The Simons Observatory: Science goals and forecasts}.
-\newblock \emph{JCAP}, 2019:\penalty0 056, 2019.
+\bibitem[Bishop(1994)]{bishop1994}
+Christopher~M. Bishop.
+\newblock Mixture density networks.
+\newblock 1994.
+\newblock URL \url{https://api.semanticscholar.org/CorpusID:118227751}.
 
-\bibitem[{Abazajian} et~al.(2016)]{CMB-S42016}
-K.~{Abazajian} et~al.
-\newblock {CMB-S4 Science Book}.
-\newblock \emph{arXiv e-prints}, 2016.
+\bibitem[Brooks et~al.(2011)Brooks, Gelman, Jones, and Meng]{brooks2011}
+Steve Brooks, Andrew Gelman, Galin Jones, and Xiao-Li Meng.
+\newblock \emph{Handbook of Markov Chain Monte Carlo}.
+\newblock Chapman and Hall/CRC, May 2011.
+\newblock ISBN 9780429138508.
+\newblock \doi{10.1201/b10905}.
+\newblock URL \url{http://dx.doi.org/10.1201/b10905}.
 
-\bibitem[{Schneider} and {Teyssier}(2020)]{Schneider2020}
-A.~{Schneider} and R.~{Teyssier}.
-\newblock {A fast and accurate large-scale structure matter power spectrum
-  calculator}.
-\newblock \emph{JCAP}, 2020:\penalty0 019, 2020.
+\bibitem[Charnock et~al.(2018)Charnock, Lavaux, and Wandelt]{charnock2018}
+Tom Charnock, Guilhem Lavaux, and Benjamin~D. Wandelt.
+\newblock Automatic physical inference with information maximizing neural networks.
+\newblock \emph{Physical Review D}, 97\penalty0 (8), April 2018.
+\newblock ISSN 2470-0029.
+\newblock \doi{10.1103/physrevd.97.083004}.
+\newblock URL \url{http://dx.doi.org/10.1103/PhysRevD.97.083004}.
 
-\bibitem[{BICEP/Keck Collaboration}(2021)]{BICEP2021}
-{BICEP/Keck Collaboration}.
-\newblock {Improved Constraints on Primordial Gravitational Waves using Planck,
-  WMAP, and BICEP/Keck Observations through the 2018 Observing Season}.
-\newblock \emph{Phys. Rev. Lett.}, 127:\penalty0 151301, 2021.
+\bibitem[Cranmer et~al.(2016)Cranmer, Pavez, and Louppe]{cranmer2016}
+Kyle Cranmer, Juan Pavez, and Gilles Louppe.
+\newblock Approximating likelihood ratios with calibrated discriminative classifiers, 2016.
+\newblock URL \url{https://arxiv.org/abs/1506.02169}.
 
-\bibitem[{Challinor} and {Peiris}(2011)]{Challinor2011}
-A.~{Challinor} and H.~{Peiris}.
-\newblock {The CMB bispectrum}.
-\newblock \emph{NewAR}, 55:\penalty0 223--239, 2011.
+\bibitem[Cranmer et~al.(2020)Cranmer, Brehmer, and Louppe]{cranmer2020}
+Kyle Cranmer, Johann Brehmer, and Gilles Louppe.
+\newblock The frontier of simulation-based inference.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 117\penalty0 (48):\penalty0 30055–30062, May 2020.
+\newblock ISSN 1091-6490.
+\newblock \doi{10.1073/pnas.1912789117}.
+\newblock URL \url{http://dx.doi.org/10.1073/pnas.1912789117}.
 
-\bibitem[{Planck Collaboration}(2020{\natexlab{b}})]{Planck2018NL}
-{Planck Collaboration}.
-\newblock {Planck 2018 results. VIII. Gravitational lensing}.
-\newblock \emph{A\&A}, 641:\penalty0 A8, 2020{\natexlab{b}}.
+\bibitem[Deistler et~al.(2025)Deistler, Boelts, Steinbach, Moss, Moreau, Gloeckler, Rodrigues, Linhart, Lappalainen, Miller, Gonçalves, Lueckmann, Schröder, and Macke]{deistler2025}
+Michael Deistler, Jan Boelts, Peter Steinbach, Guy Moss, Thomas Moreau, Manuel Gloeckler, Pedro L.~C. Rodrigues, Julia Linhart, Janne~K. Lappalainen, Benjamin~Kurt Miller, Pedro~J. Gonçalves, Jan-Matthis Lueckmann, Cornelius Schröder, and Jakob~H. Macke.
+\newblock Simulation-based inference: A practical guide, 2025.
+\newblock URL \url{https://arxiv.org/abs/2508.12939}.
 
-\bibitem[{Efstathiou} et~al.(2004){Efstathiou}, {Frenk}, and
-  {Sugiyama}]{EFS2004}
-G.~{Efstathiou}, C.~{Frenk}, and N.~{Sugiyama}.
-\newblock {On the covariance matrix of CMB power spectrum estimates}.
-\newblock \emph{MNRAS}, 354:\penalty0 L72--L76, 2004.
+\bibitem[Durkan et~al.(2018)Durkan, Papamakarios, and Murray]{durkan2018}
+Conor Durkan, George Papamakarios, and Iain Murray.
+\newblock Sequential neural methods for likelihood-free inference, 2018.
+\newblock URL \url{https://arxiv.org/abs/1811.08723}.
 
-\bibitem[{Alsing} and {Wandelt}(2019)]{Alsing2019}
-J.~{Alsing} and B.~{Wandelt}.
-\newblock {Fast likelihood-free cosmology with neural density estimators}.
-\newblock \emph{MNRAS}, 488:\penalty0 4443--4460, 2019.
+\bibitem[Durkan et~al.(2019)Durkan, Bekasov, Murray, and Papamakarios]{durkan2019nsf}
+Conor Durkan, Artur Bekasov, Iain Murray, and George Papamakarios.
+\newblock Neural spline flows, 2019.
+\newblock URL \url{https://arxiv.org/abs/1906.04032}.
 
-\bibitem[{Jeffrey} et~al.(2021){Jeffrey}, {Alsing}, and {Lanusse}]{Jeffrey2021}
-N.~{Jeffrey}, J.~{Alsing}, and F.~{Lanusse}.
-\newblock {Dimensionality reduction for CMB data}.
-\newblock \emph{MNRAS}, 505:\penalty0 4626--4640, 2021.
+\bibitem[Greenberg et~al.(2019)Greenberg, Nonnenmacher, and Macke]{greenberg2019}
+David~S. Greenberg, Marcel Nonnenmacher, and Jakob~H. Macke.
+\newblock Automatic posterior transformation for likelihood-free inference, 2019.
+\newblock URL \url{https://arxiv.org/abs/1905.07488}.
 
-\bibitem[{Papamakarios} et~al.(2019){Papamakarios}, {Sterratt}, and
-  {Murray}]{Papamakarios2019}
-G.~{Papamakarios}, D.~{Sterratt}, and I.~{Murray}.
-\newblock {Sequential Neural Likelihood: Fast Likelihood-Free Inference with
-  Autoregressive Flows}.
-\newblock \emph{AISTATS}, 2019.
+\bibitem[Gutmann et~al.(2017)Gutmann, Dutta, Kaski, and Corander]{gutmann2017}
+Michael~U. Gutmann, Ritabrata Dutta, Samuel Kaski, and Jukka Corander.
+\newblock Likelihood-free inference via classification, 2017.
+\newblock URL \url{https://arxiv.org/abs/1407.4981}.
+
+\bibitem[Hastings(1970)]{hasting1970}
+W.~K. Hastings.
+\newblock Monte carlo sampling methods using markov chains and their applications.
+\newblock \emph{Biometrika}, 57\penalty0 (1):\penalty0 97--109, 04 1970.
+\newblock ISSN 0006-3444.
+\newblock \doi{10.1093/biomet/57.1.97}.
+\newblock URL \url{https://doi.org/10.1093/biomet/57.1.97}.
+
+\bibitem[Heavens et~al.(2000)Heavens, Jimenez, and Lahav]{heavens2000}
+A.~F. Heavens, R.~Jimenez, and O.~Lahav.
+\newblock Massive lossless data compression and multiple parameter estimation from galaxy spectra.
+\newblock \emph{Monthly Notices of the Royal Astronomical Society}, 317\penalty0 (4):\penalty0 965–972, October 2000.
+\newblock ISSN 1365-2966.
+\newblock \doi{10.1046/j.1365-8711.2000.03692.x}.
+\newblock URL \url{http://dx.doi.org/10.1046/j.1365-8711.2000.03692.x}.
+
+\bibitem[Hermans et~al.(2020)Hermans, Begy, and Louppe]{hermans2020}
+Joeri Hermans, Volodimir Begy, and Gilles Louppe.
+\newblock Likelihood-free mcmc with amortized approximate ratio estimators, 2020.
+\newblock URL \url{https://arxiv.org/abs/1903.04057}.
+
+\bibitem[Hermans et~al.(2022)Hermans, Delaunoy, Rozet, Wehenkel, Begy, and Louppe]{hermans2022}
+Joeri Hermans, Arnaud Delaunoy, François Rozet, Antoine Wehenkel, Volodimir Begy, and Gilles Louppe.
+\newblock A trust crisis in simulation-based inference? your posterior approximations can be unfaithful, 2022.
+\newblock URL \url{https://arxiv.org/abs/2110.06581}.
+
+\bibitem[Hoffman et~al.(2013)Hoffman, Blei, Wang, and Paisley]{hoffman2013}
+Matt Hoffman, David~M. Blei, Chong Wang, and John Paisley.
+\newblock Stochastic variational inference, 2013.
+\newblock URL \url{https://arxiv.org/abs/1206.7051}.
+
+\bibitem[Lemos et~al.(2023)Lemos, Coogan, Hezaveh, and Perreault-Levasseur]{lemos2023}
+Pablo Lemos, Adam Coogan, Yashar Hezaveh, and Laurence Perreault-Levasseur.
+\newblock Sampling-based accuracy testing of posterior estimators for general inference, 2023.
+\newblock URL \url{https://arxiv.org/abs/2302.03026}.
+
+\bibitem[Marin et~al.(2011)Marin, Pudlo, Robert, and Ryder]{marin2011}
+Jean-Michel Marin, Pierre Pudlo, Christian~P. Robert, and Robin Ryder.
+\newblock Approximate bayesian computational methods, 2011.
+\newblock URL \url{https://arxiv.org/abs/1101.0955}.
+
+\bibitem[Papamakarios and Murray(2018)]{papamakarios2018fastepsilon}
+George Papamakarios and Iain Murray.
+\newblock Fast $\epsilon$-free inference of simulation models with bayesian conditional density estimation, 2018.
+\newblock URL \url{https://arxiv.org/abs/1605.06376}.
+
+\bibitem[Papamakarios et~al.(2018)Papamakarios, Pavlakou, and Murray]{papamakarios2018maf}
+George Papamakarios, Theo Pavlakou, and Iain Murray.
+\newblock Masked autoregressive flow for density estimation, 2018.
+\newblock URL \url{https://arxiv.org/abs/1705.07057}.
+
+\bibitem[Papamakarios et~al.(2019)Papamakarios, Sterratt, and Murray]{papamakarios2019nle}
+George Papamakarios, David~C. Sterratt, and Iain Murray.
+\newblock Sequential neural likelihood: Fast likelihood-free inference with autoregressive flows, 2019.
+\newblock URL \url{https://arxiv.org/abs/1805.07226}.
+
+\bibitem[Papamakarios et~al.(2021)Papamakarios, Nalisnick, Rezende, Mohamed, and Lakshminarayanan]{papamakarios2021}
+George Papamakarios, Eric Nalisnick, Danilo~Jimenez Rezende, Shakir Mohamed, and Balaji Lakshminarayanan.
+\newblock Normalizing flows for probabilistic modeling and inference, 2021.
+\newblock URL \url{https://arxiv.org/abs/1912.02762}.
+
+\bibitem[Prangle(2015)]{prangle2015}
+Dennis Prangle.
+\newblock Summary statistics in approximate bayesian computation, 2015.
+\newblock URL \url{https://arxiv.org/abs/1512.05633}.
+
+\bibitem[Sisson et~al.(2018)Sisson, Fan, and Beaumont]{sisson2018}
+S.~A. Sisson, Y.~Fan, and M.~A. Beaumont.
+\newblock Overview of approximate bayesian computation, 2018.
+\newblock URL \url{https://arxiv.org/abs/1802.09720}.
+
+\bibitem[Skilling(2004)]{skilling2004}
+John Skilling.
+\newblock Nested sampling.
+\newblock \emph{AIP Conference Proceedings}, 735\penalty0 (1):\penalty0 395--405, 11 2004.
+\newblock ISSN 0094-243X.
+\newblock \doi{10.1063/1.1835238}.
+\newblock URL \url{https://doi.org/10.1063/1.1835238}.
+
+\bibitem[Talts et~al.(2020)Talts, Betancourt, Simpson, Vehtari, and Gelman]{talts2020}
+Sean Talts, Michael Betancourt, Daniel Simpson, Aki Vehtari, and Andrew Gelman.
+\newblock Validating bayesian inference algorithms with simulation-based calibration, 2020.
+\newblock URL \url{https://arxiv.org/abs/1804.06788}.
+
+\bibitem[Tejero-Cantero et~al.(2020)Tejero-Cantero, Boelts, Deistler, Lueckmann, Durkan, Gonçalves, Greenberg, and Macke]{tejero2020}
+Alvaro Tejero-Cantero, Jan Boelts, Michael Deistler, Jan-Matthis Lueckmann, Conor Durkan, Pedro~J. Gonçalves, David~S. Greenberg, and Jakob~H. Macke.
+\newblock sbi: A toolkit for simulation-based inference.
+\newblock \emph{Journal of Open Source Software}, 5\penalty0 (52):\penalty0 2505, 2020.
+\newblock \doi{10.21105/joss.02505}.
+\newblock URL \url{https://doi.org/10.21105/joss.02505}.
 
 \end{thebibliography}

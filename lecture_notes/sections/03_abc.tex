@@ -1,0 +1,18 @@
+\section{Approximate Bayesian Computation (ABC)}
+
+La idea de Approximate Bayesian Computation (ABC) \cite{marin2011,sisson2018} es un buen punto de partida para entender métodos modernos de inferencia basada en simulación. Básicamente, ABC es como la versión clásica (no con redes neuronales) de estos métodos. La motivación principal es que muchas veces no podemos calcular la verosimilitud $p(x|\Theta)$, pero sí podemos simular datos desde el modelo. El algoritmo funciona de la siguiente manera. Primero se muestrean parámetros desde el prior $\Theta \sim p(\Theta)$. Luego, para cada $\Theta$, se generan datos simulados $x \sim p(x|\Theta)$ usando el modelo directo. La idea es comparar estos datos simulados con los datos observados $x_0$, pero no directamente, sino usando estadísticas resumen $s(x)$ de menor dimensión. Esto se hace porque comparar datos completos puede ser muy costoso o poco informativo. Se define entonces una distancia entre datos simulados y observados como:
+\begin{equation}
+d(x, x_0) = \| s(x) - s(x_0) \|
+\end{equation}
+
+Luego, se aceptan solo aquellos parámetros $\Theta$ cuyos datos simulados estén lo suficientemente cerca de los datos reales, es decir, cuando $d(x, x_0) < \epsilon$, donde $\epsilon$ es un umbral de tolerancia. Esto define una posterior aproximada:
+\begin{equation}
+p_{\text{ABC}}(\Theta | x) \propto \int_{d(x, x_0) < \epsilon} p(x|\Theta)p(\Theta)\, dx
+\end{equation}
+
+La intuición es que estamos quedándonos solo con los parámetros que generan simulaciones parecidas a lo observado. Si las estadísticas resumen $s(x)$ son buenas, es decir, capturan bien la información relevante, y hacemos $\epsilon \to 0$, entonces esta aproximación converge a la posterior real:
+\[
+p_{\text{ABC}}(\Theta | x) \to p(\Theta | x)
+\]
+
+Por otro lado, en la práctica $\epsilon$ nunca es cero, así que la posterior aproximada suele ser más ancha que la real. Esto significa que ABC tiende a ser conservador, en el sentido de que introduce más incertidumbre. Otra cosa importante es que la calidad del método depende mucho de la elección de las estadísticas resumen. Si estas pierden información relevante, la inferencia va a ser mala, incluso si $\epsilon$ es pequeño. En términos visuales, uno puede pensar que ABC selecciona puntos en el espacio de parámetros que generan simulaciones cercanas a los datos observados. Esto se puede ver como una especie de filtro sobre las simulaciones. 

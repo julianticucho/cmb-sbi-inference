@@ -1,4 +1,4 @@
-from .base_prior import BasePrior
-from .base_simulator import BaseSimulator
+from .base_pipeline import BasePipeline
+from .base_step import BaseStep
 
-__all__ = ['BasePrior', 'BaseSimulator']
+__all__ = ["BasePipeline", "BaseStep"]

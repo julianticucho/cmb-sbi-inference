@@ -1,19 +1,17 @@
-\documentclass[11pt]{article}
-\usepackage[a4paper, margin=1in]{geometry}
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=0.9in]{geometry}
 \usepackage{amsmath, amssymb}
-\usepackage{hyperref}
+\numberwithin{equation}{section}
 \usepackage{graphicx}
 \usepackage{titlesec}
 \usepackage{listings} 
-\usepackage{xcolor}   
+\usepackage[dvipsnames]{xcolor}   
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
 \usepackage[T1]{fontenc}
 \usepackage[numbers,sort&compress]{natbib}
-\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
-\bibliographystyle{unsrtnat}
-\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
-\usetikzlibrary{automata, positioning, arrows.meta}
+
+\bibliographystyle{plainnat}
 
 \title{Lecture notes}
 \author{}
@@ -22,18 +20,32 @@
 \titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
 
+\usepackage[colorlinks=true,
+            linkcolor=black,     % Índice y enlaces internos en negro
+            citecolor=blue,      % Citas bibliográficas en azul
+            urlcolor=blue,       % URLs y arXiv en azul
+            filecolor=black]{hyperref}
+
 \begin{document}
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{1ex}
+\setlength{\parskip}{1.5ex}
 
 \maketitle
-
+\input{sections/01_resumen.tex}
+\clearpage
 \tableofcontents
+\clearpage
+\input{sections/02_introduccion.tex}
+\input{sections/03_abc.tex}
+\input{sections/04_neural_sbi.tex}
+\input{sections/05_data_compresion.tex}
+\input{sections/06_secuential_sbi.tex}
+\input{sections/07_diagnostics.tex}
+\clearpage
+\input{sections/08_toy_model.tex}
 
-\newpage
-
-\section{Introducción}
-
+\clearpage
 \bibliography{references}
+
 \end{document}

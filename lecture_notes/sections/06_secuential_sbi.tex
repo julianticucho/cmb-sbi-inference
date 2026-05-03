@@ -1,0 +1,8 @@
+\section{Sequential Neural Posterior Estimation}
+
+Cuando hacemos SBI, en general tenemos que hacer muchas simulaciones para entrenar el modelo, la elección de prior es importante para que el proceso sea eficiente. Si el prior es muy amplio, la mayoría de las simulaciones van a caer en regiones de baja probabilidad, lo que hace que el entrenamiento sea ineficiente. Por eso, una idea natural es ir adaptando el prior a medida que vamos aprendiendo sobre el posterior, enfocándonos cada vez más en las regiones relevantes. La idea general de los métodos secuenciales de NPE (SNPE) se basan en esto: en vez de muestrear siempre desde el prior $p(\Theta)$, vamos adaptando de dónde sacamos los parámetros. En cada iteración usamos una \textit{proposal} $\tilde{p}(\Theta)$ que típicamente se parece al posterior que llevamos hasta el momento, de modo que concentramos las simulaciones en las regiones que realmente importan para explicar la observación $x_0$. Esto hace el proceso mucho más eficiente. Pero acá aparece un problema importante. Si entrenamos el modelo igual que antes, en realidad no estamos aprendiendo el posterior verdadero, sino uno sesgado por la proposal:
+\[
+q_\Phi^{\text{SNPE}}(\Theta \mid x) \approx \frac{1}{Z} p(x \mid \Theta)\tilde{p}(\Theta).
+\]
+
+donde $Z$ es una constante de normalización. Entonces, todos los métodos SNPE básicamente giran en torno a cómo corregir este sesgo introducido por usar una proposal distinta del prior. Ver \cite{greenberg2019} para una revisión de los distintos métodos SNPE (SNPE-A \cite{papamakarios2018fastepsilon}, SNPE-B y SNPE-C  o también llamado Automatic Posterior Transformation APT \cite{greenberg2019}) TAREA PARA LA CASA. 

@@ -17,27 +17,30 @@ class BaseSimulator(ABC):
     def simulate_batch(
         self, 
         num_simulations: int, 
-        prior, seed: Optional[int] = None, 
+        prior, 
+        seed: Optional[int] = None, 
         num_workers: int = 1
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         processed_prior, _, prior_returns_numpy = process_prior(prior)
-        
-        def create_simulator():
-            def simulator_wrapper(theta):
-                return self.simulate(theta)
-            return simulator_wrapper
-        
-        simulator_wrapper = create_simulator()
-        simulation_wrapper = process_simulator(simulator_wrapper, processed_prior, prior_returns_numpy)
+        simulator_wrapper = self.get_simulator_wrapper()
+        processed_simulator = process_simulator(simulator_wrapper, processed_prior, prior_returns_numpy)
         
         theta, x = simulate_for_sbi(
-            simulation_wrapper,
+            processed_simulator,
             proposal=processed_prior,
             num_simulations=num_simulations,
             num_workers=num_workers,
             seed=seed
         )
         return theta, x
+
+    def get_simulator_wrapper(self):
+        def create_simulator():
+            def simulator_wrapper(theta):
+                return self.simulate(theta)
+            return simulator_wrapper
+        simulator_wrapper = create_simulator()
+        return simulator_wrapper
 
 
         

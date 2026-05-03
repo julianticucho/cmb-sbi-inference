@@ -1,0 +1,90 @@
+\section{Neural Simulation-Based Inference}
+
+Aunque los métodos clásicos de inferencia basada en simulación (SBI) han sido bastante exitosos, tienen limitaciones importantes cuando se aplican a problemas con datos complejos o de alta dimensión. Uno de los principales problemas es que dependen de estadísticas resumen $s(x)$ de baja dimensión para comparar simulaciones con datos reales. Esto puede ser problemático porque estas estadísticas no siempre capturan toda la información relevante contenida en los datos originales, lo que puede afectar la calidad de la inferencia. Otro problema importante es la llamada \textit{curse of dimensionality} \cite{prangle2015}. A medida que aumenta la dimensión del espacio de parámetros, la cantidad de simulaciones necesarias crece rápidamente, haciendo que estos métodos sean cada vez más ineficientes y costosos computacionalmente.
+
+Estas dificultades han empezado a resolverse gracias a avances en deep learning. Por un lado, las arquitecturas modernas de redes neuronales permiten trabajar directamente con datos complejos, aprendiendo representaciones útiles sin necesidad de diseñar manualmente estadísticas resumen. En lugar de depender de características hechas a mano, el modelo aprende automáticamente qué información es relevante optimizando una función de pérdida. Por otro lado, también se han desarrollado métodos basados en redes neuronales capaces de aproximar distribuciones de probabilidad en espacios de alta dimensión \cite{papamakarios2021}, lo que ayuda a mitigar el problema de la dimensionalidad. Esto marca un cambio importante respecto a los métodos clásicos, ya que ahora es posible trabajar de manera más directa con la distribución posterior o con otras cantidades relevantes.
+
+A partir de estos avances, han surgido en los últimos años varios enfoques de SBI basados en redes neuronales. Estos métodos buscan aprovechar la capacidad de las redes para modelar relaciones complejas y aprender distribuciones, ofreciendo alternativas más escalables y flexibles. Su adopción ha crecido bastante en áreas como astrofísica y cosmología, en parte también gracias al desarrollo de herramientas especializadas como \texttt{pydelfi} \cite{deistler2025} y \texttt{sbi} \cite{tejero2020}. En general, el teorema de Bayes sugiere distintas formas de abordar el problema usando redes neuronales. Dependiendo de qué parte se quiera aproximar, se pueden definir distintos enfoques: estimar directamente la posterior, aprender la likelihood o aproximar razones entre distribuciones. Estas ideas dan lugar a métodos como Neural Posterior Estimation (NPE) \cite{papamakarios2018fastepsilon,greenberg2019}, Neural Likelihood Estimation (NLE) \cite{papamakarios2019nle,durkan2018} y Neural Ratio Estimation (NRE) \cite{cranmer2016,gutmann2017,hermans2020}, que se diferencian principalmente en qué objeto probabilístico modelan.
+
+\subsection{Neural Posterior Estimation (NPE)}
+
+NPE es probablemente el método más directo dentro de neural SBI. La idea es simple: en vez de calcular la posterior de forma explícita, entrenamos una red neuronal para que la aprenda. Es decir, definimos un modelo $q_{\Phi}^{\text{NPE}}(\Theta|x)$ y queremos que se parezca lo más posible a la verdadera posterior:
+\begin{equation}
+q_{\Phi}^{\text{NPE}}(\Theta|x) \approx p(\Theta|x)
+\end{equation}
+
+Para entrenar esto, necesitamos alguna forma de medir qué tan distintas son dos distribuciones. Ahí entra la divergencia KL:
+\begin{equation}
+D_{KL}(p \| q) = \int dx \, p(x)\, \ln \frac{p(x)}{q(x)}
+\end{equation}
+
+Esta divergencia tiene varias propiedades útiles: no es simétrica, siempre es positiva, y vale cero solo si ambas distribuciones son iguales. En NPE usamos la KL \textit{forward}, o sea $D_{KL}(p \| q_{\Phi}^{\text{NPE}})$, porque nos interesa que el modelo cubra bien donde la distribución real tiene masa. La KL en este caso se puede escribir como:
+\begin{equation}
+D_{KL}(p \| q_{\Phi}^{\text{NPE}}) 
+= \int d\Theta \, p(\Theta|x)\, \ln \frac{p(\Theta|x)}{q_{\Phi}^{\text{NPE}}(\Theta|x)}
+= \mathbb{E}_{\Theta \sim p(\Theta|x)} 
+\left[ \ln \frac{p(\Theta|x)}{q_{\Phi}^{\text{NPE}}(\Theta|x)} \right]
+\end{equation}
+
+El problema es que no podemos muestrear directamente de la posterior $p(\Theta|x)$. Entonces lo que se hace es promediar también sobre datos simulados $x \sim p(x)$, usando la distribución conjunta $p(x,\Theta)$:
+\begin{align}
+\mathbb{E}_{x \sim p(x)}\big[ D_{KL}(p \| q_{\Phi}^{\text{NPE}}) \big]
+&= \mathbb{E}_{x,\Theta \sim p(x,\Theta)} 
+\left[ \ln \frac{p(\Theta|x)}{q_{\Phi}^{\text{NPE}}(\Theta|x)} \right] \\
+&= - \mathbb{E}_{x,\Theta \sim p(x,\Theta)} 
+\left[ \ln q_{\Phi}^{\text{NPE}}(\Theta|x) \right]
++ \mathbb{E}_{x,\Theta \sim p(x,\Theta)} 
+\left[ \ln p(\Theta|x) \right] 
+\end{align}
+
+El segundo término no depende de la red (de $\Phi$), así que no importa para entrenar. El primero es lo que realmente optimizamos, y a eso se le llama \textit{expected entropy}, aunque no es exactamente la entropía clásica. Al final, la función de pérdida queda:
+\begin{equation}
+\mathcal{L}_{\text{NPE}} = - \mathbb{E}_{x,\Theta \sim p(x,\Theta)} 
+\left[ \ln q_{\Phi}^{\text{NPE}}(\Theta|x) \right]
+\end{equation}
+
+\subsubsection{Estimador de densidad}
+
+Para que NPE funcione, tenemos que saber como entrenar una distribución de probabilidad condicional, esto difiere de las tareas clásicas en Machine Learning de regresión o clasificación. En particular, el modelo $q_{\Phi}^{\text{NPE}}(\Theta|x)$ tiene que ser una distribución de probabilidad válida. O sea, tiene que ser no negativa y estar normalizada:
+\begin{equation}
+\int d\Theta \, q_{\Phi}^{\text{NPE}}(\Theta|x) = 1
+\end{equation}
+
+Esto no es trivial, así que en la práctica se usan arquitecturas diseñadas específicamente para estimar densidades. Una opción clásica pero desactualizada son las \textit{Mixture Density Networks} (MDNs) \cite{bishop1994}, que básicamente hacen que la red neuronal prediga las medias y varianzas de una mezcla de gaussianas. Esto permite modelar distribuciones complejas e incluso multimodales. Hoy en día, lo más común en NPE son los \textit{normalizing flows} \cite{papamakarios2021}, porque son más flexibles y permiten evaluar densidades de forma exacta. La idea de los flows es la siguiente: se empieza con una distribución simple y se transforma paso a paso en algo mucho más complejo usando funciones invertibles y diferenciables. Formalmente, se parte de $z_0 \sim p(z_0)$ y se aplica una secuencia de transformaciones:
+\begin{equation}
+x = z_K = f_K \circ \dots \circ f_1 (z_0)
+\end{equation}
+
+Esto permite generar muestras fácilmente. Pero lo interesante es que también se puede calcular la densidad exacta del resultado usando cambio de variables:
+\begin{equation}
+\log p(x) = \log p(z_0) - \sum_{k=1}^{K} \log \left| \det J_{f_k}(z_{k-1}) \right|
+\end{equation}
+
+La intuición es que cada transformación va deformando el espacio, y el determinante del Jacobiano nos dice cuánto se está expandiendo o contrayendo el volumen en cada paso. Lo bueno de esto es que se pueden construir distribuciones complejas encadenando transformaciones simples. Si se logra parametrizar estas transformaciones con redes neuronales, se obtiene un estimador de densidad muy potente. En este contexto, los parámetros $\Phi$ que incluyen tanto los de la distribución base como los de todas las transformaciones, se entrenan con gradiente descendente usando la loss de NPE, lo que permite aprender distribuciones posteriores multimodales.
+
+Hay varias variantes de normalizing flows. Por ejemplo, los \textit{autoregressive flows} (como MAF \cite{papamakarios2018maf}) hacen que el Jacobiano sea triangular, lo que permite evaluar densidades de forma eficiente, lo que permite un entrenamiento estable. Otros más modernos como \textit{Neural Spline Flows} (NSF) \cite{durkan2019nsf} usan transformaciones splines, lo que les da más flexibilidad. Para mas info ver el tutorial de Papamakarios \cite{papamakarios2021}.
+
+\subsection{Neural Likelihood Estimation (NLE)}
+
+Otra forma de hacer neural SBI es en vez de aprender la posterior directamente como en NPE, aprender la likelihood. Es decir, entrenamos un modelo $q_{\Phi}^{\text{NLE}}(x|\Theta)$ que aproxime:
+\begin{equation}
+q_{\Phi}^{\text{NLE}}(x|\Theta) \approx p(x|\Theta)
+\end{equation}
+
+La idea es que en lugar de modelar $p(\Theta|x)$, modelamos $p(x|\Theta)$ y después podemos usar Bayes si queremos recuperar la posterior. El entrenamiento sigue prácticamente la misma lógica que en NPE. Usando muestras del simulador $(x,\Theta) \sim p(x,\Theta)$, la función de pérdida queda como:
+\begin{equation}
+\mathcal{L}_{\text{NLE}} = - \mathbb{E}_{x,\Theta \sim p(x,\Theta)} 
+\left[ \ln q_{\Phi}^{\text{NLE}}(x|\Theta) \right]
+\end{equation}
+
+O sea, nuevamente es máxima verosimilitud pero ahora sobre la likelihood. Básicamente estamos entrenando la red para que, dado $\Theta$, le asigne alta probabilidad a los datos $x$ que realmente genera el modelo. Al igual que en NPE, necesitamos que $q_{\Phi}^{\text{NLE}}(x|\Theta)$ sea una distribución válida, así que típicamente se usan arquitecturas como normalizing flows para asegurar normalización y flexibilidad.
+
+La elección entre NPE y NLE no es trivial y depende del problema. Se podría pensar en dimensiones: a las redes les resulta más fácil mapear de alta dimensión a baja dimensión que al revés. Entonces, si los datos $x$ son de alta dimensión, podría ser mejor usar NPE, porque se está aprendiendo algo como $x \rightarrow \Theta$. En cambio, si el espacio de parámetros $\Theta$ es de alta dimensión, puede ser más conveniente NLE, porque modelar $p(x|\Theta)$ puede ser más manejable. De todas formas en la práctica esto no suele ser tan claro.
+
+\subsection{Neural Ratio Estimation (NRE)}
+Falta por investigar :/ \cite{cranmer2016,gutmann2017,hermans2020}
+
+
+
+
+

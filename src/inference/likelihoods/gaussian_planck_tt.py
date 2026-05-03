@@ -3,8 +3,8 @@ import numpy as np
 from typing import Any, Dict
 from cobaya.likelihood import Likelihood
 
-from ...preprocessing.factories import ObservationFactory, PipelineFactory
-from ...data.planck import PlanckDataLoader
+from ...simulation.factories import ObservationFactory, PipelineFactory
+from ...data import PlanckDataLoader
 
 
 class GaussianPlanckTTLikelihood(Likelihood):

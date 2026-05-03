@@ -1,4 +1,3 @@
-from .paths import Paths
-from .storage import StorageManager
+from .storage import StorageManager, storage
 
-__all__ = ["Paths", "StorageManager"]
+__all__ = ["StorageManager", "storage"]

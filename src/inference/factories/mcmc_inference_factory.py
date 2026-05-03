@@ -1,17 +1,27 @@
 import numpy as np
 from pathlib import Path
 from typing import Any, Dict, Callable, Optional, Tuple
-from src.core.paths import Paths
-from src.inference.likelihoods.gaussian_planck_tt import GaussianPlanckTTLikelihood
+from ...core import storage
+from ..likelihoods.gaussian_planck_tt import GaussianPlanckTTLikelihood
+from ..likelihoods.gaussian_unbinned_planck_tt import GaussianUnbinnedPlanckTTLikelihood
 
 
 class MCMCInferenceFactory:
+    """
+    Factory class for creating MCMC inference models.
+    Utilizes the COBAYA library to create the models.
+    Also use custom likelihoods and priors.
+    Supported models:
+    - gaussian_mixture_demo
+    - planck_tt_gaussian
+    """
 
     @staticmethod
     def get_available_configurations() -> Dict[str, Callable[..., Tuple[Dict[str, Any], Path]]]:
         return {
             "gaussian_mixture_demo": MCMCInferenceFactory.create_gaussian_mixture_demo,
             "planck_tt_gaussian": MCMCInferenceFactory.create_planck_tt_gaussian,
+            "unbinned_planck_tt_gaussian": MCMCInferenceFactory.create_unbinned_planck_tt_gaussian,
         }
 
     @staticmethod
@@ -29,9 +39,8 @@ class MCMCInferenceFactory:
         seed: Optional[int] = None,
         mcmc: Optional[Dict[str, Any]] = None,
     ) -> Tuple[Dict[str, Any], Path]:
-        paths = Paths()
-        paths.ensure_directories()
-        output_prefix = paths.chains_dir / run_name
+        storage.ensure_directories()
+        output_prefix = storage.get_dir("chains") / run_name
 
         info: Dict[str, Any] = {
             "likelihood": {
@@ -67,9 +76,8 @@ class MCMCInferenceFactory:
         seed: Optional[int] = None,
         mcmc: Optional[Dict[str, Any]] = None,
     ) -> Tuple[Dict[str, Any], Path]:
-        paths = Paths()
-        paths.ensure_directories()
-        output_prefix = paths.chains_dir / run_name
+        storage.ensure_directories()
+        output_prefix = storage.get_dir("chains") / run_name
 
         info: Dict[str, Any] = {
             "likelihood": {
@@ -108,6 +116,64 @@ class MCMCInferenceFactory:
                 },
                 "ns": {
                     "prior": {"min": 0.9626-0.0057*5, "max": 0.9626+0.0057*5},
+                    "latex": r"n_s",
+                },
+            },
+            "sampler": {"mcmc": mcmc or {}},
+            "output": str(output_prefix),
+        }
+
+        if seed is not None:
+            info["sampler"]["mcmc"]["seed"] = int(seed)
+
+        return info, output_prefix
+    
+    @staticmethod
+    def create_unbinned_planck_tt_gaussian(
+        run_name: str = "unbinned_planck_tt_gaussian",
+        seed: Optional[int] = None,
+        mcmc: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[Dict[str, Any], Path]:
+        storage.ensure_directories()
+        output_prefix = storage.get_dir("chains") / run_name
+
+        info: Dict[str, Any] = {
+            "likelihood": {
+                "unbinned_planck_tt_gaussian": {
+                    "external": GaussianUnbinnedPlanckTTLikelihood,
+                    "speed": -1,
+                }
+            },
+            "theory": {
+                "camb": {
+                    "extra_args": {
+                        "lens_potential_accuracy": 1,
+                        "AccuracyBoost": 1.0,
+                        "lmax": 2500,
+                        "nonlinear": "both",
+                        "tau": 0.0522,
+                    }
+                }
+            },
+            "params": {
+                "ombh2": {
+                    "prior": {"min": 0.02212-0.00022*1, "max": 0.02212+0.00022*1},
+                    "latex": r"\Omega_b h^2",
+                },
+                "omch2": {
+                    "prior": {"min": 0.1206-0.0021*1, "max": 0.1206+0.0021*1},
+                    "latex": r"\Omega_c h^2",
+                },
+                "cosmomc_theta": {
+                    "prior": {"min": (1.04077-0.00047*1)/100, "max": (1.04077+0.00047*1)/100},
+                    "latex": r"\theta_{\rm MC}",
+                },
+                "As": {
+                    "prior": {"min": np.exp(3.04-0.016*1)/1e10, "max": np.exp(3.04+0.016*1)/1e10},
+                    "latex": r"A_s",
+                },
+                "ns": {
+                    "prior": {"min": 0.9626-0.0057*1, "max": 0.9626+0.0057*1},
                     "latex": r"n_s",
                 },
             },
