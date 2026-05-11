@@ -1,6 +1,6 @@
-\section{Esquemas de compresión de datos}
+\section{Compresión de datos}
 
-Aunque los métodos de neural SBI eliminan la necesidad de elegir a mano cosas como el umbral $\epsilon$ como en ABC, todavía queda un problema importante: los datos $x$ pueden ser de muy alta dimensión, mientras que los parámetros $\Theta$ suelen ser de baja dimensión. Entonces sigue siendo difícil mapear directamente desde $x$ hacia $\Theta$. Igual que en ABC necesitábamos buenas \textit{summary statistics}, acá también necesitamos alguna forma de comprimir los datos. La idea es construir una función $s(x)$ que reduzca la dimensión:
+Aunque los métodos de neural SBI eliminan la necesidad de elegir a mano cosas como el umbral $\epsilon$ de ABC, todavía queda un problema importante: los datos $x$ pueden ser de muy alta dimensión, mientras que los parámetros $\Theta$ suelen ser de baja dimensión. Entonces sigue siendo difícil mapear directamente desde $x$ hacia $\Theta$. Igual que en ABC necesitábamos buenas \textit{summary statistics}, acá también necesitamos alguna forma de comprimir los datos. La idea es construir una función $s(x)$ que reduzca la dimensión:
 \begin{equation}
 x \in \mathbb{R}^{D_x} \rightarrow s(x) \in \mathbb{R}^{D_s}, \quad D_s < D_x
 \end{equation}
@@ -16,11 +16,11 @@ O sea, que la compresión no destruya información útil para inferencia. En gen
 
 La forma más simple de reducir la dimensión de los datos es usar \textit{summary statistics} diseñadas a mano antes de aplicar neural SBI. La idea es aprovechar conocimiento del dominio para construir funciones $s(x)$ que capturen lo importante. En algunos casos ideales, estas estadísticas pueden ser suficientes, es decir, contienen toda la información necesaria para inferir los parámetros. Pero en problemas reales, esto rara vez pasa. Entonces hay un trade-off claro: las estadísticas hechas a mano suelen ser interpretables, pero pueden perder información importante si no capturan todo lo relevante.
 
-\subsection{Information-Theoretic Compression}
+\subsection{Compresión de información teórica}
 
 Para datos más complejos, hay enfoques que en vez de definir las estadísticas a mano, las aprenden maximizando información. La idea general es encontrar una compresión que retenga la mayor cantidad posible de información sobre los parámetros, por ejemplo, usando información de Fisher. Un ejemplo es el enfoque de \cite{heavens2000}, que hace compresión lineal óptima bajo ciertos supuestos y reduce los datos a tantas dimensiones como parámetros haya. Básicamente proyecta los datos en direcciones que maximizan la información. Otro enfoque es el que usan en \cite{alsing2018}, donde primero se extraen features y luego se comprimen hacia el \textit{score}, que es el gradiente del log-likelihood respecto a los parámetros. Esto permite capturar información relevante incluso en casos no gaussianos. También existen métodos como el de \cite{charnock2018}, donde directamente se entrena una red neuronal para maximizar el determinante de la matriz de información de Fisher. Acá el trade-off es distinto: se tiene más flexibilidad y potencialmente mejores representaciones, pero se pierde algo de interpretabilidad comparado con estadísticas hechas a mano.
 
-\subsection{End-to-End Neural Compression}
+\subsection{Compresión End-to-End}
 
 Una idea aún más moderna es no separar compresión e inferencia, sino entrenarlas juntas. En vez de definir $s(x)$ antes, se usa una red $s_{\Psi}(x)$ que aprende una representación, y luego otra red $q_{\Phi}$ que hace la inferencia:
 \[

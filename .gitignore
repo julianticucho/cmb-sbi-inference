@@ -10,3 +10,4 @@ notes/
 report/
 *.ipynb_checkpoints
 docs/
+__pycache__/

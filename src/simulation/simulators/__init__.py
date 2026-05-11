@@ -5,6 +5,7 @@ from .power_spectrum_omch2 import PowerSpectrumOmCh2Simulator
 from .power_spectrum_theta_MC_100 import PowerSpectrumThetaMC100Simulator
 from .power_spectrum_ln_10_10_As import PowerSpectrumLn1010AsSimulator
 from .power_spectrum_ns import PowerSpectrumNsSimulator
+from .auxiliary_observable_simulator import AuxiliaryObservableSimulator
 
 __all__ = [
     'PowerSpectrumSimulator', 
@@ -13,5 +14,6 @@ __all__ = [
     'PowerSpectrumOmCh2Simulator',
     'PowerSpectrumThetaMC100Simulator',
     'PowerSpectrumLn1010AsSimulator',
-    'PowerSpectrumNsSimulator'
+    'PowerSpectrumNsSimulator',
+    'AuxiliaryObservableSimulator'
 ]

@@ -4,16 +4,21 @@
 \contentsline {subsection}{\numberline {1.3}Enfoques Computacionales}{4}{subsection.1.3}%
 \contentsline {section}{\numberline {2}Approximate Bayesian Computation (ABC)}{4}{section.2}%
 \contentsline {section}{\numberline {3}Neural Simulation-Based Inference}{5}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Neural Posterior Estimation (NPE)}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.1}Neural Posterior Estimation (NPE)}{5}{subsection.3.1}%
 \contentsline {subsubsection}{\numberline {3.1.1}Estimador de densidad}{6}{subsubsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.2}Neural Likelihood Estimation (NLE)}{7}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Neural Ratio Estimation (NRE)}{8}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Esquemas de compresión de datos}{8}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Summary Statistics}{8}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Information-Theoretic Compression}{8}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}End-to-End Neural Compression}{9}{subsection.4.3}%
-\contentsline {section}{\numberline {5}Sequential Neural Posterior Estimation}{9}{section.5}%
-\contentsline {section}{\numberline {6}Diagnostics and tests}{10}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Posterior predictive checks (PPC)}{10}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Coverage diagnostics}{10}{subsection.6.2}%
-\contentsline {section}{\numberline {7}Toy model}{12}{section.7}%
+\contentsline {section}{\numberline {4}Normalizing Flows}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Autoregressive Flows}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Masked Autoencoder for Distribution Estimation (MADE)}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Masked Autoregressive Flow (MAF)}{10}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Neural Spline Flows (NSF)}{10}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Compresión de datos}{10}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Summary Statistics}{11}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Compresión de información teórica}{11}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Compresión End-to-End}{11}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Sequential Neural Posterior Estimation}{12}{section.6}%
+\contentsline {section}{\numberline {7}Diagnostics and tests}{12}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Posterior predictive checks (PPC)}{13}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Coverage diagnostics}{13}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Toy model}{15}{section.8}%

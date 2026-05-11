@@ -12,42 +12,50 @@ if __name__ == "__main__":
         0.9626      # ns
     ])
 
-    x_obs_list = []
-    samples_list = []
-    filled = []
-    colors = []
+    # x_obs = simulate_observation(
+    #     theta_true=theta_true,
+    #     observation_type="unbinned_planck_tt",
+    #     seed=0
+    # )
 
-    for seed in range(1, 10):
-        x_obs = simulate_observation(
-            theta_true=theta_true,
-            observation_type="unbinned_planck_tt",
-            seed=seed
-        )
-        x_obs_list.append(x_obs)
+    # samples_0 = sample_model(
+    #     model_filename="snpe_c_maf_mlp_likebinning_v2_standard_test_50k_cov_unbinned.pth",
+    #     x_obs=x_obs,
+    #     num_samples=25000
+    # )
 
-        samples = sample_model(
-            model_filename="snpe_c_default_standard_test_50k_cov_unbinned.pth", 
-            x_obs=x_obs,
-            num_samples=25000
-        )
-        samples_list.append(samples)
-        filled.append(False)
-        colors.append("#777777")
+    # samples_1 = sample_model(
+    #     model_filename="snpe_c_maf_mlp_likebinning_v2_standard_test_100k_cov_unbinned.pth",
+    #     x_obs=x_obs,
+    #     num_samples=25000
+    # )
 
-    # mcmc_samples = load_chain(
-    #     chain_prefix="results/chains/planck_tt_gaussian_run_4",
-    #     param_names=["ombh2", "omch2", "theta_MC_100", "ln_10_10_As", "ns"],
-    #     ignore_rows=0.3
-    # )   
+    # samples_2 = sample_model(
+    #     model_filename="snpe_c_maf_mlp_likebinning_v2_standard_test_250k_cov_unbinned.pth",
+    #     x_obs=x_obs,
+    #     num_samples=25000
+    # )
+
+    mcmc_samples = load_chain(
+        chain_prefix="results/chains/planck_tt_gaussian_run_4",
+        param_names=["ombh2", "omch2", "theta_MC_100", "ln_10_10_As", "ns"],
+        ignore_rows=0.3
+    )   
+
+    samples_0 = sample_model(
+        model_filename="snpe_c_default_auxiliary_observables_100000_0.pth",
+        x_obs=torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0]),
+        num_samples=25000
+    )
 
     plot_and_save_ppc(
-        samples=samples_list,  
+        samples=[mcmc_samples, samples_0], 
         true_parameter=theta_true.tolist(),
         param_names=['omega_b', 'omega_c', 'theta_MC', 'ln10As', 'ns'],
         param_labels=[r'$\omega_b$', r'$\omega_c$', r'$100\theta_{MC}$', r'$\ln(10^{10}A_s)$', r'$n_s$'],
-        # sample_labels=['obs seed 1', 'obs seed 2', 'obs seed 3'],
-        sample_colors=colors,
-        filled=filled,
+        sample_labels=["mcmc chains", "sbi emulator"],
+        sample_colors=['#FF0000', '#000000'],
+        filled=[True, False],
         # limits=[
         #     [0.02212-0.00022*1, 0.02212+0.00022*1],
         #     [0.1206-0.0021*1, 0.1206+0.0021*1],
@@ -55,5 +63,5 @@ if __name__ == "__main__":
         #     [3.04-0.016*1, 3.04+0.016*1],
         #     [0.9626-0.0057*1, 0.9626+0.0057*1]
         # ],
-        output_name="snpe_c_default_standard_test_50k_cov_unbinned(10_obs_seeds).pdf"
+        output_name="snpe_c_default_auxiliary_observables_100000_0.pdf"
     ) 

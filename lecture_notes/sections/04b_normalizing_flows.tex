@@ -1,0 +1,66 @@
+\section{Normalizing Flows}
+
+En la sección anterior vimos que los normalizing flows son el estimador de densidad más usado en neural SBI. Pero la pregunta que queda pendiente es cómo se construyen estos flows en la práctica. La respuesta no es trivial. Un flow ingenuo en cada paso del entrenamiento requeriría calcular el determinante del Jacobiano completo para evaluar \eqref{eq:flow_log_prob}, lo que es prohibitivamente caro en alta dimensión. La solución es añadir estructura a las transformaciones. Si cada dimensión se transforma de manera autoregresiva, condicionada solo en las anteriores, el Jacobiano se vuelve triangular y el determinante es trivial de calcular. Esta idea simple es la base de todas las arquitecturas modernas de flows en SBI. En esta sección veremos dos de las más importantes: \textit{Masked Autoregressive Flow} (MAF) \cite{papamakarios2018maf} y \textit{Neural Spline Flows} (NSF) \cite{durkan2019nsf}. Ambas siguen la formalización de Papamakarios et al. \cite{papamakarios2021}.
+
+\subsection{Autoregressive Flows}
+
+Un autoregressive flow es un normalizing flow donde cada dimensión se transforma condicionada en las anteriores. Sea $z = (z_1, \dots, z_D)$ la entrada y $z' = (z_1', \dots, z_D')$ la salida:
+\begin{equation}
+z_i' = f_i(z_i;\, h_i), \quad \text{donde } h_i = c_i(z_{<i}')
+\end{equation}
+
+En donde $f_i$ es la componente i-esima de la transformación que mapea $z$ a $z'$ y $c_i$ es la red neuronal usualmente llamada \textit{conditioner} que produce los parámetros de la transformación $h_i$ condicionada en $z_{<i}$. Cada $z_i'$ depende de $z_i$ y de las dimensiones anteriores $z_{<i}$, pero no de las posteriores. Esto hace que el Jacobiano sea triangular inferior:
+\begin{equation}
+\frac{\partial z'}{\partial z} =
+\begin{pmatrix}
+\frac{\partial z_1'}{\partial z_1} & 0 & \cdots & 0 \\
+\frac{\partial z_2'}{\partial z_1} & \frac{\partial z_2'}{\partial z_2} & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial z_D'}{\partial z_1} & \frac{\partial z_D'}{\partial z_2} & \cdots & \frac{\partial z_D'}{\partial z_D}
+\end{pmatrix}
+\end{equation}
+
+Entonces, el determinante es simplemente el producto de la diagonal y el log-determinante se reduce a la suma:
+\begin{equation}
+\log \left| \det \frac{\partial z'}{\partial z} \right| = \sum_{i=1}^{D} \log \left| \frac{\partial z_i'}{\partial z_i} \right|
+\end{equation}
+
+Esto baja el costo de calcular el Jacobiano de $\mathcal{O}(D^3)$ a $\mathcal{O}(D)$. En la práctica, todas las implementaciones de autoregressive flows son un juego entre cambiar la transformación $f$ y la red condicionadora $c$. Ahora, hay un tradeoff importante entre la transformación forward, que se usa para el muestreo, y la inversa, que se usa en la evaluación de densidad de un punto. Para evaluar densidad necesitamos invertir:
+\begin{equation}
+z_i = f_i^{-1}(z_i';\, h_i)
+\end{equation}
+
+Dependiendo de la parametrización, el \textit{conditioner} puede depender de $z_{<i}$ o de $z'_{<i}$. Si depende de $z'_{<i}$ como en MAF, entonces la inversión se paraleliza mediante el uso de una red MADE \cite{germain2015}, que produce $h_i$ condicionada en $z'_{<i}$ y por lo tanto la evaluación de densidad es eficiente, pero el sampleo mediante la transformación forward queda secuencial y más costoso. El \textit{Inverse Autoregressive Flow} (IAF) \cite{kingma2016} invierte este tradeoff haciendo que el conditioner dependa de $z_{<i}$, lo que permite muestreo en paralelo, pero hace que la evaluación de densidad sea secuencial y más costosa. En NPE nos conviene un autoregressive flow estándar como MAF, porque la loss requiere evaluar $\ln q_\Phi(\Theta|x)$ muchas veces en cada paso de entrenamiento.
+ 
+\subsection{Masked Autoencoder for Distribution Estimation (MADE)}
+
+Ya sabemos que queremos estructura autoregresiva para que el Jacobiano sea triangular. Pero implementarla de forma ingenua, con muchas MLPs, sería lento: procesaríamos $z_1'$, luego $z_2'$ condicionado en $z_1'$, etc., todo secuencial. La pregunta es si podemos diseñar un \textit{conditioner} que pueda hacerlo paralelamente con una sola red que toma $z'$ como entrada. Ese es el propósito de \textit{MADE} (Masked Autoencoder for Distribution Estimation) \cite{germain2015}. La idea es elegante. Se toma un autoencoder estándar y se tapan conexiones entre neuronas de forma que cada salida solo dependa de entradas con índice menor, respetando el ordenamiento autoregresivo. MADE lo logra asignando labels enteros a cada neurona oculta y aplicando máscaras binarias a las matrices de peso, garantizando que $h_i$ no dependa de $z_j'$ para $j \geq i$. Lo importante es que, a diferencia de usar muchas MLPs o una RNN, MADE calcula todas las salidas en una sola pasada, lo que es mucho más rápido. En el contexto de los flows, una sola red MADE toma $z'$ como entrada y produce todos los parámetros condicionales $h_1, \dots, h_D$ de una vez.
+
+\subsection{Masked Autoregressive Flow (MAF)}
+
+Ahora que sabemos cómo implementar la estructura autoregresiva eficientemente, podemos construir un flow completo. MAF \cite{papamakarios2018maf} es quizás el más simple y el que se implementa por defecto en \texttt{sbi} \cite{tejero2020}. El flow consiste en una serie de capas que usan transformaciones afines. Cada capa hace:
+\begin{equation}
+z_i' = \alpha_i \cdot z_i + \beta_i
+\end{equation}
+
+donde $\alpha_i$ y $\beta_i$ son parámetros producidos por una red MADE que toma $z'$ como entrada:
+\begin{equation}
+(\alpha_1, \beta_1, \dots, \alpha_D, \beta_D) = \text{MADE}(z')
+\end{equation}
+
+Para invertibilidad, se parametriza $\alpha_i = \exp(\tilde{\alpha}_i)$ garantizando $\alpha_i > 0$. La inversa es:
+\begin{equation}
+z_i = \frac{z_i' - \beta_i}{\alpha_i}
+\end{equation}
+
+El log-determinante de esta capa es:
+\begin{equation}
+\log \left| \det \frac{\partial z'}{\partial z} \right| = \sum_{i=1}^{D} \log |\alpha_i| = \sum_{i=1}^{D} \tilde{\alpha}_i
+\end{equation}
+
+Un flow completo apila $K$ capas con permutaciones entre ellas, para que cada dimensión pueda influir sobre todas las demás. El muestreo es secuencial, la evaluación de densidad es paralela, y cada capa solo hace una transformación afín, así que se necesitan varias capas para distribuciones complejas. La simpleza de MAF es su principal ventaja pero también su principal desventaja. Las transformaciones afines tienen pocos grados de libertad, así que en la se necesitan varias capas para lograr expresividad suficiente. 
+
+\subsection{Neural Spline Flows (NSF)}
+
+MAF funciona bien, pero cada transformación $f_i$ solo escala y desplaza la entrada. Esto limita la expresividad de cada capa, por lo que se requieren muchas capas para aproximar distribuciones complejas. La pregunta natural es si se puede aumentar la flexibilidad de cada transformación sin perder las ventajas computacionales. Una solución son los \textit{Neural Spline Flows} (NSF) \cite{durkan2019nsf}, que reemplazan la transformación afín por funciones más expresivas: splines monotónicas. La idea es usar \textit{rational-quadratic splines}, que son funciones definidas por tramos con múltiples intervalos (bins), donde cada tramo es suave, invertible y estrictamente monótono. Estas splines están parametrizadas mediante anchos, alturas y derivadas en los puntos de unión, lo que les da muchos más grados de libertad que una transformación afín. Típicamente se usan entre 5 y 10 bins por dimensión, lo que introduce $\mathcal{O}(B)$ parámetros por dimensión en lugar de solo dos. NSF se implementa de manera análoga a MAF, pero reemplazando las transformaciones afines por splines, y usando una red autoregresiva como MADE para producir los parámetros de cada transformación de manera condicionada.
+

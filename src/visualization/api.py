@@ -1,7 +1,7 @@
 import torch
 import matplotlib.pyplot as plt
 from typing import Optional, List, Any
-from .diagnostic import plot_ppc, plot_hpd, plot_data_ppc, plot_hpd_tarp_diagnostics
+from .diagnostic import plot_ppc, plot_hpd, plot_data_ppc, plot_hpd_tarp_diagnostics, plot_hpd_marginal
 from ..simulation.factories import SimulatorFactory, PipelineFactory
 from ..inference.api import load_posterior, load_prior
 from ..core import storage
@@ -140,4 +140,54 @@ def plot_and_save_diagnostics(
     # Return figure
     if output_name:
         storage.save_figure(fig, output_name, category="diagnostics")
+    return fig
+
+
+def plot_and_save_hpd_marginal(
+    model_filename: str,
+    simulation_files: List[str],
+    num_posterior_samples: int = 1000,
+    seed: Optional[int] = None,
+    device: Optional[torch.device] = None,
+    param_labels: Optional[List[str]] = None,
+    output_name: Optional[str] = None,
+):
+    """Plot and save HPD marginal coverage diagnostics for each parameter.
+
+    Loads a trained posterior model and simulation data, then calculates
+    HPD credible intervals for each parameter marginally and plots coverage.
+
+    Args:
+        model_filename: Path to the saved posterior model file.
+        simulation_files: List of paths to simulation data files containing
+            (theta, x) pairs for testing coverage.
+        num_posterior_samples: Number of posterior samples to draw per observation.
+        seed: Random seed for reproducibility.
+        device: Computation device ("cpu" or "cuda").
+        param_labels: Labels for each parameter dimension.
+        output_name: If provided, saves the figure with this name.
+
+    Returns:
+        matplotlib Figure object with HPD marginal coverage plots.
+    """
+    # Load posterior and simulations from files
+    model = load_posterior(model_filename)
+    thetas, xs = storage.load_multiple_simulations(simulation_files)
+
+    # Plot HPD marginal diagnostics
+    fig, _ = plot_hpd_marginal(
+        model=model,
+        thetas=thetas,
+        xs=xs,
+        num_posterior_samples=num_posterior_samples,
+        seed=seed,
+        device=device,
+        param_labels=param_labels,
+    )
+
+    # Save figure if output_name is provided
+    if output_name:
+        storage.save_figure(fig, output_name, category="diagnostics")
+        print(f"Saved HPD marginal diagnostics to {output_name}")
+
     return fig

@@ -1,0 +1,1 @@
+cd /home/julian/Documents/cmb-sbi-inference/lecture_notes && pdflatex -interaction=nonstopmode -output-directory=build lecture_notes.tex 2>&1 | tail -3 && pdflatex -interaction=nonstopmode -output-directory=build lecture_notes.tex 2>&1 | tail -3

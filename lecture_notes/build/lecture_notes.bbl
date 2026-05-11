@@ -1,4 +1,4 @@
-\begin{thebibliography}{27}
+\begin{thebibliography}{29}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -16,7 +16,7 @@ Justin Alsing, Benjamin Wandelt, and Stephen Feeney.
 \bibitem[Bishop(1994)]{bishop1994}
 Christopher~M. Bishop.
 \newblock Mixture density networks.
-\newblock 1994.
+\newblock In \emph{Mixture density networks}, 1994.
 \newblock URL \url{https://api.semanticscholar.org/CorpusID:118227751}.
 
 \bibitem[Brooks et~al.(2011)Brooks, Gelman, Jones, and Meng]{brooks2011}
@@ -63,6 +63,12 @@ Conor Durkan, Artur Bekasov, Iain Murray, and George Papamakarios.
 \newblock Neural spline flows, 2019.
 \newblock URL \url{https://arxiv.org/abs/1906.04032}.
 
+\bibitem[Germain et~al.(2015)Germain, Gregor, Murray, and Larochelle]{germain2015}
+Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
+\newblock Made: Masked autoencoder for distribution estimation.
+\newblock In \emph{Proceedings of the 32nd International Conference on Machine Learning}, 2015.
+\newblock URL \url{https://proceedings.mlr.press/v37/germain15.html}.
+
 \bibitem[Greenberg et~al.(2019)Greenberg, Nonnenmacher, and Macke]{greenberg2019}
 David~S. Greenberg, Marcel Nonnenmacher, and Jakob~H. Macke.
 \newblock Automatic posterior transformation for likelihood-free inference, 2019.
@@ -103,6 +109,11 @@ Joeri Hermans, Arnaud Delaunoy, François Rozet, Antoine Wehenkel, Volodimir Beg
 Matt Hoffman, David~M. Blei, Chong Wang, and John Paisley.
 \newblock Stochastic variational inference, 2013.
 \newblock URL \url{https://arxiv.org/abs/1206.7051}.
+
+\bibitem[Kingma et~al.(2016)Kingma, Salimans, Jozefowicz, Chen, Sutskever, and Welling]{kingma2016}
+Diederik~P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi~Chen, Ilya Sutskever, and Max Welling.
+\newblock Improving variational inference with inverse autoregressive flow, 2016.
+\newblock URL \url{https://arxiv.org/abs/1606.04934}.
 
 \bibitem[Lemos et~al.(2023)Lemos, Coogan, Hezaveh, and Perreault-Levasseur]{lemos2023}
 Pablo Lemos, Adam Coogan, Yashar Hezaveh, and Laurence Perreault-Levasseur.

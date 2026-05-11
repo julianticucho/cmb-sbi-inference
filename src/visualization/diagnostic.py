@@ -227,12 +227,6 @@ def plot_hpd_tarp_diagnostics(
         return a_sorted, ecp
 
     if run_hpd:
-        if num_posterior_samples < 3:
-            raise ValueError("HPD diagnostic requires `num_posterior_samples >= 3`.")
-
-        k = max(2, int(np.sqrt(num_posterior_samples)))
-        k = min(k, num_posterior_samples - 1)
-
         alphas_hpd = []
         pbar = tqdm(range(n), desc="HPD diagnostic", unit="pair")
         for i in pbar:
@@ -240,21 +234,16 @@ def plot_hpd_tarp_diagnostics(
             x = xs[i]
             post_samples = _sample_posterior(model, x, num_posterior_samples)
 
-            dmat = torch.cdist(post_samples, post_samples)
-            dmat.fill_diagonal_(float("inf"))
-            d_k = dmat.kthvalue(k, dim=1).values
-            score_samples = -d_k
-
-            d_true = torch.norm(post_samples - theta_true, p=2, dim=-1)
-            d_true_k = d_true.kthvalue(k).values
-            score_true = -d_true_k
-
-            alpha_hat = (score_samples >= score_true).float().mean().item()
+            # HPD exacto usando log_prob (método Lemos et al. 2023, Algorithm 1)
+            # La región HPD está definida por: {θ : p̂(θ|x) >= p̂(θ_true|x)}
+            log_prob_true = model.log_prob(theta_true.unsqueeze(0), x=x)
+            log_prob_samples = model.log_prob(post_samples, x=x)
+            alpha_hat = (log_prob_samples >= log_prob_true).float().mean().item()
             alphas_hpd.append(alpha_hat)
 
         alphas_hpd = np.asarray(alphas_hpd)
         a_sorted, ecp = _pp_from_alphas(alphas_hpd)
-        ax.plot(a_sorted, ecp, lw=2, label="HPD (kNN approx)")
+        ax.plot(a_sorted, ecp, lw=2, label="HPD")
 
     if run_tarp:
         alphas_tarp = []
@@ -473,3 +462,125 @@ def plot_loss_history(
     ax.legend()
     ax.grid(True, alpha=0.3)
     return fig
+
+
+def plot_hpd_marginal(
+    model: Any,
+    thetas: torch.Tensor,
+    xs: torch.Tensor,
+    num_posterior_samples: int = 1000,
+    seed: Optional[int] = None,
+    device: Optional[torch.device] = None,
+    param_labels: Optional[List[str]] = None,
+) -> Tuple[plt.Figure, dict]:
+    """Plot HPD coverage for each parameter marginally (1D HPD intervals).
+
+    For each parameter, calculates the Highest Posterior Density (HPD) credible
+    intervals using the marginal posterior distribution and checks coverage.
+
+    Args:
+        model: Neural posterior model with .log_prob() and .sample() methods.
+        thetas: True parameter values, shape (N, D).
+        xs: Observations, shape (N, ...).
+        num_posterior_samples: Number of posterior samples per observation.
+        seed: Random seed for reproducibility.
+        device: Computation device.
+        param_labels: Labels for each parameter dimension.
+
+    Returns:
+        Tuple of (matplotlib Figure, dict with coverage results per parameter).
+    """
+    if thetas.ndim != 2:
+        raise ValueError(f"Expected `thetas` to be 2D (N, D), got shape {tuple(thetas.shape)}")
+    if xs.ndim < 1:
+        raise ValueError(f"Expected `xs` to have at least 1 dimension, got shape {tuple(xs.shape)}")
+    if thetas.shape[0] != xs.shape[0]:
+        raise ValueError(f"Mismatched N between `thetas` and `xs`: {thetas.shape[0]} vs {xs.shape[0]}")
+
+    if device is None:
+        device = thetas.device
+
+    thetas = thetas.to(device)
+    xs = xs.to(device)
+
+    if seed is not None:
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+
+    n_samples, n_params = thetas.shape
+
+    # Default percentiles (same approach as plot_hpd_tarp_diagnostics)
+    percentiles = torch.linspace(1, 99, 50, device=device)
+    cred_levels = percentiles / 100.0
+
+    def _sample_posterior(posterior: Any, x: torch.Tensor, n: int) -> torch.Tensor:
+        try:
+            return posterior.sample((n,), x=x, show_progress_bars=False)
+        except TypeError:
+            return posterior.set_default_x(x).sample((n,), show_progress_bars=False)
+
+    # For each parameter, store coverage results
+    coverage_results = {f"param_{d}": torch.zeros(len(percentiles), device=device) for d in range(n_params)}
+
+    pbar = tqdm(range(n_samples), desc="HPD marginal diagnostic", unit="sample")
+    for i in pbar:
+        theta_true = thetas[i]
+        x = xs[i]
+        post_samples = _sample_posterior(model, x, num_posterior_samples)
+
+        # Calculate HPD marginal for each parameter (optimized with batch)
+        for d in range(n_params):
+            # Get marginal samples for this parameter
+            samples_d = post_samples[:, d]
+
+            # Calculate HPD credible interval using log_prob approach
+            # For marginal HPD, we evaluate log_prob at points along this parameter
+            # while keeping other parameters fixed at their posterior mean
+            param_mean = post_samples.mean(dim=0)
+
+            # Create grid of points for this parameter
+            n_grid = 200
+            param_min = samples_d.min()
+            param_max = samples_d.max()
+            grid_d = torch.linspace(param_min, param_max, n_grid, device=device)
+
+            # Build batch of theta points: each row varies only parameter d
+            theta_batch = param_mean.unsqueeze(0).repeat(n_grid, 1)
+            theta_batch[:, d] = grid_d
+
+            # Evaluate log_prob for all grid points in one batch call
+            log_probs = model.log_prob(theta_batch, x=x)
+
+            # Find log_prob at true value
+            log_prob_true = model.log_prob(theta_true.unsqueeze(0), x=x).item()
+
+            # For each credibility level, check if true value is in HPD region
+            for idx, cred in enumerate(cred_levels):
+                # Find threshold: the (1-cred) quantile of log_probs
+                threshold = torch.quantile(log_probs, 1 - cred)
+
+                # True value is in HPD if its log_prob >= threshold
+                if log_prob_true >= threshold:
+                    coverage_results[f"param_{d}"][idx] += 1.0
+
+    # Normalize by number of samples
+    for key in coverage_results:
+        coverage_results[key] = (coverage_results[key] / n_samples).cpu().numpy()
+
+    # Create plot
+    fig, axes = plt.subplots(n_params, 1, figsize=(8, 3 * n_params), constrained_layout=True)
+    if n_params == 1:
+        axes = [axes]
+
+    for d, ax in enumerate(axes):
+        label = param_labels[d] if param_labels and d < len(param_labels) else f"Param {d+1}"
+        ax.plot(percentiles.cpu().numpy(), coverage_results[f"param_{d}"], 'o-', markersize=4, label=label)
+        ax.plot([0, 100], [0, 1], '--', color='gray', alpha=0.5)
+        ax.set_xlabel('Credible level (%)')
+        ax.set_ylabel('Empirical coverage')
+        ax.set_xlim(0, 100)
+        ax.set_ylim(0, 1)
+        ax.legend(loc='lower right')
+        ax.grid(True, alpha=0.3)
+
+    return fig, coverage_results
