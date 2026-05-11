@@ -50,7 +50,7 @@ Para que NPE funcione, tenemos que saber como entrenar una distribución de prob
 \int d\Theta \, q_{\Phi}^{\text{NPE}}(\Theta|x) = 1
 \end{equation}
 
-Esto no es trivial, así que en la práctica se usan arquitecturas diseñadas específicamente para estimar densidades. Una opción clásica pero desactualizada son las \textit{Mixture Density Networks} (MDNs) \cite{bishop1994}, que básicamente hacen que la red neuronal prediga las medias y varianzas de una mezcla de gaussianas. Esto permite modelar distribuciones complejas e incluso multimodales. Hoy en día, lo más común en NPE son los \textit{normalizing flows} \cite{papamakarios2021}, porque son más flexibles y permiten evaluar densidades de forma exacta. La idea de los flows es la siguiente: se empieza con una distribución simple y se transforma paso a paso en algo mucho más complejo usando funciones invertibles y diferenciables. Formalmente, se parte de $z_0 \sim p(z_0)$ y se aplica una secuencia de transformaciones:
+Esto no es trivial, así que en la práctica se usan arquitecturas diseñadas específicamente para estimar densidades. Una opción clásica pero desactualizada son las \textit{Mixture Density Networks} (MDNs) \cite{bishop1994}, que básicamente hacen que la red neuronal prediga las medias y varianzas de una mezcla de gaussianas. Esto permite modelar distribuciones complejas e incluso multimodales. Hoy en día, lo más común en NPE son los \textit{normalizing flows} \cite{papamakarios2021}, porque son más flexibles y permiten evaluar densidades de forma exacta. La idea de los flows para modelar una distribución $p(x)$ cualquiera es la siguiente: se empieza con una distribución simple $p(z_0)$ y se transforma paso a paso en algo mucho más complejo usando funciones invertibles y diferenciables. Formalmente, se parte de $z_0 \sim p(z_0)$ y se aplica una secuencia de transformaciones:
 \begin{equation}
 x = z_K = f_K \circ \dots \circ f_1 (z_0)
 \end{equation}
@@ -60,9 +60,20 @@ Esto permite generar muestras fácilmente. Pero lo interesante es que también s
 \log p(x) = \log p(z_0) - \sum_{k=1}^{K} \log \left| \det J_{f_k}(z_{k-1}) \right|
 \end{equation}
 
-La intuición es que cada transformación va deformando el espacio, y el determinante del Jacobiano nos dice cuánto se está expandiendo o contrayendo el volumen en cada paso. Lo bueno de esto es que se pueden construir distribuciones complejas encadenando transformaciones simples. Si se logra parametrizar estas transformaciones con redes neuronales, se obtiene un estimador de densidad muy potente. En este contexto, los parámetros $\Phi$ que incluyen tanto los de la distribución base como los de todas las transformaciones, se entrenan con gradiente descendente usando la loss de NPE, lo que permite aprender distribuciones posteriores multimodales.
+La intuición es que cada transformación va deformando el espacio, y el determinante del Jacobiano nos dice cuánto se está expandiendo o contrayendo el volumen en cada paso. Lo bueno de esto es que se pueden construir distribuciones complejas encadenando transformaciones simples. Si se logra parametrizar estas transformaciones con redes neuronales, se obtiene un estimador de densidad muy potente. En SBI, la misma idea se aplica a distribuciones condicionales. En NPE el flow no está modelando una densidad arbitraria $p(x)$, sino la posterior condicional $q_{\Phi}^{\text{NPE}}(\Theta\mid x)$. La base latente sigue siendo una distribución simple como una gaussiana estándar, y las transformaciones son invertibles y pueden depender del condicionamiento:
+\begin{equation}
+\Theta = z_K = f_K \circ \dots \circ f_1 (z_0; x)
+\end{equation}
 
-Hay varias variantes de normalizing flows. Por ejemplo, los \textit{autoregressive flows} (como MAF \cite{papamakarios2018maf}) hacen que el Jacobiano sea triangular, lo que permite evaluar densidades de forma eficiente, lo que permite un entrenamiento estable. Otros más modernos como \textit{Neural Spline Flows} (NSF) \cite{durkan2019nsf} usan transformaciones splines, lo que les da más flexibilidad. Para mas info ver el tutorial de Papamakarios \cite{papamakarios2021}.
+Con estas condiciones, la fórmula del cambio de variable sigue siendo válida, solo que ahora se quiere modelar una distribución sobre $\Theta$ y el condicionamiento $x$ se agrega en la transformación:
+\begin{equation}
+\log p(\Theta \mid x) = \log p(z_0) - \sum_{k=1}^{K} \log \left| \det J_{f_k}(z_{k-1}; x) \right|
+\label{eq:flow_log_prob}
+\end{equation}
+
+En este contexto, los parámetros $\Phi$ que incluyen tanto los de la distribución base como los de todas las transformaciones, se entrenan con gradiente descendente usando la loss de NPE, lo que permite aprender distribuciones posteriores multimodales. 
+
+Hay varias variantes de normalizing flows. Las dos arquitecturas más usadas en SBI son \textit{Masked Autoregressive Flow} (MAF) \cite{papamakarios2018maf} y \textit{Neural Spline Flows} (NSF) \cite{durkan2019nsf}. MAF usa transformaciones afines con estructura autoregresiva, mientras que NSF reemplaza las transformaciones afines por splines monotónicas, lo que le da más expresividad. Se detallan estas arquitecturas en la Sección~4. 
 
 \subsection{Neural Likelihood Estimation (NLE)}
 

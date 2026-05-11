@@ -4,11 +4,14 @@ Evaluar si un método de SBI está funcionando bien es clave, porque a diferenci
 
 \subsection{Posterior predictive checks (PPC)}
 
-Uno de los chequeos más básicos es el \textit{posterior predictive check} (PPC). La idea es simple: se toman muestras de parámetros desde el posterior estimado $p(\Theta \mid x_0)$, luego simulas nuevos datos usando el modelo $p(x \mid \Theta)$, y comparas esos datos simulados con los datos observados. Matemáticamente, esto corresponde a mirar la distribución predictiva:
-\[
-p(x \mid x_0) = \int p(x \mid \Theta)\, p(\Theta \mid x_0)\, d\Theta.
-\]
-Si los datos simulados se parecen a los observados, es una señal de que el modelo está capturando bien el proceso generativo. Eso sí, pasar el posterior predictive check no garantiza que el posterior sea bueno. Por ejemplo, un posterior muy poco informativo podría generar datos variados que “cubren” los datos observados y aun así no decir nada útil sobre los parámetros. Entonces, este chequeo es necesario, pero no suficiente: sirve como filtro básico, pero hay que complementarlo con otros tests más exigentes.
+Uno de los chequeos más básicos es el \textit{posterior predictive check} (PPC). En su forma estándar, el PPC se realiza en el espacio de datos: se toman muestras de parámetros desde el posterior estimado $p(\Theta \mid x_0)$, luego se simulan nuevos datos usando el modelo $p(x \mid \Theta)$, y se comparan esos datos simulados con los datos observados. Matemáticamente, esto corresponde a analizar la distribución predictiva:
+\begin{equation}
+p(x \mid x_0) = \int p(x \mid \Theta)\, p(\Theta \mid x_0)\, d\Theta
+\end{equation}
+
+Si los datos simulados se parecen a los observados, es una señal de que el modelo está capturando bien el proceso generativo. Por otro lado, también es común evaluar el comportamiento del posterior en el espacio de parámetros, por ejemplo comparando muestras de $p(\Theta \mid x_0)$ con valores verdaderos $\Theta_0$ cuando estos son conocidos. Este tipo de chequeo permite ver si el valor verdadero cae dentro de los intervalos de credibilidad del posterior, y complementa la información que entrega el PPC en el espacio de datos.
+
+Es importante notar que pasar el posterior predictive check no garantiza que el posterior sea bueno. Por ejemplo, un posterior muy poco informativo podría generar datos variados que cubren los datos observados y aun así no decir nada útil sobre los parámetros. Entonces, estos chequeos son necesarios, pero no suficientes. Sirven como filtros básicos, pero deben complementarse con otros tests más exigentes.
 
 \subsection{Coverage diagnostics}
 

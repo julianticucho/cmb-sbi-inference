@@ -2,7 +2,127 @@
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{img/processed_simulation_comparison.pdf}
-    \caption{Comparación de simulaciones del modelo toy. Panel superior: espectro de potencia de temperatura $D_\ell^{TT}$ de la simulación fiducial (línea azul) y las simulaciones de observaciones (líneas rojas). Panel inferior: residuales $\Delta D_\ell^{TT}$ respecto a la simulación fiducial.}
+    \includegraphics[width=1\textwidth]{../data/plots/processed_simulation_comparison.pdf}
+    \caption{Simulaciones del modelo toy. Panel superior: espectro de potencia de temperatura $D_\ell^{TT}$ de la simulación fiducial (línea azul), espectro de potencia binneado (puntos celestes) y las simulaciones de observaciones añadiendo ruido gaussiano con la covarianza de Planck (puntos rojos). Panel inferior: residuales $\Delta D_\ell^{TT}$ respecto a la simulación fiducial.}
     \label{fig:toy_model_comparison}
 \end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../data/plots/parameter_variation_with_observation.pdf}
+    \caption{Respuesta del espectro de potencia $D_\ell^{TT}$ ante variaciones individuales de cada parámetro cosmológico en el modelo toy. Cada panel muestra el efecto de variar un parámetro $\pm 5\sigma$ alrededor del valor fiducial, manteniendo los demás fijos. Las simulaciones se procesan con binning espectral similar al de Planck y los colores indican la desviación del valor fiducial.}
+    \label{fig:toy_model_varying_params}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/mcmc_run_1_2_3.pdf}
+    \caption{Regiones de confianza obtenidas mediante MCMC como referencia para el modelo toy. Se muestran las distribuciones posteriores de los 5 parámetros cosmológicos obtenidas de tres cadenas independientes usando una likelihood gaussiana con covarianza estimada del experimento Planck. Las regiones delimitan los niveles de credibilidad del 68\% y 95\% y sirven como benchmark para validar los métodos de inferencia neural. La linea punteada representa el valor fiducial de la observación mock.}
+    \label{fig:mcmc}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf}
+    \caption{Convergencia del método NPE con datos del toy model al aumentar el tamaño del conjunto de entrenamiento. Se muestran las regiones de confianza para modelos entrenados con 50k, 100k, 150k, 200k y 250k simulaciones, utilizando un estimador de densidad MAF basado en flujos de normalización autoregresivos.}
+    \label{fig:npe}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf}
+    \caption{Convergencia del método NLE con datos del toy model al aumentar el tamaño del conjunto de entrenamiento. Se muestran las regiones de confianza para modelos entrenados con 50k, 100k, 150k, 200k y 250k simulaciones, utilizando un estimador de densidad MAF basado en flujos de normalización autoregresivos.}
+    \label{fig:nle}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/nre_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf}
+    \caption{Convergencia del método de estimación neural del ratio de likelihoods (NRE-C) con datos binned de Planck TT al aumentar el tamaño del conjunto de entrenamiento. Se muestran las regiones de confianza para modelos entrenados con 50k, 100k, 150k, 200k y 250k simulaciones, utilizando una red neuronal de clasificación entrenada para distinguir entre pares $(\theta, x)$ del prior conjunto versus la distribución posterior. El ratio de likelihoods se aproxima progresivamente al verdadero posterior con más simulaciones.}
+    \label{fig:nre}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf}
+    \caption{Comparación directa entre MCMC (ground-truth), NLE y SNPE-C con 250k simulaciones cada uno sobre datos binned de Planck TT. Los tres métodos muestran excelente concordancia en las regiones de confianza del 68\% y 95\%, validando que tanto la likelihood neural (NLE) como el posterior directo (SNPE-C) convergen al resultado exacto de MCMC con suficientes datos de entrenamiento.}
+    \label{fig:mcmc_vs_nle_npe_250k}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/snpe_c_100k_test_vs_nle_100k_test_vs_mcmc.pdf}
+    \caption{Comparación entre MCMC, NLE y SNPE-C con 100k simulaciones cada uno sobre datos binned de Planck TT. A este tamaño de entrenamiento intermedio, ambos métodos neuronales (NLE y SNPE-C) muestran buen acuerdo con MCMC aunque con ligeramente mayor dispersión que con 250k simulaciones, evidenciando la importancia del tamaño del dataset para la precisión del posterior.}
+    \label{fig:mcmc_vs_nle_npe_100k}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/mcmc_vs_snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf}
+    \caption{Validación del método de estimación neural de posteriores (SNPE-C) contra MCMC para diferentes tamaños de entrenamiento. Se superponen las regiones de confianza del 68\% y 95\% de MCMC (ground-truth) con las obtenidas por SNPE-C entrenado con 50k, 100k, 150k, 200k y 250k simulaciones. La reducción sistemática del sesgo a medida que aumenta el tamaño del conjunto de entrenamiento demuestra la consistencia asintótica del método de inferencia neural amortizada.}
+    \label{fig:mcmc_vs_npe}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/mcmc_vs_nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf}
+    \caption{Validación del método de estimación neural de la likelihood (NLE) contra MCMC para diferentes tamaños de entrenamiento. Se superponen las regiones de confianza del 68\% y 95\% de MCMC (ground-truth) con las obtenidas por NLE entrenado con 50k, 100k, 150k, 200k y 250k simulaciones. La convergencia hacia el resultado MCMC con más datos de entrenamiento confirma que la likelihood neural aprendida es consistente con la likelihood verdadera del modelo toy, permitiendo inferencia mediante muestreo con cadenas de Markov.}
+    \label{fig:mcmc_vs_nle}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/snpe_c_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf}
+    \caption{Verificación de estabilidad del entrenamiento del método de estimación neural de posteriores (SNPE-C). Se comparan las regiones de confianza obtenidas con dos conjuntos de entrenamiento independientes de 125k simulaciones cada uno (lotes 1-5 y 6-10), utilizando el mismo estimador de densidad basado en flujos MAF. La consistencia entre ambos entrenamientos valida la convergencia del modelo y la reproducibilidad estadística de los resultados de inferencia neural.}
+    \label{fig:npe_different_trainings}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/nle_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf}
+    \caption{Verificación de estabilidad del entrenamiento del método de estimación neural de la likelihood (NLE). Se comparan las regiones de confianza obtenidas con dos conjuntos de entrenamiento independientes de 125k simulaciones cada uno (lotes 1-5 y 6-10), utilizando el mismo estimador de densidad basado en flujos MAF para modelar $p(x|\theta)$. La consistencia entre ambos entrenamientos independientes indica que la likelihood neural ha convergido y los resultados son reproducibles estadísticamente.}
+    \label{fig:nle_different_trainings}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/snpe_c_default_standard_tt_planck_processing_sequential_5_1000.pdf}
+    \caption{Evolución del entrenamiento secuencial del método de estimación neural de posteriores (SNPE-C) con datos procesados según la ventana de observación de Planck. Se muestran las regiones de credibilidad después de cada una de las 5 rondas de entrenamiento, comenzando con un prior amplio y refinando progresivamente el posterior utilizando 1000 simulaciones por ronda. La observación se genera con los parámetros fiduciales del modelo estándar $\Lambda$CDM: $\omega_b=0.02212$, $\omega_c=0.1206$, $100\theta_{MC}=1.04077$, $\ln(10^{10}A_s)=3.04$ y $n_s=0.9626$.}
+    \label{fig:snpe_sequential}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/snpe_c_default_standard_test_50k_cov_binned(10_obs_seeds).pdf}
+    \caption{Robustez del método de estimación neural de posteriores ante diferentes realizaciones de la observación. Se muestran las regiones de confianza obtenidas a partir de 10 observaciones independientes (diferentes semillas de ruido) generadas con los mismos parámetros fiduciales, utilizando un modelo entrenado con 50k simulaciones y datos binned espectralmente al estilo Planck. La variación entre realizaciones refleja la incertidumbre intrínseca del proceso de observación cosmológica con ruido gaussiano correlacionado.}
+    \label{fig:snpe_different_seed_observations}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/snpe_c_maf_mlp_(medium,extreme)_standard_test_50k_cov_binned.pdf}
+    \caption{Impacto de las redes de embedding MLP con diferentes niveles de compresión en la calidad de la inferencia. Se comparan las regiones de confianza obtenidas con dos arquitecturas de embedding: una con compresión moderada al 32\% (proyección de 74 a 50 dimensiones seguida de reconstrucción) versus compresión extrema al 78\% (proyección de 74 a 16 dimensiones). La comparación evalúa si una reducción agresiva de dimensionalidad mediante autoencoders lineales afecta la calidad del posterior estimado para datos binned de Planck TT.}
+    \label{fig:npe_mlp_embedding_bottlenecks}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{../results/confidence/snpe_c_maf_mlp_(extreme_com)_standard_test_50k_cov_binned.pdf}
+    \caption{Evaluación de una red de embedding con compresión extrema sin reconstrucción, donde el embedding consiste únicamente en una proyección lineal de 74 a 16 dimensiones (78\% reducción) sin capa de expansión posterior. Esto contrasta con el autoencoder completo que primero comprime y luego reconstruye. Se muestra la región de confianza resultante para el modelo entrenado con 50k simulaciones sobre datos binned de Planck TT, evaluando si el mecanismo de reconstrucción es necesario para preservar la información relevante para la inferencia de parámetros cosmológicos.}
+    \label{fig:npe_mlp_embedding}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -24,7 +24,5 @@ class UnbinnedPlanckProcessingPipeline(BasePipeline):
     def run(self, x_clean_single: torch.Tensor, seed: Optional[int] = None) -> torch.Tensor:
         x_tt = self.component_step(x_clean_single)
         x_cut = self.range_cut_step(x_tt)
-        print(x_cut.shape)
-        print(self.expanded_cov_matrix.shape)
         x_processed = self.noise_step(x_cut, seed=seed)
         return x_processed
