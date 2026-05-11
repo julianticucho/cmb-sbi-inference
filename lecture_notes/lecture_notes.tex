@@ -1,19 +1,17 @@
-\documentclass[11pt]{article}
-\usepackage[a4paper, margin=1in]{geometry}
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=0.9in]{geometry}
 \usepackage{amsmath, amssymb}
-\usepackage{hyperref}
+\numberwithin{equation}{section}
 \usepackage{graphicx}
 \usepackage{titlesec}
 \usepackage{listings} 
-\usepackage{xcolor}   
+\usepackage[dvipsnames]{xcolor}   
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
 \usepackage[T1]{fontenc}
 \usepackage[numbers,sort&compress]{natbib}
-\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
-\bibliographystyle{unsrtnat}
-\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
-\usetikzlibrary{automata, positioning, arrows.meta}
+
+\bibliographystyle{plainnat}
 
 \title{Lecture notes}
 \author{}
@@ -22,167 +20,32 @@
 \titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
 
+\usepackage[colorlinks=true,
+            linkcolor=black,     % Índice y enlaces internos en negro
+            citecolor=blue,      % Citas bibliográficas en azul
+            urlcolor=blue,       % URLs y arXiv en azul
+            filecolor=black]{hyperref}
+
 \begin{document}
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{1ex}
+\setlength{\parskip}{1.5ex}
 
 \maketitle
-
+\input{sections/01_resumen.tex}
+\clearpage
 \tableofcontents
-
-\newpage
-\input{sections/introduccion.tex}
-\input{sections/statistics_in_cosmology.tex}
-\input{sections/sbi.tex}
+\clearpage
+\input{sections/02_introduccion.tex}
+\input{sections/03_abc.tex}
+\input{sections/04_neural_sbi.tex}
+\input{sections/05_data_compresion.tex}
+\input{sections/06_secuential_sbi.tex}
+\input{sections/07_diagnostics.tex}
+\clearpage
+\input{sections/08_toy_model.tex}
 
 \clearpage
-
-\section{Introducciónnn}
-\subsection{Motivación}
-La inferencia sin verosimilitud (\textit{likelihood-free inference}) permite estimar parámetros cosmológicos sin asumir una forma analítica para la función de verosimilitud, evitando así sesgos por supuestos incorrectos como Gaussianidad. Esto es especialmente relevante en cosmología, donde procesos no lineales y efectos sistemáticos complican el modelado estadístico. En el contexto del CMB, aunque las fluctuaciones primordiales son aproximadamente Gaussianas, efectos secundarios, como lentes gravitacionales, polarización inducida y \textit{foregrounds} introducen no-Gaussianidades que desafían los análisis tradicionales basados en espectros de potencia.
-
-El CMB es uno de los observables más poderosos para estudiar los parámetros cosmológicos, pero su buena explotación requiere ir más allá de las estadísticas de dos puntos. En este trabajo, comenzaré con el análisis de estadísticas resumidas tradicionales, partiendo de los \textit{angular power spectrum} (APS) de temperatura, que capturan la información gaussiana primordial. Posteriormente, escalaré hacia estadísticas más complejas que incluyan modos de polarización, para finalmente explorar métodos no lineales (de ser posible).
-
-Métodos de aprendizaje profundo, como la compresión neuronal, pueden extraer información no lineal de mapas del CMB, mejorando las restricciones sobre parámetros como $\Omega_m$ o $\sigma_8$. Además, la inclusión de efectos no ideales como ruido instrumental, cortes en el cielo y \textit{foregrounds} en simulaciones realistas es importante para un análisis robusto. Esta aproximación gradual---desde espectros de potencia hasta estadísticas de alto orden---permitirá validar resultados intermedios y cuantificar ganancias al incorporar información no gaussiana.
-
-\subsection{Inferencia Bayesiana}
-El marco bayesiano permite determinar la distribución posterior de parámetros cosmológicos $\theta$ mediante la expresión 
-
-\begin{equation}
-p(\theta|x) = \frac{p(x|\theta)p(\theta)}{p(x)}
-\end{equation}
-
-donde $x$ representa los datos observacionales. La determinación precisa de la función de verosimilitud $p(x|\theta)$ presenta varios desafíos en el análisis del CMB. Aunque las fluctuaciones primordiales son aproximadamente gaussianas, efectos secundarios como las lentes gravitacionales, la contaminación por \textit{foregrounds} y las no-linearidades instrumentales introducen complejidades. Estas complicaciones se acentúan al considerar estadísticas más allá del espectro de potencia, como los estudios de no-gaussianidad primordial o los análisis de lentes gravitacionales a pequeña escala.
-
-Los métodos tradicionales basados en supuestos gaussianos para la verosimilitud muestran limitaciones crecientes frente a la precisión de los nuevos experimentos. Particularmente, para análisis que involucran reconstrucción de lentes, estudios de no-gaussianidad o el tratamiento de regiones con máscaras complejas, la distribución exacta de los estadísticos se desvía significativamente de la aproximación gaussiana. Esta discrepancia puede llevar a estimaciones sesgadas de parámetros cosmológicos.
-
-\subsection{\textit{Likelihood-free inference}}
-La inferencia sin verosimilitud (también llamada \textit{Simulation-based inference}) busca realizar inferencia estadística en situaciones donde la función de verosimilitud es intratable o desconocida. Métodos tradicionales como el \textit{Approximate Bayesian Computation} (ABC) abordan este problema comparando directamente los datos simulados con los datos observados mediante una métrica de distancia. En este enfoque, se generan múltiples simulaciones a partir de diferentes valores del parámetro $\theta$ y se conservan aquellos para los cuales los datos simulados $x$ se parecen lo suficiente a los datos observados, según un umbral de tolerancia. Este método depende fuertemente de la elección de estadísticas resumidas y puede requerir un número muy elevado de simulaciones para obtener una aproximación razonable de la distribución posterior. La figura 1 se muestra la pipeline general utilizada para estimar posteriores con el método ABC.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{tikzpicture}[
-        scale=0.6,
-        every node/.style={transform shape},
-        node distance=1.2cm and 1.8cm,
-        box/.style={draw, rounded corners, minimum width=2.4cm, minimum height=1.2cm, align=center, fill=green!10},
-        arrow/.style={-{Latex}, thick}
-    ]
-        \node[box] (prior) {Prior \\ \( p(\theta) \)};
-        \node[box, right=of prior] (simulator) {Simulator \\ \( x \sim p(x|\theta) \)};
-        \node[box, right=of simulator] (summary) {Summary statistics \\ \( s = S(x) \)};
-        \node[box, right=of summary] (distance) {Distance \\ \( \rho(s, s_0) \)};
-        \node[box, right=of distance] (accept) {Accept if \\ \( \rho < \epsilon \)};
-        \node[box, below=1.8cm of distance] (obs) {Real data \\ \( x_0 \)};
-        \node[box, right=of obs] (s_obs) {Real summary \\ \( s_0 = S(x_0) \)};
-        \node[box, right=of accept] (posterior) {Posterior \\ \( \{\theta_i\}_{\text{aceptados}} \)};
-
-        \draw[arrow] (prior) -- (simulator);
-        \draw[arrow] (simulator) -- (summary);
-        \draw[arrow] (summary) -- (distance);
-        \draw[arrow] (distance) -- (accept);
-        \draw[arrow] (accept) -- (posterior);
-        \draw[arrow] (obs) -- (s_obs);
-        \draw[arrow, dashed] ([yshift=1pt] s_obs.north) to[bend left=45] (distance.south);
-
-        \node[above=0.15cm of distance] {\textbf{Simulation and rejection}};
-        \node[below=0.45cm of posterior] {\textbf{Inference}};
-    \end{tikzpicture}
-    \caption{Pipeline general de ABC.}
-    \label{fig:abc}
-\end{figure}
-
-Más recientemente, técnicas modernas basadas en aprendizaje automático han revolucionado este enfoque. En lugar de comparar datos de manera directa, estos métodos reformulan el problema como uno de estimación de densidad: se modela la distribución conjunta de pares $(\theta, x)$ simulados, lo que permite aproximar la distribución posterior $p(\theta|x)$. Herramientas como redes neuronales profundas y flujos normalizantes permiten entrenar modelos expresivos que aprenden directamente la relación entre datos y parámetros a partir de muestras sintéticas, evitando el cálculo explícito de la verosimilitud y haciendo la inferencia mucho más eficiente. La figura 2 muestra la pipeline general para técnicas de sbi basadas en aprendizaje automático.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{tikzpicture}[
-        scale=0.65,  
-        every node/.style={transform shape}, 
-        node distance=1.2cm and 1.8cm,
-        box/.style={draw, rounded corners, minimum width=2.4cm, minimum height=1.2cm, align=center, fill=blue!10},
-        arrow/.style={-{Latex}, thick}
-    ]
-        \node[box] (prior) {Prior \\ \( p(\theta) \)};
-        \node[box, right=of prior] (simulator) {Simulator \\ \( x \sim p(x|\theta) \)};
-        \node[box, right=of simulator] (summary) {Summary statistics \\ \( s = S(x) \)};
-        \node[box, right=of summary] (train) {Train \\ \( q_\phi(\theta|s) \)};
-        \node[box, below=1.8cm of summary] (obs) {Real data \\ \( x_0 \)};
-        \node[box, right=of obs] (s_obs) {Real summary \\ \( s_0 = S(x_0) \)};
-        \node[box, right=of s_obs] (posterior) {Posterior \\ \( q_\phi(\theta|s_0) \)};
-
-        \draw[arrow] (prior) -- (simulator);
-        \draw[arrow] (simulator) -- (summary);
-        \draw[arrow] (summary) -- (train);
-        \draw[arrow] (obs) -- (s_obs);
-        \draw[arrow] (s_obs) -- (posterior);
-        \draw[arrow, dashed] (train.south) to[bend right=25] (posterior.north);
-
-        \node[above=0.15cm of train] {\textbf{Train}};
-        \node[below=0.45cm of posterior] {\textbf{Inference}};
-    \end{tikzpicture}
-    \caption{Pipeline general para métodos con aprendizaje automático.}
-    \label{fig:sbi}
-\end{figure}
-
-El paquete \texttt{sbi}, desarrollado en Python sobre \texttt{PyTorch}, implementa este paradigma de manera flexible. Ofrece herramientas para: (1) simular datos bajo distintos parámetros $\theta$, (2) entrenar estimadores de densidad condicional $p(\theta|x)$ usando arquitecturas modernas, y (3) realizar inferencia posterior dado un conjunto de datos observados. La calidad de las simulaciones y de las estadísticas utilizadas continúa siendo muy importante, ya que el modelo entrenado sólo puede aprender lo que está presente en los datos simulados. Sin embargo, al entrenar modelos que generalizan bien, se puede reducir de forma significativa el número de simulaciones necesarias, logrando una inferencia más precisa y escalable que con métodos como ABC.
-
-\section{Simulador}
-\subsection{Generador de APS}
-El generador implementa un cálculo teórico completo de las anisotropías del fondo cósmico de microondas mediante la resolución numérica de las ecuaciones de Boltzmann a través del código \texttt{CAMB}. Parte de un conjunto de parámetros cosmológicos que definen un modelo $\Lambda$CDM estándar y devuelve su \textit APS correspondiente. En la actual implementación, el cálculo se restringe al espectro de temperatura, aunque la arquitectura del código permite una extensión futura para incluir los modos de polarización. El resultado final consiste en el APS completo expresado en microkelvin, que cuantifica las fluctuaciones de temperatura en función del multipolo $\ell$. 
-
-\subsection{Ruido instrumental y cobertura parcial del cielo}
-Para generar simulaciones realistas de los APS, se consideran dos fuentes principales de ruido: el ruido instrumental del experimento y la cobertura parcial del cielo, que introduce varianza cósmica adicional. Primero, se añade el ruido instrumental a los espectros teóricos mediante un modelo basado en la resolución angular del experimento (\(\theta_{\text{fwhm}}\)) y la sensibilidad por píxel (\(\sigma_T\)). El término de ruido instrumental \(N_\ell^{\mathrm{TT}}\) que se suma al espectro de potencia teórico \(C_\ell\) es:
-
-\begin{equation}
-N_\ell^{\mathrm{TT}} = \left(\theta_{\text{fwhm}} \cdot \sigma_T \right)^2 \exp\left[ \ell (\ell + 1) \frac{\theta_{\text{fwhm}}^2}{8 \ln 2} \right],
-\end{equation}
-
-donde \(\theta_{\text{fwhm}}\) se expresa en radianes. Esta fórmula modela el suavizado del cielo debido a la resolución finita del instrumento. Posteriormente, se simula la observación del cielo parcial considerando que solo se mide una fracción \(f_{\text{sky}} < 1\) del cielo completo. Como consecuencia, el estimador observable de \(C_\ell\), denotado \(\hat{C}_\ell\), no es determinístico, sino una variable aleatoria cuya dispersión depende de \(f_{\text{sky}}\). Para multipolos bajos (\(\ell < \ell_{\text{transition}}\)), se modela esta varianza como una distribución chi-cuadrado escalada:
-
-\begin{equation}
-\hat{C}_\ell = \frac{1}{\nu_\ell} \sum_{i=1}^{\nu_\ell} X_i^2, \quad X_i \sim \mathcal{N}(0, \sqrt{C_\ell}),
-\end{equation}
-
-donde \(\nu_\ell = \text{round}(f_{\text{sky}} \cdot (2\ell + 1))\) representa el número efectivo de grados de libertad. Esta formulación captura correctamente la dispersión estadística del estimador cuando el número de modos disponibles es pequeño. Para multipolos altos (\(\ell \geq \ell_{\text{transition}}\)), se asume que el estimador puede aproximarse mediante una distribución normal centrada en \(C_\ell\) con varianza:
-
-\begin{equation}
-\hat{C}_\ell \sim \mathcal{N}\left(C_\ell, \frac{2 C_\ell^2}{f_{\text{sky}} (2\ell + 1)} \right).
-\end{equation}
-
-Este enfoque es válido debido al teorema central del límite, ya que en esta región el número de modos es suficientemente grande como para justificar una aproximación gaussiana.
-
-\section{Inference}
-
-\newpage
-\section{Métodos bayesianos}
-En las últimas décadas, la cosmología ha experimentado una explosión en la cantidad y calidad de datos observacionales, desde mediciones de anisotropías en el Fondo Cósmico de Microondas (CMB) hasta sondeos de galaxias y lentes gravitacionales a gran escala. Este crecimiento ha impulsado la necesidad de técnicas de análisis más sofisticadas, capaces de manejar conjuntos de datos masivos y modelos teóricos cada vez más complejos.  
-
-En este contexto, los métodos bayesianos se han convertido en una herramienta fundamental para la inferencia cosmológica. Estos permiten combinar observaciones con predicciones teóricas mediante el uso de distribuciones de probabilidad, actualizando nuestro conocimiento a través del teorema de Bayes:  
-
-\begin{equation}  
-    P(\theta \mid \mathcal{D}) = \frac{P(\mathcal{D} \mid \theta) \, P(\theta)}{P(\mathcal{D})},  
-\end{equation}  
-
-donde \( P(\theta \mid \mathcal{D}) \) es la distribución posterior, \( P(\mathcal{D} \mid \theta) \) es la verosimilitud, \( P(\theta) \) es la distribución previa, y \( P(\mathcal{D}) \) actúa como evidencia.  
-
-Sin embargo, en cosmología, el cálculo de la verosimilitud suele ser computacionalmente costoso o incluso intratable cuando se trabaja con simulaciones numéricas. Esto ha llevado al desarrollo de técnicas de \textit{Simulation-Based Inference} (SBI), que evitan la evaluación explícita de la verosimilitud mediante aproximaciones basadas en simulaciones. En las siguientes secciones, exploraremos cómo estos métodos están revolucionando el análisis de datos cosmológicos.
-
-\subsection{Función de verosimilitud}
-La función de verosimilitud \( L \) es fundamental en análisis estadísticos modernos, definida como la probabilidad de observar los datos dado un modelo teórico. Esta herramienta permite estimar parámetros del modelo y sus incertidumbres. Por ejemplo, al medir repetidamente el peso de una persona con múltiples básculas, la verosimilitud modela cómo las mediciones \( d_i \) se distribuyen alrededor del peso real \( w \), asumiendo un ruido gaussiano con desviación estándar \( \sigma_w \).
-
-\begin{equation}
-L(w | d_i, \sigma_w) = \frac{1}{\sqrt{2 \pi \sigma_w^2}} \exp \left( -\frac{(d_i - w)^2}{2 \sigma_w^2} \right)
-\end{equation}
-
-Para \( m \) mediciones independientes, la verosimilitud conjunta es el producto de las verosimilitudes individuales, resultando en una expresión exponencial que depende de la suma de cuadrados de las diferencias entre datos y modelo.
-
-\begin{equation}
-L(w | d_i, \sigma_w) = \prod_i \frac{1}{\sqrt{2 \pi \sigma_w^2}} \exp \left( -\frac{(d_i - w)^2}{2 \sigma_w^2} \right)
-\end{equation}
-
-\input{sections/automata.tex}
-
 \bibliography{references}
+
 \end{document}
