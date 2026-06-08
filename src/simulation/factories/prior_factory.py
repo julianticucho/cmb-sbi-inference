@@ -18,6 +18,7 @@ class PriorFactory:
             'theta_MC_100_5sigma': PriorFactory.create_theta_MC_100_5sigma_prior,
             'ln_10_10_As_5sigma': PriorFactory.create_ln_10_10_As_5sigma_prior,
             'ns_5sigma': PriorFactory.create_ns_5sigma_prior,
+            'pol': PriorFactory.create_pol_prior,
         }
 
     @staticmethod
@@ -124,6 +125,17 @@ class PriorFactory:
             'ns': (0.9626-0.0057*5, 0.9626+0.0057*5), 
         }
         return StandardCosmologyPrior(parameter_ranges=ns_ranges)
+
+    @staticmethod
+    def create_pol_prior() -> StandardCosmologyPrior:
+        pol_ranges = {
+            'r': (0.025-0.025, 0.025+0.025), 
+            'A_d': (5.045-1.585, 5.045+1.585),
+            'beta_d': (1.59-0.2, 1.59+0.2),
+            'A_s': (1.935-1.935, 1.935+1.935),
+            'beta_s': (-3.0-0.4, -3.0+0.4)
+        }
+        return StandardCosmologyPrior(parameter_ranges=pol_ranges)
     
     @staticmethod
     def create_custom_prior(parameter_ranges: Dict[str, Tuple[float, float]]) -> StandardCosmologyPrior:

@@ -1,0 +1,45 @@
+\section{Redes Neuronales}
+\label{sec:redes_neuronales}
+
+En la práctica se suelen usar distintas arquitecturas dependiendo de la naturaleza de los datos $x$ que se quieran procesar. La elección del modelo es clave para extraer las mejores representaciones posibles antes de realizar la inferencia. Acá vamos a revisar las tres opciones más comunes que son los MLPs, las CNNs y DeepSphere.
+
+\subsection{Multi-Layer Perceptrons (MLPs)}
+\label{subsec:mlps}
+
+Los MLPs son la arquitectura más básica para procesar vectores de datos. Básicamente son una pila de capas donde cada neurona tiene una conexión con todas las neuronas de la capa siguiente. En cada una de estas capas lo que se hace es multiplicar las entradas por una matriz de pesos $W$, sumar un vector de sesgo $b$ y pasar el resultado por una función de activación no lineal $\sigma$. Matemáticamente la operación en una capa $l$ se escribe como:
+\begin{equation}
+    h^{(l)} = \sigma(W^{(l)} h^{(l-1)} + b^{(l)})
+\end{equation}
+
+donde $h^{(l)}$ representa el vector de activaciones resultante. Estas redes se conocen como aproximadores universales porque pueden aprender casi cualquier función si tienen suficientes parámetros.
+
+\subsection{Convolutional Neural Networks (CNNs)}
+\label{subsec:cnns}
+
+Cuando los datos presentan una estructura tipo grilla como una imagen o una serie temporal conviene usar CNNs en lugar de MLPs. El gran problema de los MLPs es que para procesar una imagen primero hay que aplanar los datos convirtiéndolos en un vector largo lo que destruye toda la información sobre qué píxeles estaban cerca de otros. Además al conectar cada píxel con cada neurona el número de pesos crece de forma explosiva lo que hace que el entrenamiento sea muy difícil y propenso al sobreajuste. Las CNNs solucionan estos problemas introduciendo el concepto de campos receptivos locales mediante la operación de convolución.
+
+En una capa convolucional la red no intenta mirar toda la imagen a la vez con cada neurona sino que utiliza filtros pequeños llamados kernels que solo miran una pequeña región de la entrada. La convolución discreta para una entrada $x$ y un filtro $w$ de tamaño $K$ se define así:
+\begin{equation}
+    (x * w)_i = \sum_{m=0}^{K-1} x_{i+m} w_m
+\end{equation}
+Esta operación se repite deslizando el filtro por toda la entrada para generar lo que se conoce como un mapa de características. Una de las ideas más potentes acá es el uso de pesos compartidos porque el mismo filtro se aplica en todas las posiciones de los datos. Esto significa que si un filtro aprende a detectar una característica importante como un borde o una curva podrá encontrarla sin importar en qué parte de la grilla aparezca. Este diseño otorga a la red una propiedad de invarianza ante traslaciones que es fundamental para el procesamiento de señales y visión artificial.
+
+Después de las capas convolucionales se suelen aplicar capas de activación no lineal como ReLU para permitir que la red aprenda relaciones complejas. También es muy común insertar capas de Batch Normalization que se encargan de normalizar las activaciones de salida de una capa para que tengan una media cercana a cero y una varianza unitaria. Esto ayuda a que el entrenamiento sea mucho más estable y rápido permitiendo el uso de tasas de aprendizaje más altas sin que el modelo colapse.
+
+Otro componente esencial son las capas de pooling que sirven para reducir la resolución espacial de los mapas de características. La operación más habitual es el Max Pooling que consiste en recorrer la grilla y quedarse solo con el valor máximo de cada pequeña región. Esto permite reducir el número de parámetros en las capas posteriores y otorga una mayor robustez frente a pequeñas deformaciones o desplazamientos de los datos de entrada.
+
+Finalmente una arquitectura típica de CNN termina con una o varias capas densas o de tipo MLP. Para hacer esto se realiza una operación de aplanado que convierte los mapas de características multidimensionales en un vector simple que luego se pasa por capas completamente conectadas. Acá la red utiliza todas las características abstractas extraídas por las convoluciones previas para realizar la tarea final de clasificación o regresión. De esta manera las CNNs combinan la eficiencia de las conexiones locales y pesos compartidos con la potencia de los MLPs para la toma de decisiones final.
+
+
+\subsection{DeepSphere}
+\label{subsec:deepsphere}
+
+Existen casos donde los datos no viven en una rejilla plana sino sobre una superficie esférica. Si se intenta proyectar una esfera a una imagen plana para usar una CNN convencional se introducen distorsiones importantes en los polos que degradan la capacidad de aprendizaje. DeepSphere permite aplicar redes convolucionales directamente sobre la superficie esférica modelando los píxeles como nodos de un grafo y definiendo la convolución en el dominio espectral.
+
+En este enfoque la operación se basa en el Laplaciano del grafo $L$ que se construye a partir de la matriz de adyacencia y la matriz de grados de los píxeles en la esfera. Como calcular la descomposición espectral de este Laplaciano es muy costoso para mapas de alta resolución se utiliza una aproximación basada en polinomios de Chebyshev. El filtrado de una señal $x$ se escribe entonces como una suma ponderada:
+\begin{equation}
+    y = \sum_{k=0}^{K-1} \theta_k T_k(\tilde{L})x
+\end{equation}
+Acá $\theta_k$ son los parámetros que la red debe aprender y $T_k$ representa el polinomio de Chebyshev de orden $k$ aplicado al Laplaciano normalizado $\tilde{L}$. El valor de $K$ determina el tamaño del filtro o el número de saltos que la convolución considera en el grafo para cada píxel. Esta arquitectura logra respetar la geometría natural de los datos esféricos y permite manejar de forma sencilla situaciones donde existen máscaras o regiones con información incompleta.
+
+

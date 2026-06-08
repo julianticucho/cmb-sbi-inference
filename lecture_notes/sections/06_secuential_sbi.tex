@@ -8,3 +8,42 @@ q_\Phi^{\text{SNPE}}(\Theta \mid x) \approx \frac{1}{Z} p(x \mid \Theta)\tilde{p
 donde $Z$ es una constante de normalización. Entonces, todos los métodos SNPE básicamente giran en torno a cómo corregir este sesgo introducido por usar una proposal distinta del prior. Ver \cite{greenberg2019} para una revisión de los distintos métodos SNPE (SNPE-A \cite{papamakarios2018fastepsilon}, SNPE-B y SNPE-C  o también llamado Automatic Posterior Transformation APT \cite{greenberg2019}).
 
 Falta por investigar...
+
+\subsection{Truncated Sequential Neural Posterior Estimation (TSNPE)}
+Un enfoque alternativo a los métodos secuenciales tradicionales es el uso de un prior truncado \cite{deistler2022}. En lugar de simular parámetros en todo el espacio del prior original $p(\Theta)$, definimos una región de soporte $M$ basada en la posterior aproximada de la ronda actual, donde la densidad supera un umbral $\tau$. La propuesta truncada $\tilde{p}(\Theta)$ se define como:
+
+\begin{equation}
+\tilde{p}(\Theta) = \frac{1}{Z} p(\Theta) \cdot 1_{\Theta \in M}
+\label{eq:truncated_prior}
+\end{equation}
+
+Donde $1_{\Theta \in M}$ es la función que vale $1$ si $\Theta \in M$ y $0$ en caso contrario. La constante de normalización $Z$ está dada por:
+
+\begin{equation}
+Z = \int_M p(\Theta) d\Theta
+\label{eq:normalization_constant}
+\end{equation}
+
+En TSNPE, los datos se generan simulando a partir de la propuesta truncada, de modo que la distribución conjunta de entrenamiento pasa a ser $\tilde{p}(x,\Theta) = \tilde{p}(\Theta)p(x|\Theta)$. Siguiendo la ecuación \eqref{eq:loss_npe}, la función de pérdida de máxima verosimilitud bajo esta nueva propuesta es:
+
+\begin{equation}
+\mathcal{L}_{\text{TSNPE}} = - \mathbb{E}_{x,\Theta \sim \tilde{p}(x,\Theta)} \left[ \ln q_{\Phi}^{\text{NPE}}(\Theta|x) \right]
+\label{eq:loss_tsnpe_expectation}
+\end{equation}
+
+Expandiendo la esperanza de forma explícita sobre el soporte restringido $M$, obtenemos:
+
+\begin{equation}
+\mathcal{L}_{\text{TSNPE}} = -\int_M \tilde{p}(\Theta) \left( \int p(x|\Theta) \ln q_{\Phi}^{\text{NPE}}(\Theta|x) dx \right) d\Theta
+\label{eq:loss_integrals}
+\end{equation}
+
+Aplicando el Teorema de Bayes para sustituir la verosimilitud del simulador, sabemos que $p(x|\Theta) = \frac{p(x,\Theta)}{p(\Theta)}$. Al sustituir esta relación y la definición del prior truncado de la ecuación \eqref{eq:truncated_prior} dentro de la integral, se obtiene:
+
+\begin{align}
+\mathcal{L}_{\text{TSNPE}} &= -\int_M \left( \frac{1}{Z} p(\Theta) \right) \left( \int \frac{p(x,\Theta)}{p(\Theta)} \ln q_{\Phi}^{\text{NPE}}(\Theta|x) dx \right) d\Theta \\
+&= -\frac{1}{Z} \int_M \int p(x,\Theta) \ln q_{\Phi}^{\text{NPE}}(\Theta|x) dx \, d\Theta \\
+&= - \frac{1}{Z} \mathbb{E}_{x,\Theta \sim p(x,\Theta)} \left[ \ln q_{\Phi}^{\text{NPE}}(\Theta|x) \right] \cdot 1_{\Theta \in M}
+\end{align}
+
+Dado que la función de pérdida resultante es idéntica a la ecuación \eqref{eq:loss_npe} salvo por la constante multiplicativa $\frac{1}{Z}$ y la restricción del soporte a $M$, el gradiente con respecto a los parámetros de la red $\nabla_{\Phi} \mathcal{L}_{\text{TSNPE}}$ apunta exactamente en la misma dirección. Por lo tanto, no se requiere modificar analíticamente la función de pérdida, permitiendo utilizar el algoritmo de entrenamiento estándar de la primera ronda.

@@ -1,10 +1,12 @@
 import torch
 import matplotlib.pyplot as plt
-from typing import Optional, List, Any
-from .diagnostic import plot_ppc, plot_hpd, plot_data_ppc, plot_hpd_tarp_diagnostics, plot_hpd_marginal
+from typing import Optional, List, Tuple, Any
+from .diagnostic import plot_ppc, plot_hpd, plot_data_ppc, plot_hpd_tarp_diagnostics, plot_hpd_marginal, plot_regression_results
 from ..simulation.factories import SimulatorFactory, PipelineFactory
 from ..inference.api import load_posterior, load_prior
 from ..core import storage
+from ..compression.factories.dataloader_factory import DataLoaderFactory
+from ..compression.factories.model_factory import ModelFactory
 
 def plot_and_save_ppc(
     samples: List[torch.Tensor],
@@ -189,5 +191,41 @@ def plot_and_save_hpd_marginal(
     if output_name:
         storage.save_figure(fig, output_name, category="diagnostics")
         print(f"Saved HPD marginal diagnostics to {output_name}")
+
+    return fig
+
+
+def plot_and_save_regression(
+    embedding_nn_filename: str,
+    param_labels: Optional[List[str]] = None,
+    limits: Optional[List[Tuple[float, float]]] = None,
+    device: Optional[str] = None,
+    title: Optional[str] = None,
+    output_name: Optional[str] = None,
+) -> plt.Figure:
+    checkpoint = storage.load_embedding_nn(embedding_nn_filename)
+    model_name = checkpoint["model_name"]
+    simulation_files = checkpoint["simulation_files"]
+    dataloader_name  = checkpoint["dataloader_name"]
+
+    model = ModelFactory.get_model(model_name)
+    model.load_state_dict(checkpoint["state_dict"])
+
+    theta, x = storage.load_multiple_simulations(simulation_files)
+    dl_factory = DataLoaderFactory(theta=theta, x=x)
+    _, _, test_loader = dl_factory.get_dataloader(dataloader_name)
+
+    fig = plot_regression_results(
+        model=model,
+        test_dataloader=test_loader,
+        param_labels=param_labels,
+        limits=limits,
+        device=device,
+        title=title,
+    )
+
+    if output_name:
+        storage.save_figure(fig, output_name, category="regression")
+        print(f"Saved regression plot to {output_name}")
 
     return fig

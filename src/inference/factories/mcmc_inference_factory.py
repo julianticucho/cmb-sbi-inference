@@ -4,7 +4,7 @@ from typing import Any, Dict, Callable, Optional, Tuple
 from ...core import storage
 from ..likelihoods.gaussian_planck_tt import GaussianPlanckTTLikelihood
 from ..likelihoods.gaussian_unbinned_planck_tt import GaussianUnbinnedPlanckTTLikelihood
-
+from ..likelihoods.gaussian_planck_tt_binned_200 import GaussianPlanckTTBinning200Likelihood
 
 class MCMCInferenceFactory:
     """
@@ -22,6 +22,7 @@ class MCMCInferenceFactory:
             "gaussian_mixture_demo": MCMCInferenceFactory.create_gaussian_mixture_demo,
             "planck_tt_gaussian": MCMCInferenceFactory.create_planck_tt_gaussian,
             "unbinned_planck_tt_gaussian": MCMCInferenceFactory.create_unbinned_planck_tt_gaussian,
+            "binned_planck_tt_200_gaussian": MCMCInferenceFactory.create_binned_planck_tt_200_gaussian,
         }
 
     @staticmethod
@@ -174,6 +175,69 @@ class MCMCInferenceFactory:
                 },
                 "ns": {
                     "prior": {"min": 0.9626-0.0057*1, "max": 0.9626+0.0057*1},
+                    "latex": r"n_s",
+                },
+            },
+            "sampler": {"mcmc": mcmc or {}},
+            "output": str(output_prefix),
+        }
+
+        if seed is not None:
+            info["sampler"]["mcmc"]["seed"] = int(seed)
+
+        return info, output_prefix
+
+    @staticmethod
+    def create_binned_planck_tt_200_gaussian(
+        run_name: str = "binned_planck_tt_200_gaussian",
+        seed: Optional[int] = None,
+        mcmc: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[Dict[str, Any], Path]:
+        storage.ensure_directories()
+        output_prefix = storage.get_dir("chains") / run_name
+
+        info: Dict[str, Any] = {
+            "likelihood": {
+                "planck_tt_gaussian": {
+                    "external": GaussianPlanckTTBinning200Likelihood,
+                    "speed": -1,
+                }
+            },
+            "theory": {
+                "camb": {
+                    "extra_args": {
+                        "lens_potential_accuracy": 1,
+                        "AccuracyBoost": 1.0,
+                        "lmax": 2500,
+                        "nonlinear": "both",
+                        "tau": 0.0522,
+                    }
+                }
+            },
+            "params": {
+                "ombh2": {
+                    "prior": {"min": 0.02212-0.00022*5, "max": 0.02212+0.00022*5},
+                    "ref": 0.02212,           
+                    "latex": r"\Omega_b h^2",
+                },
+                "omch2": {
+                    "prior": {"min": 0.1206-0.0021*5, "max": 0.1206+0.0021*5},
+                    "ref": 0.1206,
+                    "latex": r"\Omega_c h^2",
+                },
+                "cosmomc_theta": {
+                    "prior": {"min": (1.04077-0.00047*5)/100, "max": (1.04077+0.00047*5)/100},
+                    "ref": 1.04077/100,
+                    "latex": r"\theta_{\rm MC}",
+                },
+                "As": {
+                    "prior": {"min": np.exp(3.04-0.016*5)/1e10, "max": np.exp(3.04+0.016*5)/1e10},
+                    "ref": np.exp(3.04)/1e10,
+                    "latex": r"A_s",
+                },
+                "ns": {
+                    "prior": {"min": 0.9626-0.0057*5, "max": 0.9626+0.0057*5},
+                    "ref": 0.9626,
                     "latex": r"n_s",
                 },
             },

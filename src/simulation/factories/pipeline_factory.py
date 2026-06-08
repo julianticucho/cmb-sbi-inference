@@ -3,7 +3,9 @@ from ..pipelines import (
     IdentityPipeline,
     PlanckProcessingPipeline, 
     UnbinnedPlanckProcessingPipeline, 
-    PlanckBinningPipeline
+    PlanckBinningPipeline,
+    PlanckBinning200Pipeline,
+    PlanckJustBinning200Pipeline,
 )
 
 
@@ -16,6 +18,8 @@ class PipelineFactory:
             "planck_processing": PipelineFactory.create_planck_processing,
             "unbinned_planck_processing": PipelineFactory.create_unbinned_planck_processing,
             "planck_binning": PipelineFactory.create_planck_binning,
+            "planck_binning_200": PipelineFactory.create_planck_binning_200,
+            "planck_just_binning_200": PipelineFactory.create_planck_just_binning_200,
         }
 
     @staticmethod
@@ -39,5 +43,15 @@ class PipelineFactory:
     @staticmethod
     def create_planck_binning():
         return PlanckBinningPipeline()
+    
+    @staticmethod
+    def create_planck_binning_200():
+        return PlanckBinning200Pipeline()
+    
+    @staticmethod
+    def create_planck_just_binning_200():
+        return PlanckJustBinning200Pipeline()
+    
+
     
 

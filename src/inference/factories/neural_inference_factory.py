@@ -25,6 +25,8 @@ class NeuralInferenceFactory:
             'nle_default': NeuralInferenceFactory.create_nle_default,
             'mnle_default': NeuralInferenceFactory.create_mnle_default,
             'nre_c_default': NeuralInferenceFactory.create_nre_c_default,
+            'nre_c_mlp': NeuralInferenceFactory.create_nre_c_mlp,
+            'nre_c_linear': NeuralInferenceFactory.create_nre_c_linear,
             'npse_regular': NeuralInferenceFactory.create_npse_regular,
             'fmpe_regular': NeuralInferenceFactory.create_fmpe_regular,
             'snpe_c_mdn': NeuralInferenceFactory.create_snpe_c_mdn,
@@ -45,6 +47,8 @@ class NeuralInferenceFactory:
             'snpe_c_maf_mlp_extreme_com': NeuralInferenceFactory.create_snpe_c_maf_mlp_extreme_com,
             'snpe_c_maf_mlp_likebinning': NeuralInferenceFactory.create_snpe_c_maf_mlp_likebinning,
             'snpe_c_maf_mlp_likebinning_v2': NeuralInferenceFactory.create_snpe_c_maf_mlp_likebinning_v2,
+            'snpe_c_maf_mlp_200': NeuralInferenceFactory.create_snpe_c_maf_mlp_200,
+            'snpe_c_maf_mlp_2448': NeuralInferenceFactory.create_snpe_c_maf_mlp_2448,
         }
 
     @staticmethod
@@ -126,6 +130,26 @@ class NeuralInferenceFactory:
     def create_nre_c_default(prior):
         nn = classifier_nn(
             model="resnet",
+            z_score_theta="independent",
+            z_score_x="independent",
+            hidden_features=50,
+        )
+        return NRE_C(prior=prior, classifier=nn)
+    
+    @staticmethod
+    def create_nre_c_mlp(prior):
+        nn = classifier_nn(
+            model="mlp",
+            z_score_theta="independent",
+            z_score_x="independent",
+            hidden_features=50,
+        )
+        return NRE_C(prior=prior, classifier=nn)
+    
+    @staticmethod
+    def create_nre_c_linear(prior):
+        nn = classifier_nn(
+            model="linear",
             z_score_theta="independent",
             z_score_x="independent",
             hidden_features=50,
@@ -476,6 +500,51 @@ class NeuralInferenceFactory:
             num_components=10,
         )
         return SNPE_C(prior=prior, density_estimator=nn)
+    
+    @staticmethod
+    def create_snpe_c_maf_mlp_200(prior):
+        from torch import nn
+        # mlp con capa de 200 a 64 y de 64 a 5 usando re
+        embedding_net = nn.Sequential(
+            nn.Linear(200, 64),
+            nn.ReLU(),
+            nn.Linear(64, 5),
+        )
+        
+        nn = posterior_nn(
+            model="maf", 
+            z_score_theta="independent",
+            z_score_x="independent",
+            hidden_features=50,
+            num_transforms=5,
+            num_bins=10,
+            embedding_net=embedding_net,
+            num_components=10,
+        )
+        return SNPE_C(prior=prior, density_estimator=nn)
+    
+    @staticmethod
+    def create_snpe_c_maf_mlp_2448(prior):
+        from torch import nn
+        embedding_net = nn.Sequential(
+            nn.Linear(2448, 512),
+            nn.ReLU(),
+            nn.Linear(512, 5),
+        )
+        
+        nn = posterior_nn(
+            model="maf", 
+            z_score_theta="independent",
+            z_score_x="independent",
+            hidden_features=50,
+            num_transforms=5,
+            num_bins=10,
+            embedding_net=embedding_net,
+            num_components=10,
+        )
+    
+
+    
 
 
         

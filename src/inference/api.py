@@ -5,6 +5,7 @@ from .factories import NeuralInferenceFactory, MCMCInferenceFactory
 from ..core import storage
 from cobaya.run import run
 from sbi.inference import simulate_for_sbi
+from sbi.utils import RestrictedPrior, get_density_thresholder
 from sbi.utils.user_input_checks import process_prior, process_simulator
 from getdist import loadMCSamples
 
@@ -12,12 +13,26 @@ def train_model(
     input_files: List[str],
     prior_type: str,
     inference_type: str,
+    embedding_nn_filename: Optional[str] = None,
     output_name: Optional[str] = None
 ):
     # Load simulation data from list of files
     # Build neural inference model from prior and inference type
     # Append simulations to model and train
     theta, x = storage.load_multiple_simulations(input_files)
+    if embedding_nn_filename is not None:
+        from ..compression.factories.model_factory import ModelFactory
+        checkpoint = storage.load_embedding_nn(embedding_nn_filename)
+        embedding_nn = ModelFactory.get_model(checkpoint["model_name"])
+        embedding_nn.load_state_dict(checkpoint["state_dict"])
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        embedding_nn.eval()
+        embedding_nn.to(device)
+        with torch.no_grad():
+            x = x.to(device)
+            x = embedding_nn(x).cpu()
+
+    print(theta.shape, x.shape)
     model = NeuralInferenceFactory.get_inference(inference_type, prior_type)
     model.append_simulations(theta, x)
     density_estimator = model.train()
@@ -25,82 +40,91 @@ def train_model(
     # Save model if output_name is provided
     # Return trained density estimator
     if output_name is not None:
-        storage.save_model(density_estimator, input_files, prior_type, inference_type, output_name)
+        storage.save_model(
+            density_estimator,
+            input_files,
+            prior_type,
+            inference_type,
+            output_name,
+            embedding_nn_filename=embedding_nn_filename,
+        )
     return density_estimator
 
-def train_sequential_model(
+def train_sequential_model_per_round(
+    simulation_files: List[str],
+    output_name: str,
+    round: int,
     x_obs: torch.Tensor,
-    simulator_type: str,
-    pipeline_type: str,
-    prior_type: str,
-    inference_type: str,
-    num_rounds: int = 1,
-    num_simulations_per_round: int = 100,
-    num_workers: int = 1,
-    output_name: Optional[str] = None
+    prior_type: Optional[str] = None,
+    inference_type: Optional[str] = None,
+    previous_round_filename: Optional[str] = None,
+    truncated: bool = False,
+    density_quantile: float = 1e-4,
 ):
-    # Load simulator, pipeline, prior and inference from factories
-    simulator = SimulatorFactory.get_simulator(simulator_type)
-    pipeline = PipelineFactory.get_pipeline(pipeline_type)
-    prior = PriorFactory.get_prior(prior_type).to_sbi()
-    inference = NeuralInferenceFactory.get_inference(inference_type, prior_type)
+    theta, x = storage.load_multiple_simulations(simulation_files)
+    if round == 1:
+        # --- First round ---
+        assert prior_type is not None, "prior_type required for round 1"
+        assert inference_type is not None, "inference_type required for round 1"
+        prior = PriorFactory.get_prior(prior_type).to_sbi()
+        inference = NeuralInferenceFactory.get_inference(inference_type, prior_type)
+        proposal = prior
+        first_prior_type = prior_type
+        first_inference_type = inference_type
+    else:
+        # --- Subsequent rounds: walk the checkpoint chain ---
+        assert previous_round_filename is not None, "previous_round_filename required for round > 1"
+        chain = []
+        fn = previous_round_filename
+        while fn is not None:
+            cfg = storage.load_model_per_round(fn)
+            chain.append(cfg)
+            fn = cfg.get("previous_filename")
+        chain.reverse()  # round 1 → round N-1
 
-    # Create simulator function for SBI
-    simulator_func = lambda theta: pipeline.simulate_example(theta, simulator)
-    prior, num_parameters, prior_returns_numpy = process_prior(prior)
-    simulator_func = process_simulator(simulator_func, prior, prior_returns_numpy)
-    
-    # Set initial proposal and initialize history lists
-    # Create master filename suffix
-    proposal = prior
-    posteriors = []
-    state_dicts = []
-    simulation_filenames = []
-    if output_name is None:
-        output_name = f"{inference_type}_{prior_type}_{simulator_type}_{pipeline_type}_sequential"
-
-    for i in range(num_rounds):
-        # Simulate for SBI and save individual simulation file for this round
-        theta, x = simulate_for_sbi(
-            simulator_func, 
-            proposal, 
-            num_simulations=num_simulations_per_round, 
-            num_workers=num_workers
+        first = chain[0]
+        first_prior_type = first["prior_type"]
+        first_inference_type = first["inference_type"]
+        prior = PriorFactory.get_prior(first_prior_type).to_sbi()
+        inference = NeuralInferenceFactory.get_inference(
+            first_inference_type, first_prior_type
         )
-        round_sim_file = f"{output_name}_round_{i}.pt"
-        storage.save_simulations(theta, x, round_sim_file)
-        print(f"Saved simulations for round {i} to {round_sim_file}")
-        simulation_filenames.append(round_sim_file)
 
-        # Append simulations to model and train
-        # then build and store posterior
-        density_estimator = inference.append_simulations(
-            theta, 
-            x, 
-            proposal=proposal
-        ).train()
-        posterior = inference.build_posterior(density_estimator)
-        posteriors.append(posterior)
-        
-        # Store current state dict
-        # Update master file with cumulative history
-        # Set proposal to current posterior
-        state_dicts.append(density_estimator.state_dict())
-        model_filename = f"{output_name}.pth"
-        storage.save_sequential_model(
-            state_dicts=state_dicts,
-            simulation_files=simulation_filenames,
-            prior_type=prior_type,
-            inference_type=inference_type,
-            simulator_type=simulator_type,
-            pipeline_type=pipeline_type,
+        proposal = prior
+        for cfg_j in chain:
+            theta_j, x_j = storage.load_multiple_simulations(cfg_j["simulation_files"])
+            inference.append_simulations(theta_j, x_j, proposal=proposal)
+            de_j = inference.train(max_num_epochs=0, force_first_round_loss=truncated)
+            de_j.load_state_dict(cfg_j["state_dict"])
+            posterior_j = inference.build_posterior(de_j).set_default_x(x_obs)
+
+            if truncated:
+                reject_fn = get_density_thresholder(posterior_j, quantile=density_quantile)
+                proposal = RestrictedPrior(
+                    prior, reject_fn, posterior=posterior_j, sample_with="sir"
+                )
+            else:
+                proposal = posterior_j
+
+    # --- Train current round ---
+    density_estimator = inference.append_simulations(
+        theta, x, proposal=proposal
+    ).train(force_first_round_loss=truncated)
+    posterior = inference.build_posterior(density_estimator).set_default_x(x_obs)
+
+    # --- Save checkpoint for this round ---
+    if output_name:
+        storage.save_model_per_round(
+            model=density_estimator,
+            round=round,
+            simulation_files=simulation_files,
+            prior_type=first_prior_type,
+            inference_type=first_inference_type,
             x_obs=x_obs,
-            filename=model_filename
+            previous_filename=previous_round_filename,
+            filename=output_name,
         )
-        print(f"Saved sequential model for round {i} to {model_filename}")
-        proposal = posterior.set_default_x(x_obs)
-
-    return density_estimator
+    return posterior
 
 def load_posterior(model_filename: str):
     # Load state dict, simulation files, prior type, and 
@@ -110,12 +134,26 @@ def load_posterior(model_filename: str):
     simulation_files = cfg["simulation_files"]
     prior_type = cfg["prior_type"]
     inference_type = cfg["inference_type"]
-    
+    embedding_nn_filename = cfg.get("embedding_nn_filename", None)
+
     # Load simulation data from list of files
-    # Build neural inference model from prior and inference type
-    # Append simulations to model and train for 0 epochs
-    # Load state dict into density estimator
     theta, x = storage.load_multiple_simulations(simulation_files)
+
+    # Apply compression if the model was trained with an embedding network
+    if embedding_nn_filename is not None:
+        from ..compression.factories.model_factory import ModelFactory
+        checkpoint = storage.load_embedding_nn(embedding_nn_filename)
+        embedding_nn = ModelFactory.get_model(checkpoint["model_name"])
+        embedding_nn.load_state_dict(checkpoint["state_dict"])
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        embedding_nn.eval()
+        embedding_nn.to(device)
+        with torch.no_grad():
+            x = embedding_nn(x.to(device)).cpu()
+
+    # Build neural inference model from prior and inference type
+    # Append simulations to model and train for 0 epochs to initialise architecture
+    # Load saved weights into density estimator
     model = NeuralInferenceFactory.get_inference(inference_type, prior_type)
     model.append_simulations(theta, x)
     density_estimator = model.train(max_num_epochs=0)
@@ -131,49 +169,51 @@ def load_prior(model_filename: str):
     prior_type = cfg["prior_type"]
     return PriorFactory.get_prior(prior_type).to_sbi()
 
-def load_all_sequential_posteriors(model_filename: str, round_index: Optional[int] = None):
-    # Load the consolidated metadata
-    cfg = storage.load_sequential_model(model_filename)
-    prior_type = cfg["prior_type"]
-    inference_type = cfg["inference_type"]
-    x_obs = cfg["x_obs"]
-    state_dicts = cfg["state_dicts"]
-    simulation_files = cfg["simulation_files"]
-    
-    # Slice the history to the requested round
-    if round_index is not None:
-        if round_index >= len(state_dicts):
-            raise ValueError(f"round_index {round_index} out of range (max {len(state_dicts)-1})")
-        state_dicts = state_dicts[:round_index+1]
-        simulation_files = simulation_files[:round_index+1]
+def load_seq_posterior(
+    model_filename: str,
+    round_index: int,
+    truncated: bool = False,
+    density_quantile: float = 1e-4,
+):
+    chain = []
+    fn = model_filename
+    while fn is not None:
+        cfg = storage.load_model_per_round(fn)
+        chain.append(cfg)
+        fn = cfg.get("previous_filename")
+    chain.reverse()
 
-    # Reconstruct the sequence
-    prior = PriorFactory.get_prior(prior_type).to_sbi()
-    inference = NeuralInferenceFactory.get_inference(inference_type, prior_type)
-    
-    posteriors = []
+    if round_index < 1 or round_index > len(chain):
+        raise ValueError(
+            f"round_index {round_index} out of range. "
+            f"Chain has {len(chain)} round(s) (1‑indexed)."
+        )
+
+    relevant = chain[:round_index]
+    first = relevant[0]
+    prior = PriorFactory.get_prior(first["prior_type"]).to_sbi()
+    inference = NeuralInferenceFactory.get_inference(
+        first["inference_type"], first["prior_type"]
+    )
+
     proposal = prior
-    
-    # Iterate through the history and reconstruct round by round
-    # Load external simulations for this round and append to inference
-    # Train for 0 epochs to set up the estimator
-    # Load saved weights for this specific round
-    # Build posterior and append to list
-    # Update proposal for the next round
-    for i in range(len(state_dicts)):
-        theta, x = storage.load_simulations(simulation_files[i])
-        inference.append_simulations(theta, x, proposal=proposal)
-        density_estimator = inference.train(max_num_epochs=0)
-        density_estimator.load_state_dict(state_dicts[i])
-        posterior = inference.build_posterior(density_estimator)
-        posteriors.append(posterior)
-        proposal = posterior.set_default_x(x_obs)
-    
-    return posteriors
+    for cfg_j in relevant:
+        theta_j, x_j = storage.load_multiple_simulations(cfg_j["simulation_files"])
+        inference.append_simulations(theta_j, x_j, proposal=proposal)
+        de_j = inference.train(max_num_epochs=0, force_first_round_loss=truncated)
+        de_j.load_state_dict(cfg_j["state_dict"])
+        x_obs = cfg_j.get("x_obs")
+        posterior_j = inference.build_posterior(de_j)
+        if x_obs is not None:
+            posterior_j = posterior_j.set_default_x(x_obs)
 
-def load_sequential_posterior(model_filename: str, round_index: Optional[int] = None):
-    posteriors = load_all_sequential_posteriors(model_filename, round_index=round_index)
-    return posteriors[-1]
+        if truncated:
+            reject_fn = get_density_thresholder(posterior_j, quantile=density_quantile)
+            proposal = RestrictedPrior(prior, reject_fn, posterior=posterior_j, sample_with="sir")
+        else:
+            proposal = posterior_j
+
+    return proposal
 
 def sample_model(
     model_filename: str,
@@ -184,10 +224,15 @@ def sample_model(
     # Load posterior from model filename
     # Set observation and return posterior samples
     if round_index is not None:
-        posterior = load_sequential_posterior(model_filename, round_index=round_index)
+        posterior = load_seq_posterior(
+            model_filename, 
+            round_index=round_index,
+            truncated=True
+        )
+        return posterior.sample((num_samples,))
     else:
         posterior = load_posterior(model_filename)
-    return posterior.sample((num_samples,), x=x_obs)
+        return posterior.sample((num_samples,), x=x_obs)
 
 def run_mcmc(
     config_name: str, 

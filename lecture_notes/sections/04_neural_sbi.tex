@@ -41,9 +41,8 @@ El segundo término no depende de la red (de $\Phi$), así que no importa para e
 \begin{equation}
 \mathcal{L}_{\text{NPE}} = - \mathbb{E}_{x,\Theta \sim p(x,\Theta)} 
 \left[ \ln q_{\Phi}^{\text{NPE}}(\Theta|x) \right]
+\label{eq:loss_npe}
 \end{equation}
-
-\subsubsection{Estimador de densidad}
 
 Para que NPE funcione, tenemos que saber como entrenar una distribución de probabilidad condicional, esto difiere de las tareas clásicas en Machine Learning de regresión o clasificación. En particular, el modelo $q_{\Phi}^{\text{NPE}}(\Theta|x)$ tiene que ser una distribución de probabilidad válida. O sea, tiene que ser no negativa y estar normalizada:
 \begin{equation}

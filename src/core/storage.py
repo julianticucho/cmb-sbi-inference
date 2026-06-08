@@ -30,6 +30,7 @@ class StorageManager:
             "plots": self.data_dir / "plots",
             "models": self.results_dir / "models",
             "sequential_models": self.results_dir / "sequential_models",
+            "models_per_round": self.results_dir / "models_per_round",
             "posteriors": self.results_dir / "posteriors",
             "diagnostics": self.results_dir / "diagnostics",
             "hpd": self.results_dir / "hpd",
@@ -42,6 +43,8 @@ class StorageManager:
             "synthetic": self.results_dir / "synthetic",
             "last": self.results_dir / "last",
             "summary": self.results_dir / "summary",
+            "embedding_nn": self.results_dir / "embedding_nn",
+            "regression": self.results_dir / "regression",
         }
 
     def ensure_directories(self):
@@ -89,7 +92,8 @@ class StorageManager:
         simulation_files: List[str],
         prior_type: str,
         inference_type: str,
-        filename: str, 
+        filename: str,
+        embedding_nn_filename: Optional[str] = None,
     ):
         path = self._get_path("models", filename)
         cfg = {
@@ -97,6 +101,7 @@ class StorageManager:
             "simulation_files": simulation_files,
             "prior_type": prior_type,
             "inference_type": inference_type,
+            "embedding_nn_filename": embedding_nn_filename,
         }
         torch.save(cfg, path)
 
@@ -128,6 +133,29 @@ class StorageManager:
         }
         torch.save(cfg, path)
 
+    def save_model_per_round(
+        self,
+        model: torch.nn.Module,
+        round: int,
+        simulation_files: List[str],
+        prior_type: str,
+        inference_type: str,
+        filename: str,
+        x_obs: Optional[torch.Tensor] = None,
+        previous_filename: Optional[str] = None,
+    ):
+        path = self._get_path("models_per_round", filename)
+        cfg = {
+            "state_dict": model.state_dict(),
+            "round": round,
+            "simulation_files": simulation_files,
+            "prior_type": prior_type,
+            "inference_type": inference_type,
+            "x_obs": x_obs,
+            "previous_filename": previous_filename,
+        }
+        torch.save(cfg, path)
+
     def load_model(self, filename: str) -> Dict[str, Any]:
         path = self._get_path("models", filename)
         if not path.exists():
@@ -144,9 +172,43 @@ class StorageManager:
             raise FileNotFoundError(f"Sequential model file {filename} not found")
         return torch.load(path, weights_only=False)
     
+    def load_model_per_round(self, filename: str) -> Dict[str, Any]:
+        path = self._get_path("models_per_round", filename)
+        if not path.exists():
+            raise FileNotFoundError(f"Model file {filename} not found")
+        return torch.load(path, weights_only=False)
+    
     def save_figure(self, fig: plt.Figure, filename: str, category: str = "plots"):
         path = self._get_path(category, filename)
         plt.savefig(path, bbox_inches='tight')
 
-# Global Instance
+    def save_embedding_nn(self, 
+        nn: torch.nn.Module,
+        history: Dict[str, Any],
+        simulation_files: List[str],
+        dataloader_name: str,
+        model_name: str,
+        filename: str,
+    ):
+        path = self._get_path("embedding_nn", filename)
+        cfg = {
+            "state_dict": nn.state_dict(),
+            "history": history,
+            "simulation_files": simulation_files,
+            "dataloader_name": dataloader_name,
+            "model_name": model_name,
+        }
+        torch.save(cfg, path)
+
+    def load_embedding_nn(self, filename: str) -> Dict[str, Any]:
+        """Load a checkpoint saved by ``save_embedding_nn``.
+
+        Returns a dict with keys: ``state_dict``, ``history``,
+        ``simulation_files``, ``dataloader_name``, ``model_name``.
+        """
+        path = self._get_path("embedding_nn", filename)
+        if not path.exists():
+            raise FileNotFoundError(f"Embedding NN file '{filename}' not found in {path.parent}")
+        return torch.load(path, weights_only=False)
+
 storage = StorageManager()

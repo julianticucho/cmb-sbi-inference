@@ -1,33 +1,28 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2025/dev/Debian)  (format=lualatex 2026.1.29)  11 MAY 2026 02:51
- restricted system commands enabled.
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.1.29)  7 JUN 2026 22:40
+entering extended mode
+ restricted \write18 enabled.
  file:line:error style messages enabled.
+ %&-line parsing enabled.
 **/home/julian/Documents/cmb-sbi-inference/lecture_notes/lecture_notes.tex
 (/home/julian/Documents/cmb-sbi-inference/lecture_notes/lecture_notes.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
-[\directlua]:1: module 'luaotfload-main' not found:
-	no field package.preload['luaotfload-main']
-	[kpse lua searcher] file not found: 'luaotfload-main'
-Error in luaotfload: reverting to OT1
-Inserting `tracingstacklevels' in `input_level_string'. (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2024/06/29 v1.4n Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
 File: size12.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 54.
- (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-))
-\c@part=\count194
-\c@section=\count195
-\c@subsection=\count196
-\c@subsubsection=\count197
-\c@paragraph=\count198
-\c@subparagraph=\count199
-\c@figure=\count266
-\c@table=\count267
+)
+\c@part=\count196
+\c@section=\count197
+\c@subsection=\count198
+\c@subsubsection=\count199
+\c@paragraph=\count266
+\c@subparagraph=\count267
+\c@figure=\count268
+\c@table=\count269
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
-\bibindent=\dimen140
+\bibindent=\dimen141
 ) (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
  (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
@@ -38,17 +33,17 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
  (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2024/12/12 v1.0g TeX engine tests
 ))
-\Gm@cnth=\count268
-\Gm@cntv=\count269
-\c@Gm@tempcnt=\count270
-\Gm@bindingoffset=\dimen141
-\Gm@wd@mp=\dimen142
-\Gm@odd@mp=\dimen143
-\Gm@even@mp=\dimen144
-\Gm@layoutwidth=\dimen145
-\Gm@layoutheight=\dimen146
-\Gm@layouthoffset=\dimen147
-\Gm@layoutvoffset=\dimen148
+\Gm@cnth=\count270
+\Gm@cntv=\count271
+\c@Gm@tempcnt=\count272
+\Gm@bindingoffset=\dimen142
+\Gm@wd@mp=\dimen143
+\Gm@odd@mp=\dimen144
+\Gm@even@mp=\dimen145
+\Gm@layoutwidth=\dimen146
+\Gm@layoutheight=\dimen147
+\Gm@layouthoffset=\dimen148
+\Gm@layoutvoffset=\dimen149
 \Gm@dimlist=\toks18
 ) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2024/11/05 v2.17t AMS math features
@@ -60,21 +55,21 @@ Package: amstext 2021/08/26 v2.01 AMS text
  (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks19
-\ex@=\dimen149
+\ex@=\dimen150
 )) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen150
+\pmbraise@=\dimen151
 ) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count271
-LaTeX Info: Redefining \frac on input line 235.
-\uproot@=\count272
-\leftroot@=\count273
+\inf@bad=\count273
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count274
+\leftroot@=\count275
 LaTeX Info: Redefining \overline on input line 398.
 LaTeX Info: Redefining \colon on input line 409.
-\classnum@=\count274
-\DOTSCASE@=\count275
+\classnum@=\count276
+\DOTSCASE@=\count277
 LaTeX Info: Redefining \ldots on input line 495.
 LaTeX Info: Redefining \dots on input line 498.
 LaTeX Info: Redefining \cdots on input line 619.
@@ -84,30 +79,30 @@ LaTeX Info: Redefining \big on input line 721.
 LaTeX Info: Redefining \Big on input line 722.
 LaTeX Info: Redefining \bigg on input line 723.
 LaTeX Info: Redefining \Bigg on input line 724.
-\big@size=\dimen151
+\big@size=\dimen152
 LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
-\macc@depth=\count276
+\macc@depth=\count278
 LaTeX Info: Redefining \bmod on input line 904.
 LaTeX Info: Redefining \pmod on input line 909.
 LaTeX Info: Redefining \smash on input line 939.
 LaTeX Info: Redefining \relbar on input line 969.
 LaTeX Info: Redefining \Relbar on input line 970.
-\c@MaxMatrixCols=\count277
+\c@MaxMatrixCols=\count279
 \dotsspace@=\muskip17
-\c@parentequation=\count278
-\dspbrk@lvl=\count279
+\c@parentequation=\count280
+\dspbrk@lvl=\count281
 \tag@help=\toks20
-\row@=\count280
-\column@=\count281
-\maxfields@=\count282
+\row@=\count282
+\column@=\count283
+\maxfields@=\count284
 \andhelp@=\toks21
-\eqnshift@=\dimen152
-\alignsep@=\dimen153
-\tagshift@=\dimen154
-\tagwidth@=\dimen155
-\totwidth@=\dimen156
-\lineht@=\dimen157
+\eqnshift@=\dimen153
+\alignsep@=\dimen154
+\tagshift@=\dimen155
+\tagwidth@=\dimen156
+\totwidth@=\dimen157
+\lineht@=\dimen158
 \@envbody=\toks22
 \multlinegap=\skip52
 \multlinetaggap=\skip53
@@ -132,42 +127,42 @@ Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
 ) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: luatex.def on input line 106.
- (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/luatex.def
-File: luatex.def 2024/04/13 v1.2e Graphics/color driver for luatex
+Package graphics Info: Driver file: pdftex.def on input line 106.
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen158
-\Gin@req@width=\dimen159
+\Gin@req@height=\dimen159
+\Gin@req@width=\dimen160
 ) (/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2025/01/04 v2.17 Sectioning titles
 \ttl@box=\box54
 \beforetitleunit=\skip54
 \aftertitleunit=\skip55
-\ttl@plus=\dimen160
-\ttl@minus=\dimen161
+\ttl@plus=\dimen161
+\ttl@minus=\dimen162
 \ttl@toksa=\toks24
-\titlewidth=\dimen162
-\titlewidthlast=\dimen163
-\titlewidthfirst=\dimen164
+\titlewidth=\dimen163
+\titlewidthlast=\dimen164
+\titlewidthfirst=\dimen165
 ) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count283
+\lst@mode=\count285
 \lst@gtempboxa=\box55
 \lst@token=\toks25
-\lst@length=\count284
-\lst@currlwidth=\dimen165
-\lst@column=\count285
-\lst@pos=\count286
-\lst@lostspace=\dimen166
-\lst@width=\dimen167
-\lst@newlines=\count287
-\lst@lineno=\count288
-\lst@maxwidth=\dimen168
+\lst@length=\count286
+\lst@currlwidth=\dimen166
+\lst@column=\count287
+\lst@pos=\count288
+\lst@lostspace=\dimen167
+\lst@width=\dimen168
+\lst@newlines=\count289
+\lst@lineno=\count290
+\lst@maxwidth=\dimen169
  (/usr/share/texlive/texmf-dist/tex/latex/listings/lstpatch.sty
 File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
 ) (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
-\c@lstnumber=\count289
-\lst@skipnumbers=\count290
+\c@lstnumber=\count291
+\lst@skipnumbers=\count292
 \lst@framebox=\box56
 ) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2024/09/23 1.10c listings configuration
@@ -178,7 +173,7 @@ Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
  (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
-Package xcolor Info: Driver file: luatex.def on input line 274.
+Package xcolor Info: Driver file: pdftex.def on input line 274.
  (/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
@@ -195,14 +190,10 @@ File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks26
 \inpenc@posthook=\toks27
-
-
-Package inputenc Warning: inputenc package ignored with utf8 based engines.
-
 ) (/usr/share/texlive/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks28
-\pgfutil@tempdima=\dimen169
-\pgfutil@tempdimb=\dimen170
+\pgfutil@tempdima=\dimen170
+\pgfutil@tempdimb=\dimen171
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box57
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/usr/share/texlive/texmf-dist/tex/generic/pgf/pgf.revision.tex)
@@ -217,89 +208,89 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
 \pgfkeys@tmptoks=\toks31
 ))
-\pgf@x=\dimen171
-\pgf@y=\dimen172
-\pgf@xa=\dimen173
-\pgf@ya=\dimen174
-\pgf@xb=\dimen175
-\pgf@yb=\dimen176
-\pgf@xc=\dimen177
-\pgf@yc=\dimen178
-\pgf@xd=\dimen179
-\pgf@yd=\dimen180
+\pgf@x=\dimen172
+\pgf@y=\dimen173
+\pgf@xa=\dimen174
+\pgf@ya=\dimen175
+\pgf@xb=\dimen176
+\pgf@yb=\dimen177
+\pgf@xc=\dimen178
+\pgf@yc=\dimen179
+\pgf@xd=\dimen180
+\pgf@yd=\dimen181
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count291
-\c@pgf@countb=\count292
-\c@pgf@countc=\count293
-\c@pgf@countd=\count294
+\c@pgf@counta=\count293
+\c@pgf@countb=\count294
+\c@pgf@countc=\count295
+\c@pgf@countd=\count296
 \t@pgf@toka=\toks32
 \t@pgf@tokb=\toks33
 \t@pgf@tokc=\toks34
-\pgf@sys@id@count=\count295
+\pgf@sys@id@count=\count297
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
-Driver file for pgf: pgfsys-luatex.def
- (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-luatex.def
-File: pgfsys-luatex.def 2023-01-15 v3.1.10 (3.1.10)
+Driver file for pgf: pgfsys-pdftex.def
+ (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 ))) (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count296
-\pgfsyssoftpath@bigbuffer@items=\count297
+\pgfsyssoftpath@smallbuffer@items=\count298
+\pgfsyssoftpath@bigbuffer@items=\count299
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen181
-\pgfmath@count=\count298
+\pgfmath@dimen=\dimen182
+\pgfmath@count=\count300
 \pgfmath@box=\box58
 \pgfmath@toks=\toks35
 \pgfmath@stack@operand=\toks36
 \pgfmath@stack@operation=\toks37
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count299
+\c@pgfmathroundto@lastzeros=\count301
 )) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@picminx=\dimen182
-\pgf@picmaxx=\dimen183
-\pgf@picminy=\dimen184
-\pgf@picmaxy=\dimen185
-\pgf@pathminx=\dimen186
-\pgf@pathmaxx=\dimen187
-\pgf@pathminy=\dimen188
-\pgf@pathmaxy=\dimen189
-\pgf@xx=\dimen190
-\pgf@xy=\dimen191
-\pgf@yx=\dimen192
-\pgf@yy=\dimen193
-\pgf@zx=\dimen194
-\pgf@zy=\dimen195
+\pgf@picminx=\dimen183
+\pgf@picmaxx=\dimen184
+\pgf@picminy=\dimen185
+\pgf@picmaxy=\dimen186
+\pgf@pathminx=\dimen187
+\pgf@pathmaxx=\dimen188
+\pgf@pathminy=\dimen189
+\pgf@pathmaxy=\dimen190
+\pgf@xx=\dimen191
+\pgf@xy=\dimen192
+\pgf@yx=\dimen193
+\pgf@yy=\dimen194
+\pgf@zx=\dimen195
+\pgf@zy=\dimen196
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@path@lastx=\dimen196
-\pgf@path@lasty=\dimen197
+\pgf@path@lastx=\dimen197
+\pgf@path@lasty=\dimen198
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@shorten@end@additional=\dimen198
-\pgf@shorten@start@additional=\dimen199
+\pgf@shorten@end@additional=\dimen199
+\pgf@shorten@start@additional=\dimen256
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfpic=\box59
 \pgf@hbox=\box60
 \pgf@layerbox@main=\box61
-\pgf@picture@serial@count=\count300
+\pgf@picture@serial@count=\count302
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgflinewidth=\dimen256
+\pgflinewidth=\dimen257
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@pt@x=\dimen257
-\pgf@pt@y=\dimen258
-\pgf@pt@temp=\dimen259
+\pgf@pt@x=\dimen258
+\pgf@pt@y=\dimen259
+\pgf@pt@temp=\dimen260
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
@@ -308,12 +299,12 @@ File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfarrowsep=\dimen260
+\pgfarrowsep=\dimen261
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@max=\dimen261
-\pgf@sys@shading@range@num=\count301
-\pgf@shadingcount=\count302
+\pgf@max=\dimen262
+\pgf@sys@shading@range@num=\count303
+\pgf@shadingcount=\count304
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
@@ -334,59 +325,56 @@ File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
-\pgf@nodesepstart=\dimen262
-\pgf@nodesepend=\dimen263
+\pgf@nodesepstart=\dimen263
+\pgf@nodesepend=\dimen264
 ) (/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
 )) (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/usr/share/texlive/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
-\pgffor@iter=\dimen264
-\pgffor@skip=\dimen265
+\pgffor@iter=\dimen265
+\pgffor@skip=\dimen266
 \pgffor@stack=\toks38
 \pgffor@toks=\toks39
 )) (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count303
-\pgfplotmarksize=\dimen266
+\pgf@plot@mark@count=\count305
+\pgfplotmarksize=\dimen267
 )
-\tikz@lastx=\dimen267
-\tikz@lasty=\dimen268
-\tikz@lastxsaved=\dimen269
-\tikz@lastysaved=\dimen270
-\tikz@lastmovetox=\dimen271
-\tikz@lastmovetoy=\dimen272
-\tikzleveldistance=\dimen273
-\tikzsiblingdistance=\dimen274
+\tikz@lastx=\dimen268
+\tikz@lasty=\dimen269
+\tikz@lastxsaved=\dimen270
+\tikz@lastysaved=\dimen271
+\tikz@lastmovetox=\dimen272
+\tikz@lastmovetoy=\dimen273
+\tikzleveldistance=\dimen274
+\tikzsiblingdistance=\dimen275
 \tikz@figbox=\box64
 \tikz@figbox@bg=\box65
 \tikz@tempbox=\box66
 \tikz@tempbox@bg=\box67
-\tikztreelevel=\count304
-\tikznumberofchildren=\count305
-\tikznumberofcurrentchild=\count306
-\tikz@fig@count=\count307
+\tikztreelevel=\count306
+\tikznumberofchildren=\count307
+\tikznumberofcurrentchild=\count308
+\tikz@fig@count=\count309
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count308
-\pgfmatrixcurrentcolumn=\count309
-\pgf@matrix@numberofcolumns=\count310
+\pgfmatrixcurrentrow=\count310
+\pgfmatrixcurrentcolumn=\count311
+\pgf@matrix@numberofcolumns=\count312
 )
-\tikz@expandcount=\count311
+\tikz@expandcount=\count313
  (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))) (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 116.
- (/usr/share/texmf/tex/latex/lm/t1lmr.fd
-File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)) (/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
+) (/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip56
 \bibsep=\skip57
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count312
+\c@NAT@ctr=\count314
 ) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2024-11-05 v7.01l Hypertext links for LaTeX
  (/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
@@ -405,7 +393,6 @@ Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-\pdftexcmds@toks=\toks40
 )) (/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 ) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
@@ -417,24 +404,28 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
  (/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count313
+\c@section@level=\count315
 ) (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count314
+\etb@tempcnta=\count316
 ) (/usr/share/texlive/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
-\@linkdim=\dimen275
-\Hy@linkcounter=\count315
-\Hy@pagecounter=\count316
+\@linkdim=\dimen276
+\Hy@linkcounter=\count317
+\Hy@pagecounter=\count318
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
 ) (/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count317
+\Hy@SavedSpaceFactor=\count319
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 4040.
 Package hyperref Info: Hyper figures OFF on input line 4157.
@@ -444,21 +435,21 @@ Package hyperref Info: Plain pages OFF on input line 4172.
 Package hyperref Info: Backreferencing OFF on input line 4177.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4424.
-\c@Hy@tempcnt=\count318
+\c@Hy@tempcnt=\count320
  (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4763.
-\XeTeXLinkMargin=\dimen276
+\XeTeXLinkMargin=\dimen277
  (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
  (/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count319
-\Field@Width=\dimen277
-\Fld@charsize=\dimen278
+\Fld@menulength=\count321
+\Field@Width=\dimen278
+\Fld@charsize=\dimen279
 Package hyperref Info: Hyper figures OFF on input line 6042.
 Package hyperref Info: Link nesting OFF on input line 6047.
 Package hyperref Info: Hyper index ON on input line 6050.
@@ -470,19 +461,19 @@ Package hyperref Info: PDF/A mode OFF on input line 6072.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count320
-\c@Item=\count321
-\c@Hfootnote=\count322
+\Hy@abspage=\count322
+\c@Item=\count323
+\c@Hfootnote=\count324
 )
-Package hyperref Info: Driver (autodetected): hluatex.
- (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hluatex.def
-File: hluatex.def 2024-11-05 v7.01l Hyperref driver for luaTeX
+Package hyperref Info: Driver (autodetected): hpdftex.
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2024-11-05 v7.01l Hyperref driver for pdfTeX
  (/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
-\Fld@listcount=\count323
-\c@bookmark@seq@number=\count324
+\Fld@listcount=\count325
+\c@bookmark@seq@number=\count326
  (/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
  (/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
@@ -491,12 +482,12 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
 \Hy@SectionHShift=\skip58
-) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
-File: l3backend-luatex.def 2024-05-08 L3 backend support: PDF output (LuaTeX)
-\l__color_backend_stack_int=\count325
+) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count327
 \l__pdf_internal_box=\box68
-) (./build/lecture_notes.aux)
-\openout1 = lecture_notes.aux
+) (build/lecture_notes.aux)
+\openout1 = `lecture_notes.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
 LaTeX Font Info:    ... okay on input line 29.
@@ -508,8 +499,6 @@ LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
 LaTeX Font Info:    ... okay on input line 29.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
 LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
 LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
 LaTeX Font Info:    ... okay on input line 29.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
@@ -520,9 +509,9 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 29.
 LaTeX Font Info:    ... okay on input line 29.
 
 *geometry* driver: auto-detecting
-*geometry* detected driver: luatex
+*geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
-* driver: luatex
+* driver: pdftex
 * paper: a4paper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
@@ -555,29 +544,29 @@ LaTeX Font Info:    ... okay on input line 29.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count326
-\scratchdimen=\dimen279
+\scratchcounter=\count328
+\scratchdimen=\dimen280
 \scratchbox=\box69
-\nofMPsegments=\count327
-\nofMParguments=\count328
-\everyMPshowfont=\toks41
-\MPscratchCnt=\count329
-\MPscratchDim=\dimen280
-\MPnumerator=\count330
-\makeMPintoPDFobject=\count331
-\everyMPtoPDFconversion=\toks42
+\nofMPsegments=\count329
+\nofMParguments=\count330
+\everyMPshowfont=\toks40
+\MPscratchCnt=\count331
+\MPscratchDim=\dimen281
+\MPnumerator=\count332
+\makeMPintoPDFobject=\count333
+\everyMPtoPDFconversion=\toks41
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-\c@lstlisting=\count332
+\c@lstlisting=\count334
 Package hyperref Info: Link coloring ON on input line 29.
- (./build/lecture_notes.out) (./build/lecture_notes.out)
+ (build/lecture_notes.out) (build/lecture_notes.out)
 \@outlinefile=\write4
+\openout4 = `lecture_notes.out'.
 
-\openout4 = lecture_notes.out
 LaTeX Font Info:    Trying to load font information for U+msa on input line 35.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -589,241 +578,238 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./build/lecture_notes.toc)
-\tf@toc=\write5
-
-\openout5 = lecture_notes.toc
-
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}] (build/lecture_notes.toc
 
 [2
 
-] (./sections/02_introduccion.tex
+])
+\tf@toc=\write5
+\openout5 = `lecture_notes.toc'.
 
-[3
+
+
+[3] (./sections/02_introduccion.tex
+
+[4
 
 ]) (./sections/03_abc.tex) (./sections/04_neural_sbi.tex
-
-[4]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7.
- (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
 
 [5]
 
 [6]
 
-[7]) (./sections/04b_normalizing_flows.tex
+[7]
 
-[8]
+[8]) (./sections/04b_normalizing_flows.tex
 
-[9]) (./sections/05_data_compresion.tex
+[9]
 
-[10]
+[10]) (./sections/05_data_compresion.tex
 
-[11]) (./sections/06_secuential_sbi.tex) (./sections/07_diagnostics.tex
+[11]
 
-[12])
+[12]) (./sections/05b_neural_networks.tex
 
 [13]
 
-[14] (./sections/08_toy_model.tex
-<../data/plots/processed_simulation_comparison.pdf, id=316, 852.786pt x 563.706pt>
+[14]) (./sections/06_secuential_sbi.tex
+
+[15]) (./sections/07_diagnostics.tex
+
+[16])
+
+[17]
+
+[18] (./sections/08_toy_model.tex
+<../data/plots/processed_simulation_comparison.pdf, id=358, 852.78598pt x 563.70598pt>
 File: ../data/plots/processed_simulation_comparison.pdf Graphic file (type pdf)
 <use ../data/plots/processed_simulation_comparison.pdf>
-Package luatex.def Info: ../data/plots/processed_simulation_comparison.pdf  used on input line 5.
-(luatex.def)             Requested size: 467.42276pt x 308.97267pt.
-<../data/plots/parameter_variation_with_observation.pdf, id=317, 852.786pt x 1427.10687pt>
+Package pdftex.def Info: ../data/plots/processed_simulation_comparison.pdf  used on input line 5.
+(pdftex.def)             Requested size: 467.42276pt x 308.97267pt.
+<../data/plots/parameter_variation_with_observation.pdf, id=359, 852.78598pt x 1427.10692pt>
 File: ../data/plots/parameter_variation_with_observation.pdf Graphic file (type pdf)
 <use ../data/plots/parameter_variation_with_observation.pdf>
-Package luatex.def Info: ../data/plots/parameter_variation_with_observation.pdf  used on input line 12.
-(luatex.def)             Requested size: 373.93962pt x 625.77316pt.
+Package pdftex.def Info: ../data/plots/parameter_variation_with_observation.pdf  used on input line 12.
+(pdftex.def)             Requested size: 373.93962pt x 625.77318pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/mcmc_run_1_2_3.pdf, id=318, 708.246pt x 708.246pt>
+<../results/confidence/mcmc_run_1_2_3.pdf, id=360, 708.24597pt x 708.24597pt>
 File: ../results/confidence/mcmc_run_1_2_3.pdf Graphic file (type pdf)
 <use ../results/confidence/mcmc_run_1_2_3.pdf>
-Package luatex.def Info: ../results/confidence/mcmc_run_1_2_3.pdf  used on input line 19.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/mcmc_run_1_2_3.pdf  used on input line 19.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=319, 708.246pt x 708.246pt>
+<../results/confidence/snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=361, 708.24597pt x 708.24597pt>
 File: ../results/confidence/snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 26.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 26.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=320, 708.246pt x 708.246pt>
+<../results/confidence/nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=362, 708.24597pt x 708.24597pt>
 File: ../results/confidence/nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 33.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 33.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/nre_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=321, 708.246pt x 708.246pt>
+<../results/confidence/nre_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=363, 708.24597pt x 708.24597pt>
 File: ../results/confidence/nre_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/nre_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/nre_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 40.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/nre_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 40.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf, id=322, 708.246pt x 708.246pt>
+<../results/confidence/mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf, id=364, 708.24597pt x 708.24597pt>
 File: ../results/confidence/mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf  used on input line 47.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf  used on input line 47.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/snpe_c_100k_test_vs_nle_100k_test_vs_mcmc.pdf, id=323, 708.246pt x 708.246pt>
+<../results/confidence/snpe_c_100k_test_vs_nle_100k_test_vs_mcmc.pdf, id=365, 708.24597pt x 708.24597pt>
 File: ../results/confidence/snpe_c_100k_test_vs_nle_100k_test_vs_mcmc.pdf Graphic file (type pdf)
 <use ../results/confidence/snpe_c_100k_test_vs_nle_100k_test_vs_mcmc.pdf>
-Package luatex.def Info: ../results/confidence/snpe_c_100k_test_vs_nle_100k_test_vs_mcmc.pdf  used on input line 54.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/snpe_c_100k_test_vs_nle_100k_test_vs_mcmc.pdf  used on input line 54.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/mcmc_vs_snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=324, 708.246pt x 708.246pt>
+<../results/confidence/mcmc_vs_snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=366, 708.24597pt x 708.24597pt>
 File: ../results/confidence/mcmc_vs_snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/mcmc_vs_snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/mcmc_vs_snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 61.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/mcmc_vs_snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 61.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/mcmc_vs_nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=325, 708.246pt x 708.246pt>
+<../results/confidence/mcmc_vs_nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf, id=367, 708.24597pt x 708.24597pt>
 File: ../results/confidence/mcmc_vs_nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/mcmc_vs_nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/mcmc_vs_nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 68.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/mcmc_vs_nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf  used on input line 68.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/snpe_c_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf, id=326, 708.246pt x 708.246pt>
+<../results/confidence/snpe_c_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf, id=368, 708.24597pt x 708.24597pt>
 File: ../results/confidence/snpe_c_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/snpe_c_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/snpe_c_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf  used on input line 75.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/snpe_c_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf  used on input line 75.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/nle_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf, id=327, 708.246pt x 708.246pt>
+<../results/confidence/nle_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf, id=369, 708.24597pt x 708.24597pt>
 File: ../results/confidence/nle_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/nle_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/nle_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf  used on input line 82.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/nle_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf  used on input line 82.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/snpe_c_default_standard_tt_planck_processing_sequential_5_1000.pdf, id=328, 708.246pt x 708.246pt>
+<../results/confidence/snpe_c_default_standard_tt_planck_processing_sequential_5_1000.pdf, id=370, 708.24597pt x 708.24597pt>
 File: ../results/confidence/snpe_c_default_standard_tt_planck_processing_sequential_5_1000.pdf Graphic file (type pdf)
 <use ../results/confidence/snpe_c_default_standard_tt_planck_processing_sequential_5_1000.pdf>
-Package luatex.def Info: ../results/confidence/snpe_c_default_standard_tt_planck_processing_sequential_5_1000.pdf  used on input line 89.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/snpe_c_default_standard_tt_planck_processing_sequential_5_1000.pdf  used on input line 89.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/snpe_c_default_standard_test_50k_cov_binned(10_obs_seeds).pdf, id=329, 708.246pt x 708.246pt>
+<../results/confidence/snpe_c_default_standard_test_50k_cov_binned(10_obs_seeds).pdf, id=371, 708.24597pt x 708.24597pt>
 File: ../results/confidence/snpe_c_default_standard_test_50k_cov_binned(10_obs_seeds).pdf Graphic file (type pdf)
 <use ../results/confidence/snpe_c_default_standard_test_50k_cov_binned(10_obs_seeds).pdf>
-Package luatex.def Info: ../results/confidence/snpe_c_default_standard_test_50k_cov_binned(10_obs_seeds).pdf  used on input line 96.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/snpe_c_default_standard_test_50k_cov_binned(10_obs_seeds).pdf  used on input line 96.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/snpe_c_maf_mlp_(medium,extreme)_standard_test_50k_cov_binned.pdf, id=330, 708.246pt x 708.246pt>
+<../results/confidence/snpe_c_maf_mlp_(medium,extreme)_standard_test_50k_cov_binned.pdf, id=372, 708.24597pt x 708.24597pt>
 File: ../results/confidence/snpe_c_maf_mlp_(medium,extreme)_standard_test_50k_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/snpe_c_maf_mlp_(medium,extreme)_standard_test_50k_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/snpe_c_maf_mlp_(medium,extreme)_standard_test_50k_cov_binned.pdf  used on input line 103.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/snpe_c_maf_mlp_(medium,extreme)_standard_test_50k_cov_binned.pdf  used on input line 103.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<../results/confidence/snpe_c_maf_mlp_(extreme_com)_standard_test_50k_cov_binned.pdf, id=331, 708.246pt x 708.246pt>
+<../results/confidence/snpe_c_maf_mlp_(extreme_com)_standard_test_50k_cov_binned.pdf, id=373, 708.24597pt x 708.24597pt>
 File: ../results/confidence/snpe_c_maf_mlp_(extreme_com)_standard_test_50k_cov_binned.pdf Graphic file (type pdf)
 <use ../results/confidence/snpe_c_maf_mlp_(extreme_com)_standard_test_50k_cov_binned.pdf>
-Package luatex.def Info: ../results/confidence/snpe_c_maf_mlp_(extreme_com)_standard_test_50k_cov_binned.pdf  used on input line 110.
-(luatex.def)             Requested size: 467.42276pt x 467.433pt.
+Package pdftex.def Info: ../results/confidence/snpe_c_maf_mlp_(extreme_com)_standard_test_50k_cov_binned.pdf  used on input line 110.
+(pdftex.def)             Requested size: 467.42276pt x 467.43297pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 )
 
-[15
+[19
 
-<../data/plots/processed_simulation_comparison.pdf>]
+ <../data/plots/processed_simulation_comparison.pdf>]
 
-[16<../data/plots/parameter_variation_with_observation.pdf>]
+[20 <../data/plots/parameter_variation_with_observation.pdf>]
 
-[17<../results/confidence/mcmc_run_1_2_3.pdf>]
+[21 <../results/confidence/mcmc_run_1_2_3.pdf>]
 
-[18<../results/confidence/snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
+[22 <../results/confidence/snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
 
-[19<../results/confidence/nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
+[23 <../results/confidence/nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
 
-[20<../results/confidence/nre_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
+[24 <../results/confidence/nre_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
 
-[21<../results/confidence/mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf>]
+[25 <../results/confidence/mcmc_vs_(nle_vs_snpe_c)_default_standard_test_250k_cov_binned.pdf>]
 
-[22<../results/confidence/snpe_c_100k_test_vs_nle_100k_test_vs_mcmc.pdf>]
+[26 <../results/confidence/snpe_c_100k_test_vs_nle_100k_test_vs_mcmc.pdf>]
 
-[23<../results/confidence/mcmc_vs_snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
+[27 <../results/confidence/mcmc_vs_snpe_c_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
 
-[24<../results/confidence/mcmc_vs_nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
+[28 <../results/confidence/mcmc_vs_nle_default_standard_test_50k_100k_150k_200k_250k_cov_binned.pdf>]
 
-[25<../results/confidence/snpe_c_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf>]
+[29 <../results/confidence/snpe_c_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf>]
 
-[26<../results/confidence/nle_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf>]
+[30 <../results/confidence/nle_default_standard_test_125k(1-5)_vs_125k(6-10)_cov_binned.pdf>]
 
-[27<../results/confidence/snpe_c_default_standard_tt_planck_processing_sequential_5_1000.pdf>]
+[31 <../results/confidence/snpe_c_default_standard_tt_planck_processing_sequential_5_1000.pdf>]
 
-[28<../results/confidence/snpe_c_default_standard_test_50k_cov_binned(10_obs_seeds).pdf>]
+[32 <../results/confidence/snpe_c_default_standard_test_50k_cov_binned(10_obs_seeds).pdf>]
 
-[29<../results/confidence/snpe_c_maf_mlp_(medium,extreme)_standard_test_50k_cov_binned.pdf>]
+[33 <../results/confidence/snpe_c_maf_mlp_(medium,extreme)_standard_test_50k_cov_binned.pdf>]
 
-[30<../results/confidence/snpe_c_maf_mlp_(extreme_com)_standard_test_50k_cov_binned.pdf>] (./build/lecture_notes.bbl
+[34 <../results/confidence/snpe_c_maf_mlp_(extreme_com)_standard_test_50k_cov_binned.pdf>] (build/lecture_notes.bbl
 
-[31
+[35
 
-
-Missing character: There is no – (U+2013) in font ec-lmr12!
-Missing character: There is no – (U+2013) in font ec-lmr12!
 ]
 
-[32
-Missing character: There is no – (U+2013) in font ec-lmr12!
-])
+[36])
 
-[33] (./build/lecture_notes.aux)
+[37] (build/lecture_notes.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `lecture_notes.out' has not changed.
-(rerunfilecheck)             Checksum: 812DFECAB44DC7585A58A42CDEF831F8;4732.
-)
-
-Here is how much of LuaTeX's memory you used:
- 23825 strings out of 475512
- 100000,1144653 words of node,token memory allocated
- 528 words of node memory still in use:
-   7 hlist, 2 vlist, 2 rule, 2 glue, 1 kern, 58 glue_spec, 2 write, 8 pdf_action nodes
-   avail lists: 2:27,3:519,4:172,5:478,6:66,7:9156,8:87,9:663,10:30,11:829
- 46025 multiletter control sequences out of 65536+600000
- 60 fonts using 2492863 bytes
- 84i,14n,84p,1773b,510s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on lecture_notes.pdf (33 pages, 36277365 bytes).
-
-PDF statistics: 1052 PDF objects out of 1200 (max. 8388607)
- 828 compressed objects within 9 object streams
- 131 named destinations out of 1000 (max. 131072)
- 208 words of extra memory for PDF output out of 10000 (max. 100000000)
+(rerunfilecheck)             Checksum: 4707A2357D77568DBF37DA1BE6E0CD1F;5620.
+ ) 
+Here is how much of TeX's memory you used:
+ 23369 strings out of 475116
+ 426923 string characters out of 5764601
+ 813470 words of memory out of 5000000
+ 45827 multiletter control sequences out of 15000+600000
+ 572463 words of font info for 74 fonts, out of 8000000 for 9000
+ 40 hyphenation exceptions out of 8191
+ 84i,13n,87p,1772b,608s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2074.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on build/lecture_notes.pdf (37 pages, 33421682 bytes).
+PDF statistics:
+ 1002 PDF objects out of 1200 (max. 8388607)
+ 845 compressed objects within 9 object streams
+ 150 named destinations out of 1000 (max. 500000)
+ 317 words of extra memory for PDF output out of 10000 (max. 10000000)
 

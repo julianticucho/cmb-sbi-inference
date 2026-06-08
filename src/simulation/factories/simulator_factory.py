@@ -7,6 +7,8 @@ from ..simulators.power_spectrum_theta_MC_100 import PowerSpectrumThetaMC100Simu
 from ..simulators.power_spectrum_ln_10_10_As import PowerSpectrumLn1010AsSimulator
 from ..simulators.power_spectrum_ns import PowerSpectrumNsSimulator
 from ..simulators.auxiliary_observable_simulator import AuxiliaryObservableSimulator
+from ..simulators.map_based_simulator import MapBasedSimulator
+from ..simulators.simple_map_simulator import SimpleMapSimulator
 import torch
 
 
@@ -34,6 +36,8 @@ class SimulatorFactory:
             'tt_ln_10_10_As': SimulatorFactory.create_tt_ln_10_10_As_spectrum,
             'tt_ns': SimulatorFactory.create_tt_ns_spectrum,
             'auxiliary_observables': SimulatorFactory.create_auxiliary_observables,
+            'simple_skymap': SimulatorFactory.create_simple_skymap,
+            'd1s1_skymap': SimulatorFactory.create_d1s1_skymap,
             'custom': SimulatorFactory.create_custom_spectrum
         }
 
@@ -149,4 +153,30 @@ class SimulatorFactory:
     def create_custom_spectrum(components: List[str]) -> PowerSpectrumSimulator:
         return PowerSpectrumSimulator(components=components)
     
+    @staticmethod
+    def create_simple_skymap() -> MapBasedSimulator:
+        return MapBasedSimulator(
+            nside=128,
+            lmax=384,
+            band_params={
+            27:  (33.0, -2.4, 15.0, 91.0),
+            39:  (22.0, -2.4, 15.0, 63.0),
+            93:  (2.5, -2.5, 25.0, 30.0),
+            145: (2.8, -3.0, 25.0, 17.0),
+            225: (5.5, -3.0, 35.0, 11.0),
+            280: (14.0, -3.0, 40.0, 9.0),
+        })
+    
+    @staticmethod
+    def create_d1s1_skymap() -> SimpleMapSimulator:
+        return SimpleMapSimulator(
+            nside=32,
+            lmax=96,
+            frequencies=[27, 39, 93, 145, 225, 280],
+        )
 
+    
+
+
+
+        

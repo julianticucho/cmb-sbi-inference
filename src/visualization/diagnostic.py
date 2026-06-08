@@ -584,3 +584,84 @@ def plot_hpd_marginal(
         ax.grid(True, alpha=0.3)
 
     return fig, coverage_results
+
+
+def plot_regression_results(
+    model: Any,
+    test_dataloader: "torch.utils.data.DataLoader",
+    param_labels: Optional[List[str]] = None,
+    limits: Optional[List[Tuple[float, float]]] = None,
+    device: Optional[str] = None,
+    title: Optional[str] = None,
+) -> plt.Figure:
+    if device is None:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    model.eval()
+    model.to(device)
+
+    all_true: List[torch.Tensor] = []
+    all_pred: List[torch.Tensor] = []
+
+    with torch.no_grad():
+        for x_batch, theta_batch in test_dataloader:
+            x_batch = x_batch.to(device)
+            pred = model(x_batch).cpu()
+            all_true.append(theta_batch.cpu())
+            all_pred.append(pred)
+
+    y_true = torch.cat(all_true, dim=0).numpy()  
+    y_pred = torch.cat(all_pred, dim=0).numpy()  
+
+    n_params = y_true.shape[1]
+
+    if param_labels is None:
+        param_labels = [f"θ_{i + 1}" for i in range(n_params)]
+
+    n_cols = min(n_params, 3)
+    n_rows = int(np.ceil(n_params / n_cols))
+
+    fig, axes = plt.subplots(
+        n_rows, n_cols,
+        figsize=(4.5 * n_cols, 4.5 * n_rows),
+        constrained_layout=True,
+    )
+    axes_flat = np.array(axes).flatten() if n_params > 1 else [axes]
+
+    for i in range(n_params):
+        ax = axes_flat[i]
+        yt = y_true[:, i]
+        yp = y_pred[:, i]
+
+        # R² coefficient
+        ss_res = np.sum((yt - yp) ** 2)
+        ss_tot = np.sum((yt - yt.mean()) ** 2)
+        r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else float("nan")
+
+        ax.scatter(yt, yp, s=6, alpha=0.35, rasterized=True, label="Test samples")
+
+        # Axis limits: use provided limits or fall back to data range
+        if limits is not None and i < len(limits):
+            lo, hi = limits[i]
+        else:
+            lo = min(yt.min(), yp.min())
+            hi = max(yt.max(), yp.max())
+        margin = (hi - lo) * 0.05
+
+        ax.plot([lo - margin, hi + margin], [lo - margin, hi + margin],
+                "--", color="gray", linewidth=1, label="Identity")
+
+        ax.set_xlabel(f"True {param_labels[i]}")
+        ax.set_ylabel(f"Predicted {param_labels[i]}")
+        ax.set_title(f"{param_labels[i]}  ($R^2 = {r2:.4f}$)")
+        ax.set_xlim(lo - margin, hi + margin)
+        ax.set_ylim(lo - margin, hi + margin)
+        ax.set_aspect("equal", adjustable="box")
+
+    for j in range(n_params, len(axes_flat)):
+        axes_flat[j].set_visible(False)
+
+    if title:
+        fig.suptitle(title, fontsize=13, fontweight="bold")
+
+    return fig
