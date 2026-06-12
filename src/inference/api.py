@@ -62,6 +62,7 @@ def train_sequential_model_per_round(
     density_quantile: float = 1e-4,
 ):
     theta, x = storage.load_multiple_simulations(simulation_files)
+    print("llego a cargar simulaciones", theta.shape, x.shape)
     if round == 1:
         # --- First round ---
         assert prior_type is not None, "prior_type required for round 1"

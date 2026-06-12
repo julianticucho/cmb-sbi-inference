@@ -542,6 +542,7 @@ class NeuralInferenceFactory:
             embedding_net=embedding_net,
             num_components=10,
         )
+        return SNPE_C(prior=prior, density_estimator=nn)
     
 
     

@@ -10,22 +10,22 @@ if __name__ == "__main__":
         seed=0,
     )
 
-    # # ronda 1
-    # generate_simulations_from_proposal(
-    #     num_simulations=1000,
-    #     simulator_type="tt",
-    #     pipeline_type="unbinned_planck_processing",
-    #     prior_type="standard",
-    #     num_workers=11,
-    #     seed=1,
-    #     # only if round > 1
-    #     previous_round_filename=None,
-    #     output_name="tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_1_1000_1.pt",
-    # )
+    # ronda 1
+    generate_simulations_from_proposal(
+        num_simulations=1000,
+        simulator_type="tt",
+        pipeline_type="unbinned_planck_processing",
+        prior_type="standard",
+        num_workers=11,
+        seed=1,
+        # only if round > 1
+        previous_round_filename=None,
+        output_name="tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_1_1000_1.pt",
+    )
 
     train_sequential_model_per_round(
         simulation_files=[
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_1_1000_1.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_1_1000_1.pt",
         ],
         round=1,
         x_obs=x_obs,
@@ -36,7 +36,7 @@ if __name__ == "__main__":
         # only if round > 1
         previous_round_filename=None,
         # output name
-        output_name="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_1000_round_1.pth",
+        output_name="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_1000_round_1.pth",
     )
 
     # ronda 2
@@ -49,13 +49,13 @@ if __name__ == "__main__":
         seed=1,
         truncated=True,
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_1000_round_1.pth",
-        output_name="tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_2_1000_1.pt",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_1000_round_1.pth",
+        output_name="tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_2_1000_1.pt",
     )
 
     train_sequential_model_per_round(
         simulation_files=[
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_2_1000_1.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_2_1000_1.pt",
         ],
         round=2,
         x_obs=x_obs,
@@ -64,9 +64,9 @@ if __name__ == "__main__":
         # prior_type="standard",
         # inference_type="snpe_c_default",
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_1000_round_1.pth",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_1000_round_1.pth",
         # output name
-        output_name="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_2000_round_2.pth",
+        output_name="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_2000_round_2.pth",
     )
 
     # ronda 3
@@ -79,13 +79,13 @@ if __name__ == "__main__":
         seed=1,
         truncated=True,
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_2000_round_2.pth",
-        output_name="tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_3_2000_1.pt",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_2000_round_2.pth",
+        output_name="tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_3_2000_1.pt",
     )
 
     train_sequential_model_per_round(
         simulation_files=[
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_3_2000_1.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_3_2000_1.pt",
         ],
         round=3,
         x_obs=x_obs,
@@ -94,9 +94,9 @@ if __name__ == "__main__":
         # prior_type="standard",
         # inference_type="snpe_c_default",
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_2000_round_2.pth",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_2000_round_2.pth",
         # output name
-        output_name="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_4000_round_3.pth",
+        output_name="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_4000_round_3.pth",
     )
 
     # ronda 4
@@ -109,13 +109,13 @@ if __name__ == "__main__":
         seed=1,
         truncated=True,
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_4000_round_3.pth",
-        output_name="tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_4_2000_1.pt",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_4000_round_3.pth",
+        output_name="tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_4_2000_1.pt",
     )
 
     train_sequential_model_per_round(
         simulation_files=[
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_4_2000_1.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_4_2000_1.pt",
         ],
         round=4,
         x_obs=x_obs,
@@ -124,9 +124,9 @@ if __name__ == "__main__":
         # prior_type="standard",
         # inference_type="snpe_c_default",
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_4000_round_3.pth",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_4000_round_3.pth",
         # output name
-        output_name="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
+        output_name="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
     )
 
     # ronda 5
@@ -139,13 +139,13 @@ if __name__ == "__main__":
         seed=1,
         truncated=True,
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
-        output_name="tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_5_4000_1.pt",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
+        output_name="tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_5_4000_1.pt",
     )
 
     train_sequential_model_per_round(
         simulation_files=[
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_5_4000_1.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_5_4000_1.pt",
         ],
         round=5,
         x_obs=x_obs,
@@ -154,9 +154,9 @@ if __name__ == "__main__":
         # prior_type="standard",
         # inference_type="snpe_c_default",
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
         # output name
-        output_name="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_10000_round_5.pth",
+        output_name="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_10000_round_5.pth",
     )
 
     generate_simulations_from_proposal(
@@ -168,14 +168,14 @@ if __name__ == "__main__":
         seed=2,
         truncated=True,
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
-        output_name="tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_5_4000_2.pt",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
+        output_name="tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_5_4000_2.pt",
     )
 
     train_sequential_model_per_round(
         simulation_files=[
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_5_4000_1.pt",
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_5_4000_2.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_5_4000_1.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_5_4000_2.pt",
         ],
         round=5,
         x_obs=x_obs,
@@ -184,9 +184,9 @@ if __name__ == "__main__":
         # prior_type="standard",
         # inference_type="snpe_c_default",
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
         # output name
-        output_name="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_14000_round_5.pth",
+        output_name="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_14000_round_5.pth",
     )
 
     generate_simulations_from_proposal(
@@ -198,15 +198,15 @@ if __name__ == "__main__":
         seed=3,
         truncated=True,
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
-        output_name="tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_5_4000_3.pt",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
+        output_name="tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_5_4000_3.pt",
     )
 
     train_sequential_model_per_round(
         simulation_files=[
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_5_4000_1.pt",
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_5_4000_2.pt",
-            "tt_unbinned_planck_processing_tsnpe_snpe_c_maf_mlp_2448_default_round_5_4000_3.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_5_4000_1.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_5_4000_2.pt",
+            "tt_unbinned_planck_processing_tsnpe_maf_mlp_2448_default_round_5_4000_3.pt",
         ],
         round=5,
         x_obs=x_obs,
@@ -215,9 +215,9 @@ if __name__ == "__main__":
         # prior_type="standard",
         # inference_type="snpe_c_default",
         # only if round > 1
-        previous_round_filename="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
+        previous_round_filename="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_6000_round_4.pth",
         # output name
-        output_name="tsnpe_snpe_c_maf_mlp_2448_default_standard_unbinned_planck_processing_18000_round_5.pth",
+        output_name="tsnpe_maf_mlp_2448_default_standard_unbinned_planck_processing_18000_round_5.pth",
     )
 
 
