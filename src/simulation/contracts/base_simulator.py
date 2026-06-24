@@ -11,7 +11,7 @@ class BaseSimulator(ABC):
         self.data_type = data_type
     
     @abstractmethod
-    def simulate(self, parameters: torch.Tensor) -> torch.Tensor:
+    def simulate(self, parameters: torch.Tensor, seed: Optional[int] = None) -> torch.Tensor:
         pass
 
     def simulate_batch(

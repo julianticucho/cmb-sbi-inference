@@ -100,7 +100,7 @@ def train_sequential_model_per_round(
             posterior_j = inference.build_posterior(de_j).set_default_x(x_obs)
 
             if truncated:
-                reject_fn = get_density_thresholder(posterior_j, quantile=density_quantile)
+                reject_fn = get_density_thresholder(posterior_j, quantile=density_quantile, num_samples_to_estimate_support=100_000)
                 proposal = RestrictedPrior(
                     prior, reject_fn, posterior=posterior_j, sample_with="sir"
                 )
@@ -201,15 +201,16 @@ def load_seq_posterior(
     for cfg_j in relevant:
         theta_j, x_j = storage.load_multiple_simulations(cfg_j["simulation_files"])
         inference.append_simulations(theta_j, x_j, proposal=proposal)
+        del theta_j, x_j
         de_j = inference.train(max_num_epochs=0, force_first_round_loss=truncated)
         de_j.load_state_dict(cfg_j["state_dict"])
         x_obs = cfg_j.get("x_obs")
-        posterior_j = inference.build_posterior(de_j)
+        posterior_j = inference.build_posterior(de_j, sample_with="mcmc")
         if x_obs is not None:
             posterior_j = posterior_j.set_default_x(x_obs)
 
         if truncated:
-            reject_fn = get_density_thresholder(posterior_j, quantile=density_quantile)
+            reject_fn = get_density_thresholder(posterior_j, quantile=density_quantile, num_samples_to_estimate_support=1000)
             proposal = RestrictedPrior(prior, reject_fn, posterior=posterior_j, sample_with="sir")
         else:
             proposal = posterior_j
@@ -228,7 +229,7 @@ def sample_model(
         posterior = load_seq_posterior(
             model_filename, 
             round_index=round_index,
-            truncated=True
+            truncated=False
         )
         return posterior.sample((num_samples,))
     else:

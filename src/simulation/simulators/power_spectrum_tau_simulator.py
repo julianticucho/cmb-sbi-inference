@@ -1,7 +1,7 @@
 import camb
 import numpy as np
 import torch
-from typing import List
+from typing import List, Optional
 from ..contracts.base_simulator import BaseSimulator
 
 
@@ -49,7 +49,7 @@ class PowerSpectrumTauSimulator(BaseSimulator):
         
         return np.concatenate(selected)
     
-    def simulate(self, parameters: torch.Tensor) -> torch.Tensor:
+    def simulate(self, parameters: torch.Tensor, seed: Optional[int] = None) -> torch.Tensor:
         if parameters.ndim != 1:
             raise ValueError("Parameters must have 1 dimension")
         full_spectrum = self._compute_full_spectrum(parameters.tolist())

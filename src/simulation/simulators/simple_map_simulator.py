@@ -45,10 +45,16 @@ class SimpleMapSimulator(BaseSimulator):
         cl[mask] = dl[mask] * (2 * np.pi) / (ell[mask] * (ell[mask] + 1))
         return cl
 
-    def _generate_cmb_alms(self, r: float) -> Tuple[np.ndarray, np.ndarray]:
+    def _generate_cmb_alms(self, r: float, seed: Optional[int] = None) -> Tuple[np.ndarray, np.ndarray]:
         """Genera una realización aleatoria del CMB en espacio armónico (Modo B)."""
         cl_bb = self._get_theory_cl_bb(r)
-        alm_b = hp.synalm(cl_bb, lmax=self.lmax)
+        if seed is not None:
+            state = np.random.get_state()
+            np.random.seed(seed)
+            alm_b = hp.synalm(cl_bb, lmax=self.lmax)
+            np.random.set_state(state)
+        else:
+            alm_b = hp.synalm(cl_bb, lmax=self.lmax)
         alm_e = np.zeros_like(alm_b)
         return alm_e, alm_b
 
@@ -79,17 +85,19 @@ class SimpleMapSimulator(BaseSimulator):
         _, q, u = hp.alm2map([zero_alm, alm_e, alm_b], nside=self.nside, lmax=self.lmax, pol=True)
         return q, u
 
-    def simulate(self, parameters: torch.Tensor) -> torch.Tensor:
+    def simulate(self, parameters: torch.Tensor, seed: Optional[int] = None) -> torch.Tensor:
         """Parameters: Tensor -> [r, A_d, beta_d, A_s, beta_s]"""
         r, A_d, beta_d, A_s, beta_s = parameters.tolist()
         self._update_foreground_parameters(beta_d, beta_s)
-        alm_e_cmb, alm_b_cmb = self._generate_cmb_alms(r)
+        alm_e_cmb, alm_b_cmb = self._generate_cmb_alms(r, seed=seed)
         output_maps = []
         for nu in self.frequencies:
             alm_e_fg, alm_b_fg = self._get_foreground_alms(nu, A_d, A_s)
             alm_e_sky = alm_e_cmb + alm_e_fg
             alm_b_sky = alm_b_cmb + alm_b_fg
             q_sky, u_sky = self._alm2map(alm_e_sky, alm_b_sky)
+            q_sky = hp.reorder(q_sky, r2n=True)
+            u_sky = hp.reorder(u_sky, r2n=True)
             output_maps.append([q_sky, u_sky])
         
         # shape final del tensor: (frecuencias, Stokes=2, pixeles)

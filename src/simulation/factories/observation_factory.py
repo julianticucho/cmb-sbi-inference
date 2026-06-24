@@ -14,6 +14,7 @@ class ObservationFactory:
             "unbinned_planck_tt": ObservationFactory.create_unbinned_planck_tt_observation,
             "binned_planck_tt": ObservationFactory.create_binned_planck_tt_observation,
             "planck_tt_200": ObservationFactory.create_planck_tt_200_observation,
+            "d1s1_skymap": ObservationFactory.create_d1s1_skymap_observation,
         }
 
     @staticmethod
@@ -87,5 +88,16 @@ class ObservationFactory:
             return pipeline.simulate_example(theta_true, simulator, seed=seed)
         
         return observation
+    
+    @staticmethod
+    def create_d1s1_skymap_observation():
+        def observation(theta_true: torch.Tensor, seed: Optional[int] = None) -> torch.Tensor:
+            available_simulators = SimulatorFactory.get_available_configurations()
+            available_pipelines = PipelineFactory.get_available_pipelines()
+            
+            simulator = available_simulators["d1s1_skymap"]()
+            pipeline = available_pipelines["identity"]()
+            
+            return pipeline.simulate_example(theta_true, simulator, seed=seed)
         
-        
+        return observation

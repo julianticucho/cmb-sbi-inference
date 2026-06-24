@@ -27,7 +27,7 @@ class BasePipeline(ABC):
         simulator: BaseSimulator, 
         seed: Optional[int] = None
         ) -> torch.Tensor:
-        x_clean = simulator.simulate(theta)
+        x_clean = simulator.simulate(theta, seed=seed)
         x_processed = self.run(x_clean, seed)
         return x_processed
 

@@ -80,7 +80,7 @@ def generate_simulations_from_proposal(
                 posterior_j = posterior_j.set_default_x(x_obs)
 
             if truncated:
-                reject_fn = get_density_thresholder(posterior_j, quantile=density_quantile)
+                reject_fn = get_density_thresholder(posterior_j, quantile=density_quantile, num_samples_to_estimate_support=100_000)
                 proposal = RestrictedPrior(prior, reject_fn, posterior=posterior_j, sample_with="sir")
             else:
                 proposal = posterior_j

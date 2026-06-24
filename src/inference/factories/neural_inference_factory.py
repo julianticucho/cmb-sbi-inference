@@ -12,6 +12,7 @@ from sbi.neural_nets.embedding_nets import (
     CNNEmbedding,
     ResNetEmbedding1D,
 )
+from ..nn.embedding_nets import SkymapEmbedding
 
 
 class NeuralInferenceFactory:
@@ -49,6 +50,7 @@ class NeuralInferenceFactory:
             'snpe_c_maf_mlp_likebinning_v2': NeuralInferenceFactory.create_snpe_c_maf_mlp_likebinning_v2,
             'snpe_c_maf_mlp_200': NeuralInferenceFactory.create_snpe_c_maf_mlp_200,
             'snpe_c_maf_mlp_2448': NeuralInferenceFactory.create_snpe_c_maf_mlp_2448,
+            'snpe_c_maf_cnn_skymap': NeuralInferenceFactory.create_snpe_c_maf_cnn_skymap,
         }
 
     @staticmethod
@@ -544,10 +546,18 @@ class NeuralInferenceFactory:
         )
         return SNPE_C(prior=prior, density_estimator=nn)
     
+    @staticmethod
+    def create_snpe_c_maf_cnn_skymap(prior):
+        embedding_net = SkymapEmbedding(in_channels=12, embedding_dim=5)
 
-    
-
-
-        
-        
-
+        nn = posterior_nn(
+            model="maf", 
+            z_score_theta="independent",
+            z_score_x="independent",
+            hidden_features=50,
+            num_transforms=5,
+            num_bins=10,
+            embedding_net=embedding_net,
+            num_components=10,
+        )
+        return SNPE_C(prior=prior, density_estimator=nn)

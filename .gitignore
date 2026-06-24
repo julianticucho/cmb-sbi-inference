@@ -11,3 +11,4 @@ report/
 *.ipynb_checkpoints
 docs/
 __pycache__/
+swyft/

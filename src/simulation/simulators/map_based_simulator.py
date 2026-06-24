@@ -91,9 +91,15 @@ class MapBasedSimulator(BaseSimulator):
     # generamos un Cl BB y sampleamos una realizacion gaussiana en espacio armonico
     # generamos los alm del modo B de forma aislada y asignamos un arreglo de ceros 
     # para el modo E ya que solo modelamos modos B
-    def _generate_cmb_alms(self, r: float, A_lens: float) -> Tuple[np.ndarray, np.ndarray]:
+    def _generate_cmb_alms(self, r: float, A_lens: float, seed: Optional[int] = None) -> Tuple[np.ndarray, np.ndarray]:
         cl_bb = self._get_theory_cl_bb(r, A_lens)
-        alm_b = hp.synalm(cl_bb, lmax=self.lmax)
+        if seed is not None:
+            state = np.random.get_state()
+            np.random.seed(seed)
+            alm_b = hp.synalm(cl_bb, lmax=self.lmax)
+            np.random.set_state(state)
+        else:
+            alm_b = hp.synalm(cl_bb, lmax=self.lmax)
         alm_e = np.zeros_like(alm_b)
         return alm_e, alm_b
 
@@ -109,9 +115,15 @@ class MapBasedSimulator(BaseSimulator):
 
     # generamos un Cl NL y sampleamos una realizacion gaussiana en espacio armonico
     # lo mismo que en _generate_cmb_alms pero obteniendo alms de ruido para el modo B
-    def _get_noise_alms(self, nu: float) -> Tuple[np.ndarray, np.ndarray]:
+    def _get_noise_alms(self, nu: float, seed: Optional[int] = None) -> Tuple[np.ndarray, np.ndarray]:
         nl = self._get_noise_nl(nu)
-        alm_b = hp.synalm(nl, lmax=self.lmax)
+        if seed is not None:
+            state = np.random.get_state()
+            np.random.seed(seed)
+            alm_b = hp.synalm(nl, lmax=self.lmax)
+            np.random.set_state(state)
+        else:
+            alm_b = hp.synalm(nl, lmax=self.lmax)
         alm_e = np.zeros_like(alm_b) 
         return alm_e, alm_b
         
@@ -144,15 +156,15 @@ class MapBasedSimulator(BaseSimulator):
     # un tensor de pytorch y ejecuta toda la pipeline de simulación:
     # combinar señales y aplicar el haz directamente sobre los coeficientes alm,
     # agregar ruidos independientes y pasar a pixeles al final de la ejecucion
-    def simulate(self, parameters: torch.Tensor) -> torch.Tensor:
+    def simulate(self, parameters: torch.Tensor, seed: Optional[int] = None) -> torch.Tensor:
         r, A_lens, A_d, beta_d, A_s, beta_s = parameters.tolist()
         # actualizamos los indices espectrales de los fg
         # generamos los alms del CMB
         self._update_foreground_parameters(beta_d, beta_s)
-        alm_e_cmb, alm_b_cmb = self._generate_cmb_alms(r, A_lens)
+        alm_e_cmb, alm_b_cmb = self._generate_cmb_alms(r, A_lens, seed=seed)
         split_1_maps = []
         split_2_maps = []
-        for nu in self.frequencies:
+        for i, nu in enumerate(self.frequencies):
             # agregamos los alms de los fg y aplicamos el beam
             # obteniendo los alms suavizados
             alm_e_fg, alm_b_fg = self._get_foreground_alms(nu, A_d, A_s)
@@ -164,8 +176,10 @@ class MapBasedSimulator(BaseSimulator):
             
             # generamos dos realizaciones independientes de ruido en alms
             # y combinamos con el cielo suavizado en el espacio armonico
-            alm_e_n1, alm_b_n1 = self._get_noise_alms(nu)
-            alm_e_n2, alm_b_n2 = self._get_noise_alms(nu)
+            n_seed = seed + 1 + 2 * i if seed is not None else None
+            alm_e_n1, alm_b_n1 = self._get_noise_alms(nu, seed=n_seed)
+            n_seed = seed + 2 + 2 * i if seed is not None else None
+            alm_e_n2, alm_b_n2 = self._get_noise_alms(nu, seed=n_seed)
             alm_e_obs1 = alm_e_sky_smoothed + alm_e_n1
             alm_b_obs1 = alm_b_sky_smoothed + alm_b_n1
             alm_e_obs2 = alm_e_sky_smoothed + alm_e_n2
